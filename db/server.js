@@ -5,9 +5,6 @@ const {Pool, Client} = require('pg')
 const CONFIG = require('./config.json')
 //let format = require('pg-format')
 
-
-
-
 const client = new Client({
 	host:CONFIG.dbHost,
 	user:CONFIG.dbUser,
