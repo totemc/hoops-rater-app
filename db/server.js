@@ -2,16 +2,18 @@
 //const express = require('express')
 //const app = express()
 const {Pool, Client} = require('pg')
+const CONFIG = require('./config.json')
 //let format = require('pg-format')
 
 
 
+
 const client = new Client({
-	host:'temp',
-	user: 'temp',
-	password: 'temp',
-	database: 'temp',
-	port:5432
+	host:CONFIG.dbHost,
+	user:CONFIG.dbUser,
+	password: CONFIG.dbPassword,
+	database: CONFIG.database,
+	port:CONFIG.port
 })
 
 client.connect()
