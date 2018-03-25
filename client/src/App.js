@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Profile from './profile';
 
 class App extends Component {
   state = {
@@ -30,6 +31,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
           {this.state.response}
+          <Profile fname="dbfname" lname="dblname" age="24" email="burger@king.com"/>
         </p>
       </div>
     );
