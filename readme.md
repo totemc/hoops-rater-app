@@ -20,7 +20,9 @@ Next, navigate into the ```client``` directory, and do ```npm install``` in orde
 
 Head to your terminal and execute 
 
-```yarn dev```
+```
+yarn dev
+```
 
 to run an instance of the webkit on your localhost. Connect to the host as specified by your terminal and develop away.
 
