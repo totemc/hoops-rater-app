@@ -1,15 +1,16 @@
-const express = require('express')
-const app = express()
+// De-comment these lines once routing development begins.
+//const express = require('express')
+//const app = express()
 const {Pool, Client} = require('pg')
-let format = require('pg-format')
+//let format = require('pg-format')
 
 
 
 const client = new Client({
-	host:'lookAtSlack',
-	user: 'postgres',
-	password: 'lookAtSlack',
-	database: 'lookAtSlack',
+	host:'temp',
+	user: 'temp',
+	password: 'temp',
+	database: 'temp',
 	port:5432
 })
 
