@@ -12,7 +12,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          <Profile />
+          <Profile fname="database firstname" lname="database lastname" age="database age" email="myemail@gmail.com"/>
           To get started, edit <code>src/App.js</code> and save to reload.
           Hello world!
         </p>

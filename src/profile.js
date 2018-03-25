@@ -6,7 +6,14 @@ class Profile extends React.Component{
 		super(props);
 	}
 	render(){
-		return <h1>helloasdf</h1>;
+		return (
+			<div>
+				<span style={{fontSize:"3em"}}>{this.props.fname}</span>
+				<br></br>
+				<span style={{fontSize:"2em"}}>{this.props.lname}</span>
+			</div>
+
+		)
 	}
 }
 
