@@ -31,7 +31,6 @@ class App extends Component {
         </header>
         <p className="App-intro">
           {this.state.response}
-          <Profile fname="dbfname" lname="dblname" age="24" email="burger@king.com"/>
         </p>
       </div>
     );
