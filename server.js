@@ -27,13 +27,14 @@ const client = new Client({
 
 
 app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
+  res.send(
+    { express: 'Hello From Express' });
 });
 
 app.get('/api/profile', (req, res) => {
   console.log("sending the query to the component.")
   // Connect to the database with the client
-  
+
   client.connect()
     .then(() => {
       console.log('connected')
