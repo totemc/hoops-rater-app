@@ -6,16 +6,34 @@ class Profile extends React.Component{
 	constructor(props){
 		super(props);
 	}
+	state = {
+	  response: ''
+	};
+
+	componentDidMount() {
+	  this.callApi()
+	    .then(res => this.setState({ response: res }))
+	    .catch(err => console.log(err));
+	}
+
+	callApi = async () => {
+	  const response = await fetch('/api/profile');
+	  const body = await response.json();
+
+	  if (response.status !== 200) throw Error(body.message);
+
+	  return body;
+	};
 	render(){
 		return (
 			<div>
-				<span style={{fontSize:"3em"}}>{this.props.fname}</span>
+				<span style={{fontSize:"3em"}}>{this.state.response.fname}</span>
 				<br></br>
-				<span style={{fontSize:"2em"}}>{this.props.lname}</span>
+				<span style={{fontSize:"2em"}}>{this.state.response.lname}</span>
 				<br></br>
-				<span style={{textAlign:"left"}}>{this.props.age}</span>
+				<span style={{textAlign:"left"}}>{this.state.response.age}</span>
 				<br></br>
-				<span style={{textAlign:"left"}}>{this.props.email}</span>
+				<span style={{textAlign:"left"}}>{this.state.response.username}</span>
 			</div>
 
 		)
