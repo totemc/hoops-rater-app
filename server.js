@@ -3,7 +3,11 @@
 //const app = express()
 const {Pool, Client} = require('pg')
 const CONFIG = require('./config.json')
+const express = require('express');
 //let format = require('pg-format')
+const app = express();
+
+const port = process.env.PORT || 5000;
 
 const client = new Client({
 	host:CONFIG.dbHost,
@@ -24,13 +28,12 @@ client.query('SELECT * FROM users')
   .then(() => client.end())
   
 
-const express = require('express');
 
-const app = express();
-const port = process.env.PORT || 5000;
 
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
+
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
