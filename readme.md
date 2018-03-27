@@ -14,6 +14,14 @@ git clone <repository link>
 
 First, run ```npm install``` in the root directory of the repository to install the dependencies required for the back-end functionality.
 
+Make sure to run
+
+```
+npm i nodemon -g yarn
+```
+
+in the root of the project.
+
 You'll notice a ```config.json``` file in the root directory; replace the template with your database information so that you are able to make a connection when the application runs.
 
 Next, navigate into the ```client``` directory, and do ```npm install``` in order to install the dependencies required for the React components.
