@@ -31,9 +31,11 @@ app.get('/api/hello', (req, res) => {
     { express: 'Hello From Express' });
 });
 
-app.get('/api/profile', (req, res) => {
+app.get('/api/profile/:nameParam', (req, res) => {
   console.log("sending the query to the component.")
   // Connect to the database with the client
+  console.log(req.params.nameParam);
+  let userName = req.params.nameParam;
 
   client.connect()
     .then(() => {
@@ -46,7 +48,7 @@ app.get('/api/profile', (req, res) => {
   let dataObject;
 
   // Send a user row to the component
-  client.query('SELECT * FROM users')
+  client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
       .then(result => {
         dataObject = result
         res.send(dataObject.rows[0])
