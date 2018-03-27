@@ -12,7 +12,7 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={Main}/>
-          <Route exact path="/profile/" component={Profile}/>
+          <Route exact path="/profile/:nameParam" component={Profile}/>
         </div>
       </Router>
     );

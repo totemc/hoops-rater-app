@@ -17,7 +17,7 @@ class Profile extends React.Component{
 	}
 
 	callApi = async () => {
-	  const response = await fetch('/api/profile');
+	  const response = await fetch('/api/profile/'+this.props.match.params.nameParam);
 	  const body = await response.json();
 
 	  if (response.status !== 200) throw Error(body.message);
@@ -27,6 +27,8 @@ class Profile extends React.Component{
 	render(){
 		return (
 			<div>
+				<span style={{fontSize:"3em"}}>{this.props.match.params.nameParam}</span>
+				<br></br>
 				<span style={{fontSize:"3em"}}>{this.state.response.fname}</span>
 				<br></br>
 				<span style={{fontSize:"2em"}}>{this.state.response.lname}</span>
