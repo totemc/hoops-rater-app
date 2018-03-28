@@ -26,18 +26,26 @@ class Profile extends React.Component{
 	};
 	render(){
 		return (
-			<div>
-				<span style={{fontSize:"3em"}}>{this.props.match.params.nameParam}</span>
-				<br></br>
-				<span style={{fontSize:"3em"}}>{this.state.response.fname}</span>
-				<br></br>
-				<span style={{fontSize:"2em"}}>{this.state.response.lname}</span>
-				<br></br>
-				<span style={{textAlign:"left"}}>{this.state.response.age}</span>
-				<br></br>
-				<span style={{textAlign:"left"}}>{this.state.response.username}</span>
+			<div style={{margin: '1em'}}>
+				<img src="http://placehold.it/300x400" />
+				<div style={{display:'inline-block', marginLeft:10}}>
+					<div style={{fontSize:'3em', fontWeight:'bold'}}>
+						{this.props.match.params.nameParam}
+					</div>
+					<div style={{fontSize:'2.5em', fontWeight:'bold'}}>
+						{this.state.response.fname} 
+					</div>
+					<div style={{fontSize:'2em', fontWeight:'bold'}}>
+						{this.state.response.lname}
+					</div>
+					<div style={{fontSize:'1.5em', fontWeight:'bold'}}>
+						{this.state.response.age}
+					</div>
+					<div style={{fontSize:'1em', fontWeight:'bold'}}>
+						{this.state.response.username}
+					</div>
+				</div>
 			</div>
-
 		)
 	}
 }
