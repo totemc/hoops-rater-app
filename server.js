@@ -63,4 +63,116 @@ app.get('/api/profile/:nameParam', (req, res) => {
   //res.send(dataObject)
 });
 
+
+app.get('/api/court/:id', (req, res) => {
+  console.log("sending the queries to the component.")
+  // Connect to the database with the client
+  console.log(req.params.id);
+  let courtId = req.params.id;
+
+  client.connect()
+    .then(() => {
+      console.log('connected')
+
+    })
+    .catch(e => console.log('error happened!'))
+
+  // Prepare our query object
+  let dataObject; 
+
+  // For court: Send a user row to the component
+  client.query('SELECT * FROM court WHERE court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For rating: Send a user row to the component
+  client.query('SELECT * FROM rating WHERE r_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For visited: Send a user row to the component
+  client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For amenities: Send a user row to the component
+  client.query('SELECT * FROM amenities WHERE amen_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For floor_quality: Send a user row to the component
+  client.query('SELECT * FROM floor_quality WHERE floor_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For hoop_quality: Send a user row to the component
+  client.query('SELECT * FROM hoop_quality WHERE hoop_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For comments: Send a user row to the component
+  client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  //res.send(dataObject)
+})
+
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
