@@ -6,13 +6,25 @@ import Main from './main';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 class App extends Component {
-  render(){
 
+  constructor(props){
+    super(props);
+
+    // Create routes object for cleaner code.
+    this.routes = {
+      mainPage : "/",
+      profilePage : "/profile/:nameParam"
+    };
+
+  }
+
+
+  render(){
     return (
       <Router>
         <div>
-          <Route exact path="/" component={Main}/>
-          <Route exact path="/profile/:nameParam" component={Profile}/>
+          <Route exact path={this.routes.mainPage} component={Main}/>
+          <Route exact path={this.routes.profilePage} component={Profile}/>
         </div>
       </Router>
     );
