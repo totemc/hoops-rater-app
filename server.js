@@ -48,7 +48,7 @@ app.get('/api/profile/:nameParam', (req, res) => {
   let dataObject;
 
   // Send a user row to the component
-  client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
+  client.query('SELECT * FROM users WHERE username = \'' + userName +'\'')
       .then(result => {
         dataObject = result
         res.send(dataObject.rows[0])
@@ -81,7 +81,10 @@ app.get('/api/court/:id', (req, res) => {
   let dataObject; 
 
   // For court: Send a user row to the component
-  client.query('SELECT * FROM court WHERE court_id=\'' + courtId +'\'')
+  client.query('SELECT * FROM court, amenities, floor_quality \
+                WHERE court_id = amen_court_id \
+                AND court_id = floor_court_id \
+                AND court_id = \'' + courtId + '\'')
       .then(result => {
         dataObject = result
         res.send(dataObject.rows[0])
@@ -92,7 +95,8 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-/*
+
+/*      
   // For rating: Send a user row to the component
   client.query('SELECT * FROM rating WHERE r_court_id=\'' + courtId +'\'')
       .then(result => {

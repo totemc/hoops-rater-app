@@ -24,15 +24,17 @@ class CourtView extends React.Component{
 
 	  return body;
 	};
-	
+
 	/* 
 	Add stars, amenities, floor_quality,
 	hoop_quality, visited(?), & comments attributes
 	*/
+	// Amenities are bool, so no text to show?
+
 	render(){
 		return (
 			<div>
-				<span style={{fontSize:"3em"}}>{this.props.match.params.court_id}</span>
+				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
 				<br></br>
 				<span style={{fontSize:"3em"}}>{this.state.response.court_name}</span>
 				<br></br>
@@ -49,6 +51,16 @@ class CourtView extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.open_time}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.close_time}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.has_fountain}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.has_vending_machine}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.court_size}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.pavement_quality}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.cleanliness}</span>
 			</div>
 		)
 	}
