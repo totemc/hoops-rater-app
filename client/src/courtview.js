@@ -2,7 +2,7 @@ import React from 'react';
 //import ReactDOM from 'react-dom';
 
 
-class Profile extends React.Component{
+class CourtView extends React.Component{
 	constructor(props){
 		super(props);
 	}
@@ -24,15 +24,17 @@ class Profile extends React.Component{
 
 	  return body;
 	};
+	
+	/* 
+	Add stars, amenities, floor_quality,
+	hoop_quality, visited(?), & comments attributes
+	*/
 	render(){
 		return (
 			<div>
-				// Needs formatting
-				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
+				<span style={{fontSize:"3em"}}>{this.props.match.params.court_id}</span>
 				<br></br>
 				<span style={{fontSize:"3em"}}>{this.state.response.court_name}</span>
-				<br></br>
-				<span style={{fontSize:"2em"}}>{this.state.response.stars}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.address}</span>
 				<br></br>
@@ -47,12 +49,9 @@ class Profile extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.open_time}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.close_time}</span>
-				<br></br>
-				// Add amenities, floor_quality, hoop_quality, visited(?), & comments attributes
 			</div>
-
 		)
 	}
 }
 
-export default Profile;
+export default CourtView;

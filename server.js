@@ -92,7 +92,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-
+/*
   // For rating: Send a user row to the component
   client.query('SELECT * FROM rating WHERE r_court_id=\'' + courtId +'\'')
       .then(result => {
@@ -170,7 +170,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-
+*/
   //res.send(dataObject)
 })
 
