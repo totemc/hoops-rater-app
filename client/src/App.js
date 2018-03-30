@@ -18,7 +18,8 @@ class App extends Component {
     };
 
     this.state = {
-      loggedIn : true
+      loggedIn : true,
+      currentUser: 'user1'
     }
 
   }
@@ -27,7 +28,7 @@ class App extends Component {
   render(){
     return (
       <div>
-        <Header loginValue={this.state.loggedIn}/>
+        <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
           <div>
             <Route exact path={this.routes.mainPage} component={Main}/>
