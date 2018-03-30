@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Profile from './profile';
 import Main from './main';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Header from './header';
 
 class App extends Component {
 
@@ -16,17 +17,24 @@ class App extends Component {
       profilePage : "/profile/:nameParam"
     };
 
+    this.state = {
+      loggedIn : true
+    }
+
   }
 
 
   render(){
     return (
-      <Router>
-        <div>
-          <Route exact path={this.routes.mainPage} component={Main}/>
-          <Route exact path={this.routes.profilePage} component={Profile}/>
-        </div>
-      </Router>
+      <div>
+        <Header loginValue={this.state.loggedIn}/>
+        <Router>
+          <div>
+            <Route exact path={this.routes.mainPage} component={Main}/>
+            <Route exact path={this.routes.profilePage} component={Profile}/>
+          </div>
+        </Router>
+      </div>
     );
   }
 
