@@ -61,6 +61,15 @@ class CourtView extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.pavement_quality}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.cleanliness}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.rim_quality}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.net_quality}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.net_type}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.hoop_height}</span>
+
 			</div>
 		)
 	}

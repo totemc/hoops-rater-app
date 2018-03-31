@@ -81,9 +81,10 @@ app.get('/api/court/:id', (req, res) => {
   let dataObject; 
 
   // For court: Send a user row to the component
-  client.query('SELECT * FROM court, amenities, floor_quality \
+  client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
                 WHERE court_id = amen_court_id \
                 AND court_id = floor_court_id \
+                AND court_id = hoop_court_id \
                 AND court_id = \'' + courtId + '\'')
       .then(result => {
         dataObject = result
