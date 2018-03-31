@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Profile from './profile';
 import Main from './main';
 import Header from './header';
+import NotFound from './notFound'
 
 class App extends Component {
 
@@ -29,10 +30,12 @@ class App extends Component {
       <div>
         <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
-          <div>
-            <Route exact path={this.routes.mainPage} component={Main}/>
-            <Route exact path={this.routes.profilePage} component={Profile}/>
-          </div>
+          <Switch>
+              <Route exact path={this.routes.mainPage} component={Main}/>
+              <Route exact path={this.routes.profilePage} component={Profile}/>
+              // Renders when we catch a path that we do not plan for
+              <Route component={NotFound}/>
+          </Switch>
         </Router>
       </div>
     );
