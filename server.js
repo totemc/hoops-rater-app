@@ -26,8 +26,17 @@ function queryUser(client, userName, res){
   client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
       .then(result => {
         // Send our result to the component
-        dataObject = result;
-        res.send(dataObject.rows[0]);
+        dataObject = result.rows;
+
+        // If the database doesn't return a row, send an error.
+        if(dataObject[0] == undefined){
+          res.status(404).send({
+            message : "User does not exist."
+          })
+        }
+
+        // Otherwise, send our row
+        res.send(dataObject[0]);
       })
       .catch(e => {
         // Throw any errors
