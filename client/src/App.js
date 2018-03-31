@@ -15,7 +15,8 @@ class App extends Component {
     // Create routes object for cleaner code.
     this.routes = {
       mainPage : "/",
-      profilePage : "/profile/:nameParam"
+      profilePage : "/profile/:nameParam",
+      notFoundPage : "/404"
     };
 
     this.state = {
@@ -33,7 +34,7 @@ class App extends Component {
           <Switch>
               <Route exact path={this.routes.mainPage} component={Main}/>
               <Route exact path={this.routes.profilePage} component={Profile}/>
-              // Renders when we catch a path that we do not plan for
+              <Route exact path={this.routes.notFoundPage} component={NotFound}/>
               <Route component={NotFound}/>
           </Switch>
         </Router>
