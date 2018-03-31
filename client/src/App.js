@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Profile from './profile';
+import CourtView from './courtview';
 import Main from './main';
 import Header from './header';
 import NotFound from './notFound'
@@ -28,6 +29,7 @@ class App extends Component {
 
   render(){
     return (
+<<<<<<< HEAD
       <div>
         <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
@@ -39,6 +41,15 @@ class App extends Component {
           </Switch>
         </Router>
       </div>
+=======
+      <Router>
+        <div>
+          <Route exact path="/" component={Main}/>
+          <Route exact path="/profile/:nameParam" component={Profile}/>
+          <Route exact path="/court/:id" component={CourtView}/>
+        </div>
+      </Router>
+>>>>>>> court-view
     );
   }
 

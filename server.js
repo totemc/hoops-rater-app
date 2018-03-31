@@ -23,7 +23,13 @@ function createClient(){
 function queryUser(client, userName, res){
   // Sending result must be done from within this call since it's async
   let dataObject;
+<<<<<<< HEAD
   client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
+=======
+
+  // Send a user row to the component
+  client.query('SELECT * FROM users WHERE username = \'' + userName +'\'')
+>>>>>>> court-view
       .then(result => {
         // Send our result to the component
         dataObject = result.rows;
@@ -67,5 +73,86 @@ app.get('/api/hello', (req, res) => {
   res.send(
     { express: 'The middleware worked! Hello from express.' });
 });
+
+
+app.get('/api/court/:id', (req, res) => {
+  console.log("sending the queries to the component.")
+  // Connect to the database with the client
+  console.log(req.params.id);
+  let courtId = req.params.id;
+
+  client.connect()
+    .then(() => {
+      console.log('connected')
+
+    })
+    .catch(e => console.log('error happened!'))
+
+  // Prepare our query object
+  let dataObject;
+
+  // For court: Send a row to the component
+  client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
+                WHERE court_id = amen_court_id \
+                AND court_id = floor_court_id \
+                AND court_id = hoop_court_id \
+                AND court_id = \'' + courtId + '\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+      
+  // For rating: Send a row to the component
+  client.query('SELECT AVG(stars) AS avg_stars FROM rating, court \
+                WHERE court_id = r_court_id \
+                AND r_court_id = \'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+/*
+  // For visited: Send a user row to the component
+  client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+
+  // For comments: Send a user row to the component
+  client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
+      .then(result => {
+        dataObject = result
+        res.send(dataObject.rows[0])
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+*/
+  //res.send(dataObject)
+})
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
