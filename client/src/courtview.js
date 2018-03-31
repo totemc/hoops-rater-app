@@ -26,10 +26,9 @@ class CourtView extends React.Component{
 	};
 
 	/* 
-	Add stars, amenities, floor_quality,
-	hoop_quality, visited(?), & comments attributes
+	Add stars, visited(?), & comments attributes
 	*/
-	// Amenities are bool, so no text to show?
+	// bools dont show (Amenities, outdoor_status, membership_status)
 
 	render(){
 		return (
@@ -37,6 +36,8 @@ class CourtView extends React.Component{
 				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
 				<br></br>
 				<span style={{fontSize:"3em"}}>{this.state.response.court_name}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.avg_stars}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.address}</span>
 				<br></br>
@@ -69,7 +70,6 @@ class CourtView extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.net_type}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.hoop_height}</span>
-
 			</div>
 		)
 	}

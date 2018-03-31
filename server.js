@@ -78,9 +78,9 @@ app.get('/api/court/:id', (req, res) => {
     .catch(e => console.log('error happened!'))
 
   // Prepare our query object
-  let dataObject; 
+  let dataObject;
 
-  // For court: Send a user row to the component
+  // For court: Send a row to the component
   client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
                 WHERE court_id = amen_court_id \
                 AND court_id = floor_court_id \
@@ -97,9 +97,11 @@ app.get('/api/court/:id', (req, res) => {
         client.end()
       })
 
-/*      
-  // For rating: Send a user row to the component
-  client.query('SELECT * FROM rating WHERE r_court_id=\'' + courtId +'\'')
+      
+  // For rating: Send a row to the component
+  client.query('SELECT AVG(stars) AS avg_stars FROM rating, court \
+                WHERE court_id = r_court_id \
+                AND r_court_id = \'' + courtId +'\'')
       .then(result => {
         dataObject = result
         res.send(dataObject.rows[0])
@@ -111,47 +113,9 @@ app.get('/api/court/:id', (req, res) => {
         client.end()
       })
 
+/*
   // For visited: Send a user row to the component
   client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
-      .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
-      })
-      .catch(e => {
-        throw e
-      })
-      .then(() => {
-        client.end()
-      })
-
-  // For amenities: Send a user row to the component
-  client.query('SELECT * FROM amenities WHERE amen_court_id=\'' + courtId +'\'')
-      .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
-      })
-      .catch(e => {
-        throw e
-      })
-      .then(() => {
-        client.end()
-      })
-
-  // For floor_quality: Send a user row to the component
-  client.query('SELECT * FROM floor_quality WHERE floor_court_id=\'' + courtId +'\'')
-      .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
-      })
-      .catch(e => {
-        throw e
-      })
-      .then(() => {
-        client.end()
-      })
-
-  // For hoop_quality: Send a user row to the component
-  client.query('SELECT * FROM hoop_quality WHERE hoop_court_id=\'' + courtId +'\'')
       .then(result => {
         dataObject = result
         res.send(dataObject.rows[0])
