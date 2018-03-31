@@ -38,6 +38,7 @@ function queryUser(client, userName, res){
         }
 
         // Otherwise, send our row
+        console.log(dataObject[0]);
         res.send(dataObject[0]);
       })
       .catch(e => {
@@ -73,10 +74,12 @@ app.get('/api/hello', (req, res) => {
 
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
-  // Connect to the database with the client
   console.log(req.params.id);
-  let courtId = req.params.id;
 
+  let courtId = req.params.id;  // Save court_id parameter
+  let client = createClient();  // Create a client
+
+  // Connect our client to the database
   client.connect()
     .then(() => {
       console.log('connected')
@@ -85,33 +88,34 @@ app.get('/api/court/:id', (req, res) => {
     .catch(e => console.log('error happened!'))
 
   // Prepare our query object
-  let dataObject;
+  let dataObject; 
 
-  // For court: Send a row to the component
+  // For court details: Send a row to the component
   client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
                 WHERE court_id = amen_court_id \
                 AND court_id = floor_court_id \
                 AND court_id = hoop_court_id \
                 AND court_id = \'' + courtId + '\'')
       .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
+        dataObject = result.rows
+        //console.log(dataObject[0]); // dataObject dictionary
       })
       .catch(e => {
         throw e
       })
-      .then(() => {
-        client.end()
-      })
 
-      
   // For rating: Send a row to the component
-  client.query('SELECT AVG(stars) AS avg_stars FROM rating, court \
+  client.query('SELECT ROUND(AVG(stars), 1) AS avg_stars FROM rating, court \
                 WHERE court_id = r_court_id \
                 AND r_court_id = \'' + courtId +'\'')
       .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
+        //console.log(result.rows[0]); // Query result= { avg_star : '4.5' } dictionary
+        //console.log(result.rows[0].avg_stars); // 4.5 , value of avg_star
+
+        // Appends query results to dataObject dictionary
+        dataObject[0].avg_stars = result.rows[0].avg_stars 
+        // console.log(dataObject[0]); // dataObject now contains new query in dict
+        res.send(dataObject[0])
       })
       .catch(e => {
         throw e

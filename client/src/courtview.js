@@ -25,11 +25,11 @@ class CourtView extends React.Component{
 	  return body;
 	};
 
-	/* 
-	Add stars, visited(?), & comments attributes
-	*/
-	// bools dont show (Amenities, outdoor_status, membership_status)
 
+	/* 
+	Add visited(?) & comments attributes
+	*/
+	// Need to render bools (Amenities, outdoor_status, membership_status)
 	render(){
 		return (
 			<div>
