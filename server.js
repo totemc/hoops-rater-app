@@ -1,21 +1,18 @@
-// De-comment these lines once routing development begins.
-//const express = require('express')
-//const app = express()
-const {Pool, Client} = require('pg')
+// Configuration file to connect to database
 const CONFIG = require('./config.json')
+// Module to connect to postgre instance
+const {Pool, Client} = require('pg')
+// Module to allow API routing
 const express = require('express');
 //let format = require('pg-format')
+
+// Initialize our express module
 const app = express();
 
+// Port for our server process
 const port = process.env.PORT || 5000;
 
-const client = new Client({
-	host:CONFIG.dbHost,
-	user:CONFIG.dbUser,
-	password: CONFIG.dbPassword,
-	database: CONFIG.database,
-	port:CONFIG.port
-})
+
 
 
 // client.query('SELECT * FROM users')
@@ -25,18 +22,26 @@ const client = new Client({
   
 
 
-
+// Test route for the backend
 app.get('/api/hello', (req, res) => {
   res.send(
-    { express: 'Hello From Express' });
+    { express: 'The middleware worked! Hello from express.' });
 });
 
+// API call to pull from the users databasae
 app.get('/api/profile/:nameParam', (req, res) => {
   console.log("sending the query to the component.")
   // Connect to the database with the client
   console.log(req.params.nameParam);
   let userName = req.params.nameParam;
-
+  // Create a client
+  const client = new Client({
+    host:CONFIG.dbHost,
+    user:CONFIG.dbUser,
+    password: CONFIG.dbPassword,
+    database: CONFIG.database,
+    port:CONFIG.port
+  })
   client.connect()
     .then(() => {
       console.log('connected')
@@ -57,6 +62,7 @@ app.get('/api/profile/:nameParam', (req, res) => {
         throw e
       })
       .then(() => {
+        console.log('the client has disconnected!')
         client.end()
       })
 
