@@ -17,6 +17,7 @@ class App extends Component {
     this.routes = {
       mainPage : "/",
       profilePage : "/profile/:nameParam",
+      courtViewPage : "/court/:id"
       notFoundPage : "/404"
     };
 
@@ -29,27 +30,18 @@ class App extends Component {
 
   render(){
     return (
-<<<<<<< HEAD
       <div>
         <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
           <Switch>
               <Route exact path={this.routes.mainPage} component={Main}/>
               <Route exact path={this.routes.profilePage} component={Profile}/>
+              <Route exact path={this.route.courtViewPage} component={CourtView}/>
               <Route exact path={this.routes.notFoundPage} component={NotFound}/>
               <Route component={NotFound}/>
           </Switch>
         </Router>
       </div>
-=======
-      <Router>
-        <div>
-          <Route exact path="/" component={Main}/>
-          <Route exact path="/profile/:nameParam" component={Profile}/>
-          <Route exact path="/court/:id" component={CourtView}/>
-        </div>
-      </Router>
->>>>>>> court-view
     );
   }
 

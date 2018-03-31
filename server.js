@@ -23,13 +23,9 @@ function createClient(){
 function queryUser(client, userName, res){
   // Sending result must be done from within this call since it's async
   let dataObject;
-<<<<<<< HEAD
-  client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
-=======
 
   // Send a user row to the component
   client.query('SELECT * FROM users WHERE username = \'' + userName +'\'')
->>>>>>> court-view
       .then(result => {
         // Send our result to the component
         dataObject = result.rows;
