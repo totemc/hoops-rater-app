@@ -1,9 +1,42 @@
 const CONFIG = require('./config.json') // Configuration file to connect to database
+const AUTH_CONFIG = require('./auth-config.json')
 const {Pool, Client} = require('pg') // Module to connect to postgre instance
 const express = require('express'); // Module to allow API routing
+var cors = require('cors');
+const OktaJwtVerifier = require('@okta/jwt-verifier');
+
+const oktaJwtVerifier = new OktaJwtVerifier({
+  issuer: AUTH_CONFIG.issuer,
+  assertClaims: {
+    aud: 'api://default',
+  },
+});
 
 // Initialize our express module
 const app = express();
+
+// Auth token
+function authenticationRequired(req, res, next) {
+  const authHeader = req.headers.authorization || '';
+  const match = authHeader.match(/Bearer (.+)/);
+
+  if (!match) {
+    return res.status(401).end();
+  }
+
+  const accessToken = match[1];
+
+  return oktaJwtVerifier.verifyAccessToken(accessToken)
+    .then((jwt) => {
+      req.jwt = jwt;
+      next();
+    })
+    .catch((err) => {
+      res.status(401).send(err.message);
+    });
+}
+
+
 
 // Port for our server process
 const port = process.env.PORT || 5000;
@@ -66,6 +99,22 @@ app.get('/api/profile/:nameParam', (req, res) => {
 app.get('/api/hello', (req, res) => {
   res.send(
     { express: 'The middleware worked! Hello from express.' });
+});
+
+// A call to fetch data if a user is logged in, starter code
+app.get('/api/messages', authenticationRequired, (req, res) => {
+  res.send({
+    messages: [
+      {
+        date:  new Date(),
+        text: 'I am a robot.'
+      },
+      {
+        date:  new Date(new Date().getTime() - 1000 * 60 * 60),
+        text: 'Hello, world!'
+      }
+    ]
+  });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
