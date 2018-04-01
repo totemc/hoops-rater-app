@@ -31,7 +31,9 @@ class CourtView extends React.Component{
 	*/
 	// Need to render bools (Amenities, outdoor_status, membership_status)
 	render(){
+
 		return (
+
 			<div>
 				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
 				<br></br>
@@ -70,7 +72,12 @@ class CourtView extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.net_type}</span>
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.hoop_height}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.comment_username}</span>
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.comment_text}</span>
 			</div>
+
 		)
 	}
 }

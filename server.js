@@ -83,14 +83,13 @@ app.get('/api/court/:id', (req, res) => {
   client.connect()
     .then(() => {
       console.log('connected')
-
     })
     .catch(e => console.log('error happened!'))
 
   // Prepare our query object
   let dataObject; 
 
-  // For court details: Send a row to the component
+  // Query court's details
   client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
                 WHERE court_id = amen_court_id \
                 AND court_id = floor_court_id \
@@ -98,13 +97,13 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId + '\'')
       .then(result => {
         dataObject = result.rows
-        //console.log(dataObject[0]); // dataObject dictionary
+        //console.log(dataObject[0]); 
       })
       .catch(e => {
         throw e
       })
 
-  // For rating: Send a row to the component
+  // Query average of court's ratings, appends to dataObject[0]
   client.query('SELECT ROUND(AVG(stars), 1) AS avg_stars FROM rating, court \
                 WHERE court_id = r_court_id \
                 AND r_court_id = \'' + courtId +'\'')
@@ -112,10 +111,28 @@ app.get('/api/court/:id', (req, res) => {
         //console.log(result.rows[0]); // Query result= { avg_star : '4.5' } dictionary
         //console.log(result.rows[0].avg_stars); // 4.5 , value of avg_star
 
-        // Appends query results to dataObject dictionary
+        // Appends query results for avg stars to dataObject
         dataObject[0].avg_stars = result.rows[0].avg_stars 
-        // console.log(dataObject[0]); // dataObject now contains new query in dict
-        res.send(dataObject[0])
+
+        //console.log(dataObject[0]); // dataObject now contains new query in dict
+
+        // Sends query object
+        //res.send(dataObject[0])
+      })
+      .catch(e => {
+        throw e
+      })
+
+  // Query court's comments
+  client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
+      .then(result => {
+
+        for (i = 0; i < result.rows.length; i++) {
+          dataObject[i+1] = result.rows[i]
+        }
+        res.send(dataObject)
+        console.log(dataObject);
+
       })
       .catch(e => {
         throw e
@@ -125,7 +142,7 @@ app.get('/api/court/:id', (req, res) => {
       })
 
 /*
-  // For visited: Send a user row to the component
+  // For visited: Gets bool of visited status for current user
   client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
       .then(result => {
         dataObject = result
@@ -137,20 +154,9 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-
-  // For comments: Send a user row to the component
-  client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
-      .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
-      })
-      .catch(e => {
-        throw e
-      })
-      .then(() => {
-        client.end()
-      })
 */
+  
+  
   //res.send(dataObject)
 })
 
