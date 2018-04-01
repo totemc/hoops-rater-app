@@ -5,7 +5,15 @@ import './App.css';
 import Profile from './profile';
 import Main from './main';
 import Header from './header';
-import NotFound from './notFound'
+import NotFound from './notFound';
+import { Security, ImplicitCallback } from '@okta/okta-react';
+import Home from './home';
+
+const config = {
+  issuer: 'https://dev-947498.oktapreview.com/oauth2/default',
+  redirect_uri: window.location.origin + '/implicit/callback',
+  client_id: '0oaeiol7nu8DRAqCz0h7'
+}
 
 class App extends Component {
 
@@ -14,7 +22,9 @@ class App extends Component {
 
     // Create routes object for cleaner code.
     this.routes = {
-      mainPage : "/",
+      root : "/",
+      implicitCallback : "/implicit/callback"
+      mainPage : "/main",
       profilePage : "/profile/:nameParam",
       notFoundPage : "/404"
     };
@@ -31,12 +41,19 @@ class App extends Component {
       <div>
         <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
-          <Switch>
-              <Route exact path={this.routes.mainPage} component={Main}/>
-              <Route exact path={this.routes.profilePage} component={Profile}/>
-              <Route exact path={this.routes.notFoundPage} component={NotFound}/>
-              <Route component={NotFound}/>
-          </Switch>
+          <Security issuer={config.issuer}
+                    client_id={config.client_id}
+                    redirect_uri={config.redirect_uri}
+          >
+            <Switch>
+                <Route exact path={this.routes.root} component={Home}/>
+                <Route path={this.routes.implicitCallback} component={ImplicitCallback}/>
+                <Route exact path={this.routes.mainPage} component={Main}/>
+                <Route exact path={this.routes.profilePage} component={Profile}/>
+                <Route exact path={this.routes.notFoundPage} component={NotFound}/>
+                <Route component={NotFound}/>
+            </Switch>
+          </Security>
         </Router>
       </div>
     );
