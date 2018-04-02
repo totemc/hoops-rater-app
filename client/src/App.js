@@ -6,7 +6,17 @@ import Profile from './profile';
 import CourtView from './courtview';
 import Main from './main';
 import Header from './header';
-import NotFound from './notFound'
+import NotFound from './notFound';
+import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
+import Home from './home';
+import Account from './account';
+import AUTH_CONFIG from './auth-config'
+
+const config = {
+  issuer: AUTH_CONFIG.oidc.issuer,
+  redirect_uri: AUTH_CONFIG.oidc.redirect_uri,
+  client_id: AUTH_CONFIG.oidc.client_id
+}
 
 class App extends Component {
 
@@ -15,16 +25,20 @@ class App extends Component {
 
     // Create routes object for cleaner code.
     this.routes = {
-      mainPage : "/",
+      root : "/",
+      implicitCallback : "/implicit/callback",
+      mainPage : "/main",
       profilePage : "/profile/:nameParam",
       courtViewPage : "/court/:id"
       notFoundPage : "/404"
+      accountPage : "/account"
     };
 
     this.state = {
       loggedIn : true,
       currentUser: 'user1'
     }
+
 
   }
 
@@ -33,6 +47,7 @@ class App extends Component {
       <div>
         <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
+<<<<<<< HEAD
           <Switch>
               <Route exact path={this.routes.mainPage} component={Main}/>
               <Route exact path={this.routes.profilePage} component={Profile}/>
@@ -40,6 +55,22 @@ class App extends Component {
               <Route exact path={this.routes.notFoundPage} component={NotFound}/>
               <Route component={NotFound}/>
           </Switch>
+=======
+          <Security issuer={config.issuer}
+                    client_id={config.client_id}
+                    redirect_uri={config.redirect_uri}
+          >
+              <Switch>
+                <Route exact path={this.routes.root} component={Home}/>
+                <Route exact path={this.routes.implicitCallback} component={ImplicitCallback}/>
+                <Route exact path={this.routes.mainPage} component={Main}/>
+                <Route exact path={this.routes.profilePage} component={Profile}/>
+                <Route exact path={this.routes.notFoundPage} component={NotFound}/>
+                <SecureRoute path={this.routes.accountPage} component={Account} />
+                <Route component={NotFound}/>
+              </Switch>
+          </Security>
+>>>>>>> upstream/master
         </Router>
       </div>
     );

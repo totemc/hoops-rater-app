@@ -1,0 +1,6 @@
+// This is just an example. Fill with details from slack
+{
+  "issuer": "issuer",
+  "redirect_uri": "http://localhost:3000/implicit/callback",
+  "client_id": "clientid"
+}
