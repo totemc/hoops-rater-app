@@ -4,7 +4,7 @@ auth-config.json
 /client/src/auth-config.js
 
 # dependencies
-/node_modules
+**/node_modules
 
 # testing
 /coverage
