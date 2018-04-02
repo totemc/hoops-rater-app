@@ -56,7 +56,9 @@ function createClient(){
 function queryUser(client, userName, res){
   // Sending result must be done from within this call since it's async
   let dataObject;
-  client.query('SELECT * FROM users WHERE username=\'' + userName+'\'')
+
+  // Send a user row to the component
+  client.query('SELECT * FROM users WHERE username = \'' + userName +'\'')
       .then(result => {
         // Send our result to the component
         dataObject = result.rows;
@@ -69,6 +71,7 @@ function queryUser(client, userName, res){
         }
 
         // Otherwise, send our row
+        console.log(dataObject[0]);
         res.send(dataObject[0]);
       })
       .catch(e => {
@@ -101,6 +104,103 @@ app.get('/api/hello', (req, res) => {
     { express: 'The middleware worked! Hello from express.' });
 });
 
+
+app.get('/api/court/:id', (req, res) => {
+  console.log("sending the queries to the component.")
+  console.log(req.params.id);
+
+  let courtId = req.params.id;  // Save court_id parameter
+  let client = createClient();  // Create a client
+
+  // Connect our client to the database
+  client.connect()
+    .then(() => {
+      console.log('connected')
+    })
+    .catch(e => console.log('error happened!'))
+
+  // Prepare our query object
+  let dataObject; 
+
+  // Query court's details
+  client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
+                WHERE court_id = amen_court_id \
+                AND court_id = floor_court_id \
+                AND court_id = hoop_court_id \
+                AND court_id = \'' + courtId + '\'')
+      .then(result => {
+        dataObject = result.rows
+        //console.log(dataObject[0]); 
+      })
+      .catch(e => {
+        throw e
+      })
+
+  // Query average of court's ratings, appends to dataObject[0]
+  // BUG FIXME: Non-existant courts, or courts with no ratings returns...
+  // TypeError: Cannot set property 'avg_stars' of undefined
+  client.query('SELECT ROUND(AVG(stars), 1) AS avg_stars FROM rating, court \
+                WHERE court_id = r_court_id \
+                AND court_id = \'' + courtId +'\'')
+      .then(result => {
+
+        console.log(result.rows[0].avg_stars); 
+
+        if (result.rows[0].avg_stars == null) {
+          console.log("No star ratings."); 
+          //result.rows[0]['avg_stars'] = {}
+          result.rows[0].avg_stars = 0.0
+          console.log(result.rows[0].avg_stars); 
+        }
+
+          // Appends query results for avg stars to dataObject
+          dataObject[0].avg_stars = result.rows[0].avg_stars 
+
+      })
+      .catch(e => {
+        throw e
+      })
+
+  // Query court's comments
+  client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
+      .then(result => {
+
+        // Location where to begin to store visited query on Object
+        objIndexStart = dataObject.length
+
+        for (i = 0; i < result.rows.length; i++) {
+          dataObject[i+objIndexStart] = result.rows[i]
+        }
+
+      })
+      .catch(e => {
+        throw e
+      })
+
+  // Query visited status of users for a court. 
+  client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
+      .then(result => {
+
+        // Location where to begin to store visited query on Object
+        objIndexStart = dataObject.length
+
+        for (i = 0; i < result.rows.length; i++) {
+          dataObject[i+objIndexStart] = result.rows[i]
+        }
+        
+        console.log(dataObject);
+        res.send(dataObject)
+
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+  
+})
+
 // A call to fetch data if a user is logged in, starter code
 app.get('/api/messages', authenticationRequired, (req, res) => {
   res.send({
@@ -116,5 +216,6 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
     ]
   });
 });
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
