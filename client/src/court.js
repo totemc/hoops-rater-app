@@ -34,7 +34,6 @@ class Court extends React.Component{
     };
     
     render(){
-        console.log(this.state.response[0].court_name);
         return(
             <div>
                 {this.state.response.map((response, index) => (<h1> {response.court_name}</h1>))}
