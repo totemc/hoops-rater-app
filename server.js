@@ -81,41 +81,7 @@ function queryUser(client, userName, res){
         console.log('the client has disconnected!');
       })
 }
-// Query the courtName from the database when called
-function queryCourtName(client, courtName, res){
-    let courtObject;
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
-        .then(result => {
-        // Send our results to the component
-        courtObject = result.rows;
-        
-        // If the database doesn't return a row, send and error.
-        if(courtObject[0] == undefined){
-            res.status(404).send({
-                message: "Court does not exist."
-            })
-        }
-        res.send(courtObject);
-    })
-    .catch(e => {
-        // Throws any errows
-        throw e;
-    })
-    .then(() => {
-        client.end()
-        console.log('the client has disconnected!');
-    })
-}
-// API call to pull court data based on name
-app.get('/api/court/:nameParam', (req, res) => {
-    let courtName = req.params.nameParam;
-    let client = createClient();
-    
-    client.connect()
-        .catch(e => console.log('Error occured when trying to connect client to servere.'))
-    
-    queryCourtName(client, courtName, res);
-});
+
 // API call to pull from the users databasae
 app.get('/api/profile/:nameParam', (req, res) => {
   let userName = req.params.nameParam; // Save the username parameter from the url
