@@ -9,10 +9,6 @@ class Court extends React.Component{
     componentDidMount(){
         this.callApi()
         .then(res => {
-//            let parsedJson = JSON.parse(res);
-//            for (let i = 0; i < parsedJson.length; i++){
-//                console.log(parsedJson.data[0])
-//            }
             this.setState({ response: res})
         })
         .catch(err => {
