@@ -1,40 +1,45 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
+import {Redirect} from 'react-router-dom';
+import NotFound from './notFound';
 
 
 class CourtView extends React.Component{
 	constructor(props){
 		super(props);
-		this.state = { response: []}
 	}
-	/*state = {
-	  response: ''
-	};*/
+	state = { response: [],
+			  courtNotFound: false
+			};
 
 	componentDidMount() {
 	  this.callApi()
-	    .then(res => this.setState({ response: res }))
-	    .catch(err => console.log(err));
+	    .then(res => { 
+	    	this.setState({ response: res })
+	    })
+	    .catch(err => {
+	    	console.log('Did not setState to response.');
+	    	console.log(err)
+	    	this.setState({ courtNotFound: true })
+	    });
 	}
-
 
 	callApi = async () => {
 	  const response = await fetch('/api/court/'+this.props.match.params.id);
 	  const body = await response.json();
 
-	  if (response.status !== 200) throw Error(body.message);
+	  if (response.status !== 200) {
+	  	throw Error(body.message)
+	  };
 
 	  return body;
 	};
 
-
-	
-	// Add visited
-	// Need to render bools (Amenities, outdoor_status, membership_status)
+	// Bools not yet rendered (Amenities, outdoor_status, membership_status)
 	render(){
-
+		if(this.state.courtNotFound == true) {
+			return <Redirect to="/404"/>
+		}
 		return (
-
 			<div>
 				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
 				<br></br>
@@ -125,7 +130,6 @@ class CourtView extends React.Component{
 				))}</span>
 
 			</div>
-
 		)
 	}
 }

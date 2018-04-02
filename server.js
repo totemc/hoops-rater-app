@@ -104,13 +104,24 @@ app.get('/api/court/:id', (req, res) => {
       })
 
   // Query average of court's ratings, appends to dataObject[0]
+  // BUG FIXME: Non-existant courts, or courts with no ratings returns...
+  // TypeError: Cannot set property 'avg_stars' of undefined
   client.query('SELECT ROUND(AVG(stars), 1) AS avg_stars FROM rating, court \
                 WHERE court_id = r_court_id \
-                AND r_court_id = \'' + courtId +'\'')
+                AND court_id = \'' + courtId +'\'')
       .then(result => {
 
-        // Appends query results for avg stars to dataObject
-        dataObject[0].avg_stars = result.rows[0].avg_stars 
+        console.log(result.rows[0].avg_stars); 
+
+        if (result.rows[0].avg_stars == null) {
+          console.log("No star ratings."); 
+          //result.rows[0]['avg_stars'] = {}
+          result.rows[0].avg_stars = 0.0
+          console.log(result.rows[0].avg_stars); 
+        }
+
+          // Appends query results for avg stars to dataObject
+          dataObject[0].avg_stars = result.rows[0].avg_stars 
 
       })
       .catch(e => {
@@ -121,8 +132,11 @@ app.get('/api/court/:id', (req, res) => {
   client.query('SELECT * FROM comments WHERE comment_court_id=\'' + courtId +'\'')
       .then(result => {
 
+        // Location where to begin to store visited query on Object
+        objIndexStart = dataObject.length
+
         for (i = 0; i < result.rows.length; i++) {
-          dataObject[i+1] = result.rows[i]
+          dataObject[i+objIndexStart] = result.rows[i]
         }
 
       })
