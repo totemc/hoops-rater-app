@@ -28,9 +28,8 @@ class CourtView extends React.Component{
 	};
 
 
-	/* 
-	Add visited(?) & comments attributes
-	*/
+	
+	// Add visited
 	// Need to render bools (Amenities, outdoor_status, membership_status)
 	render(){
 
@@ -40,7 +39,7 @@ class CourtView extends React.Component{
 				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
 				<br></br>
 
-				
+
 				<span style={{fontSize:"3em"}}>{this.state.response.map((item, court_name) => (
 					<p>{item.court_name}</p>
 				))}</span>
@@ -116,7 +115,13 @@ class CourtView extends React.Component{
 
 				<br></br>
 				<span style={{textAlign:"left"}}>{this.state.response.map((comment, index) => (
-					<p key={index}>{comment.comment_username}: {comment.comment_text}</p>
+					<p key={index}>{comment.comment_username} {comment.comment_text}</p>
+				))}</span>
+
+
+				<br></br>
+				<span style={{textAlign:"left"}}>{this.state.response.map((visited, index) => (
+					<p key={index}>{visited.visited_username} {visited.has_visited}</p>
 				))}</span>
 
 			</div>

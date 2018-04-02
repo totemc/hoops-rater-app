@@ -108,16 +108,10 @@ app.get('/api/court/:id', (req, res) => {
                 WHERE court_id = r_court_id \
                 AND r_court_id = \'' + courtId +'\'')
       .then(result => {
-        //console.log(result.rows[0]); // Query result= { avg_star : '4.5' } dictionary
-        //console.log(result.rows[0].avg_stars); // 4.5 , value of avg_star
 
         // Appends query results for avg stars to dataObject
         dataObject[0].avg_stars = result.rows[0].avg_stars 
 
-        //console.log(dataObject[0]); // dataObject now contains new query in dict
-
-        // Sends query object
-        //res.send(dataObject[0])
       })
       .catch(e => {
         throw e
@@ -130,23 +124,26 @@ app.get('/api/court/:id', (req, res) => {
         for (i = 0; i < result.rows.length; i++) {
           dataObject[i+1] = result.rows[i]
         }
-        res.send(dataObject)
-        console.log(dataObject);
 
       })
       .catch(e => {
         throw e
       })
-      .then(() => {
-        client.end()
-      })
 
-/*
-  // For visited: Gets bool of visited status for current user
+  // Query visited status of users for a court. 
   client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
       .then(result => {
-        dataObject = result
-        res.send(dataObject.rows[0])
+
+        // Location where to begin to store visited query on Object
+        objIndexStart = dataObject.length
+
+        for (i = 0; i < result.rows.length; i++) {
+          dataObject[i+objIndexStart] = result.rows[i]
+        }
+        
+        console.log(dataObject);
+        res.send(dataObject)
+
       })
       .catch(e => {
         throw e
@@ -154,10 +151,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-*/
   
-  
-  //res.send(dataObject)
 })
 
 
