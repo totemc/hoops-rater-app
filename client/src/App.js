@@ -3,14 +3,14 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Profile from './profile';
+import CourtView from './courtview';
 import Main from './main';
 import Header from './header';
 import NotFound from './notFound';
 import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
 import Home from './home';
 import Account from './account';
-import AUTH_CONFIG from './auth-config';
-import Court from './court';
+import AUTH_CONFIG from './auth-config'
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -29,10 +29,9 @@ class App extends Component {
       implicitCallback : "/implicit/callback",
       mainPage : "/main",
       profilePage : "/profile/:nameParam",
+      courtViewPage : "/court/:id",
       notFoundPage : "/404",
-      accountPage : "/account",
-      // Added by Joseph 4/1/2018 to be merged
-      court : "/court/:nameParam"
+      accountPage : "/account"
     };
 
     this.state = {
@@ -50,16 +49,14 @@ class App extends Component {
         <Router>
           <Security issuer={config.issuer}
                     client_id={config.client_id}
-                    redirect_uri={config.redirect_uri}
-          >
+                    redirect_uri={config.redirect_uri}>
               <Switch>
                 <Route exact path={this.routes.root} component={Home}/>
                 <Route exact path={this.routes.implicitCallback} component={ImplicitCallback}/>
                 <Route exact path={this.routes.mainPage} component={Main}/>
                 <Route exact path={this.routes.profilePage} component={Profile}/>
+                <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
-                // Added by Joseph 4/1/2018 to be merged
-                <Route exact path={this.routes.court} component={Court}/>
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>
