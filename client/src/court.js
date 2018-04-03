@@ -20,7 +20,7 @@ class Court extends React.Component{
     callApi = async () => {
         // Talk to our middleware with the courtName in question.
         const response = await
-        fetch('/api/court/'+this.props.match.params.nameParam);
+        fetch('/api/search/court/'+this.props.match.params.nameParam);
         
         // Get our response body
         const body = await response.json();
@@ -34,9 +34,10 @@ class Court extends React.Component{
     };
     
     render(){
+        console.log(this.state.response)
         return(
             <div>
-                {this.state.response.map((response, index) => (<h1> {response.court_name}</h1>))}
+                {this.state.response.map((response, index) => (<h1 key={index}> {response.court_name} </h1>))}
             </div>
             
         );

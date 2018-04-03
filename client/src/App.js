@@ -10,7 +10,8 @@ import NotFound from './notFound';
 import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
 import Home from './home';
 import Account from './account';
-import AUTH_CONFIG from './auth-config'
+import AUTH_CONFIG from './auth-config';
+import Court from './court';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -31,7 +32,8 @@ class App extends Component {
       profilePage : "/profile/:nameParam",
       courtViewPage : "/court/:id",
       notFoundPage : "/404",
-      accountPage : "/account"
+      accountPage : "/account",
+      court: "/search/court/:nameParam"
     };
 
     this.state = {
@@ -57,6 +59,7 @@ class App extends Component {
                 <Route exact path={this.routes.profilePage} component={Profile}/>
                 <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
+                <Route exact path={this.routes.court} component={Court}/>
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>
