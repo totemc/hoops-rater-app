@@ -30,7 +30,7 @@ class App extends Component {
       implicitCallback : "/implicit/callback",
       mainPage : "/main",
       profilePage : "/profile/:nameParam",
-      courtViewPage : "/courtView/:id",
+      courtViewPage : "/court/:id",
       notFoundPage : "/404",
       accountPage : "/account",
       court: "/search/court/:nameParam"
