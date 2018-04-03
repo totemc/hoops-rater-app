@@ -12,6 +12,7 @@ import Home from './home';
 import Account from './account';
 import AUTH_CONFIG from './auth-config';
 import Court from './court';
+import Search from './search';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -33,7 +34,8 @@ class App extends Component {
       courtViewPage : "/court/:id",
       notFoundPage : "/404",
       accountPage : "/account",
-      court: "/search/court/:nameParam"
+      court: "/search/court/:nameParam",
+      search: "/search"
     };
 
     this.state = {
@@ -54,6 +56,7 @@ class App extends Component {
                     redirect_uri={config.redirect_uri}>
               <Switch>
                 <Route exact path={this.routes.root} component={Home}/>
+                <Route exact path={this.routes.search} component={Search}/>
                 <Route exact path={this.routes.implicitCallback} component={ImplicitCallback}/>
                 <Route exact path={this.routes.mainPage} component={Main}/>
                 <Route exact path={this.routes.profilePage} component={Profile}/>
