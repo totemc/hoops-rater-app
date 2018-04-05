@@ -34,13 +34,23 @@ class Search extends React.Component{
 	render(){
 		if(!this.state.madeSearch){
 			return (
-				<form onSubmit={this.handleSubmit}>
-				  <label>
-				    Name:
-				    <input type="text" name="name" onChange={this.handleChange} value={this.state.value} />
-				  </label>
-				  <input type="submit" value="Submit"/>
-				</form>
+				<section id="five" className="wrapper style2 special fade">
+				   <div className="container">
+				      <header>
+				         <h2>Hoop Rater</h2>
+				      </header>
+				      <form onSubmit={this.handleSubmit} className="container 50%">
+				         <div className="row uniform 50%">
+				            <div className="8u 8u$(xsmall)">
+				            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value}/>
+				            </div>
+				            <div className="4u$ 12u$(xsmall)">
+				            	<input type="submit" value="Submit" className="fit special" />
+				            </div>
+				         </div>
+				      </form>
+				   </div>
+				</section>
 			)
 		}
 		else{
