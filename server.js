@@ -88,6 +88,9 @@ function queryUser(client, userName, res){
 // Query the courtName when called
 function queryCourtName(client, courtName, res){
     let courtObject;
+    let mapExample = {"zipcode": 33029}
+    console.log(mapExample)
+    console.log(mapExample["zipcode"])
     client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
         .then(result => {
         // Send our results to the component
@@ -110,13 +113,28 @@ function queryCourtName(client, courtName, res){
         console.log('the client has disconnected!');
     })
 }
+// Oscar add function for queryAdvSearch(client, attributeList, res)
+
+// API call to pull advance search parameters from the database
+app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
+    let allAttributes = req.params.courtAttributes;
+    let attributeList = allAttributes.split("+");
+    
+    let client = createClient();
+    
+    client.connect()
+      .catch(e => console.log('Error occured when trying to connect client to server.'))
+    //The function queryAdvSearch needs to be created
+    queryAdvSearch(client, attributeList, res);
+
+});
 // API call to pull from the court from the database
 app.get('/api/search/court/:nameParam', (req, res) => {
     let courtName = req.params.nameParam;
     let client = createClient();
     
     client.connect()
-        .catch(e => console.log('Error occured when trying to connect client to servere.'))
+        .catch(e => console.log('Error occured when trying to connect client to server.'))
     
     queryCourtName(client, courtName, res);
 });
