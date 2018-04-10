@@ -7,6 +7,7 @@ class AdvSearch extends React.Component{
     }
     
     render(){
+        console.log('hi')
         return()
     }
 }
