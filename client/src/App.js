@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import './'
 import Profile from './profile';
 import CourtView from './courtview';
 import Main from './main';
