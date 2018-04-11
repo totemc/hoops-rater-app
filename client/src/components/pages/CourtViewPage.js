@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import NotFound from './notFound';
+import NotFound from './NotFoundPage';
 
 
 class CourtView extends React.Component{
@@ -13,7 +13,7 @@ class CourtView extends React.Component{
 
 	componentDidMount() {
 	  this.callApi()
-	    .then(res => { 
+	    .then(res => {
 	    	this.setState({ response: res })
 	    })
 	    .catch(err => {

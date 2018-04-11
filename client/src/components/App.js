@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
-import './'
-import Profile from './profile';
-import CourtView from './courtview';
-import Main from './main';
-import Header from './header';
-import NotFound from './notFound';
+import Profile from './pages/ProfilePage';
+import CourtView from './pages/CourtViewPage';
+import Header from './common/Header';
+import NotFound from './pages/NotFoundPage';
 import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
-import Home from './home';
-import Account from './account';
+import Home from './pages/HomePage';
+import Account from './pages/AccountPage';
 import AUTH_CONFIG from './auth-config';
-import Court from './court';
-import Search from './search';
+import Court from './pages/CourtListPage';
+import Search from './pages/SearchPage';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -59,7 +55,6 @@ class App extends Component {
                 <Route exact path={this.routes.root} component={Home}/>
                 <Route exact path={this.routes.search} component={Search}/>
                 <Route exact path={this.routes.implicitCallback} component={ImplicitCallback}/>
-                <Route exact path={this.routes.mainPage} component={Main}/>
                 <Route exact path={this.routes.profilePage} component={Profile}/>
                 <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
