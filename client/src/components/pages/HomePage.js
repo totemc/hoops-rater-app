@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
+import { Button } from 'react-bootstrap'
 
 export default withAuth(class Home extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ export default withAuth(class Home extends Component {
   render() {
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
-      <button onClick={this.logout}>Logout</button> :
-      <button onClick={this.login}>Login</button>;
+      <Button onClick={this.logout}>Logout</Button> :
+      <Button onClick={this.login}>Login</Button>;
   }
 });
