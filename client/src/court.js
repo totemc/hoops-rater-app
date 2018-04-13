@@ -8,10 +8,10 @@ class Court extends React.Component{
 
     componentDidMount(){
         this.callApi()
-        .then(res => {
+          .then(res => {
             this.setState({ response: res})
         })
-        .catch(err => {
+          .catch(err => {
             console.log('Did not setState to response.');
             console.log(err)
         });
@@ -26,10 +26,10 @@ class Court extends React.Component{
         const body = await response.json();
         
         // If we do not receive a 200 OK success code, throw an error. The state is not changed.
-        //Error prints in the catch in the function call.
+        // Error prints in the catch in the function call.
         if (response.status !== 200){
             throw Error(body.message)
-        };
+        }
         return body;
     };
     
