@@ -88,9 +88,7 @@ function queryUser(client, userName, res){
 // Query the courtName when called
 function queryCourtName(client, courtName, res){
     let courtObject;
-    let mapExample = {"zipcode": 33029}
-    console.log(mapExample)
-    console.log(mapExample["zipcode"])
+
     client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
         .then(result => {
         // Send our results to the component
@@ -113,7 +111,88 @@ function queryCourtName(client, courtName, res){
         console.log('the client has disconnected!');
     })
 }
-// Oscar add function for queryAdvSearch(client, attributeList, res)
+
+function queryAdvSearch(client, attributeList, res) {
+  let dataObject;
+
+  let zipcode = attributeList['zipcode']
+  console.log(zipcode);
+
+  // Sets outdoorStats to outdoor_status attribute. If undefined, sets to name of attribute
+  // This is because in SQL, 'outdoor_status = outdoor_status' query includes all outdoor_status values
+  let outdoorStatus = attributeList['outdoor_status']
+  if (outdoorStatus == undefined) {
+    outdoorStatus = 'outdoor_status'
+  }
+  console.log(outdoorStatus);
+
+  // For stars attribute
+  let rating = attributeList['stars']
+  if (rating == undefined) {
+    rating = 'stars'
+  }
+  console.log(rating);
+
+  // For address attribute
+  let location = attributeList['address']
+  if (location == undefined) {
+    location = 'address'
+  }
+  console.log(location);
+
+  // For open_time attribute
+  let openTime = attributeList['open_time']
+  if (openTime == undefined) {
+    openTime = 'open_time'
+  }
+  console.log(openTime);
+
+  // For close_time attribute
+  let closeTime = attributeList['close_time']
+  if (closeTime == undefined) {
+    closeTime = 'close_time'
+  }
+  console.log(closeTime);
+
+  // For membership_status attribute
+  let membershipStatus = attributeList['membership_status']
+  if (membershipStatus == undefined) {
+    membershipStatus = 'membership_status'
+  }
+  console.log(membershipStatus);
+
+  // For busiest_time attribute
+  let busiestTimes = attributeList['busiest_times']
+  if (busiestTimes == undefined) {
+    busiestTimes = 'busiest_times'
+  }
+  console.log(busiestTimes);
+
+  
+  // continue for all queried attributes
+  // add checks, so if attr is not included in attributeList (null), let attrName = 'attr_name'. 
+  // rather than let attrName = attributeList['attr_name']
+
+/*
+  client.query( SELECT * FROM court
+                INNER JOIN amenities 
+                  ON court_id = amen_court_id
+                  AND has_fountain = true
+                //continue
+  )
+      .then(result => {
+
+        // INSERT RESULT INTO OBJECT
+
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+*/
+}
 
 // API call to pull advance search parameters from the database
 app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
@@ -124,10 +203,13 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
     
     client.connect()
       .catch(e => console.log('Error occured when trying to connect client to server.'))
-    //The function queryAdvSearch needs to be created
+
+    console.log("In advsearch call");
+    
     queryAdvSearch(client, attributeList, res);
 
 });
+
 // API call to pull from the court from the database
 app.get('/api/search/court/:nameParam', (req, res) => {
     let courtName = req.params.nameParam;
@@ -135,7 +217,17 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
-    
+
+    //TESTING ZONE only, DELETE AFTER
+    let attributeList = {
+    "zipcode": 33196,
+    "busiest_times":'4 PM - 7 PM',
+    "outdoor_status":true,
+    "membership_status":false,
+    }
+    queryAdvSearch(client, attributeList, res)
+    //END
+
     queryCourtName(client, courtName, res);
 });
 
@@ -158,11 +250,11 @@ app.get('/api/hello', (req, res) => {
     { express: 'The middleware worked! Hello from express.' });
 });
 
-
+// API call to pull court information from the database
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
   console.log(req.params.id);
-
+  
   let courtId = req.params.id;  // Save court_id parameter
   let client = createClient();  // Create a client
 
@@ -184,7 +276,6 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId + '\'')
       .then(result => {
         dataObject = result.rows
-        //console.log(dataObject[0]); 
       })
       .catch(e => {
         throw e
@@ -198,13 +289,9 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId +'\'')
       .then(result => {
 
-        console.log(result.rows[0].avg_stars); 
-
         if (result.rows[0].avg_stars == null) {
           console.log("No star ratings."); 
-          //result.rows[0]['avg_stars'] = {}
           result.rows[0].avg_stars = 0.0
-          console.log(result.rows[0].avg_stars); 
         }
 
           // Appends query results for avg stars to dataObject
