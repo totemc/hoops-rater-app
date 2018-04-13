@@ -8,8 +8,9 @@ import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
 import Home from './pages/HomePage';
 import Account from './pages/AccountPage';
 import AUTH_CONFIG from './auth-config';
-import Court from './pages/CourtListPage';
+import CourtList from './pages/CourtListPage';
 import Search from './pages/SearchPage';
+import AdvSearch from './pages/AdvSearchPage';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -59,8 +60,8 @@ class App extends Component {
                 <Route exact path={this.routes.profilePage} component={Profile}/>
                 <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
-                <Route exact path={this.routes.court} component={Court}/>
-                <Route exact path={this.routes.advSearch} />
+                <Route exact path={this.routes.court} component={CourtList}/>
+                <Route exact path={this.routes.advSearch} component={AdvSearch}/>
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>

@@ -1,10 +1,13 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 
-class Court extends React.Component{
-    state = {
-        response: []
-    };
+class CourtList extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            response: []
+        };
+    }
 
     componentDidMount(){
         this.callApi()
@@ -13,7 +16,7 @@ class Court extends React.Component{
         })
           .catch(err => {
             console.log('Did not setState to response.');
-            console.log(err)
+            console.log(err);
         });
     }
 
@@ -43,4 +46,4 @@ class Court extends React.Component{
         );
     }
 }
-export default Court;
+export default CourtList;
