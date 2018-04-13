@@ -22,10 +22,11 @@ class Search extends React.Component{
 
 	handleSubmit(event) {
 	    event.preventDefault();
-        let num = 'hello'
-        Object.keys(this.state).map((key) => {
-            num += ('+' + this.state[key])
-        })
+//        Leave for Joseph, will be deleted later
+//        let num = 'hello'
+//        Object.keys(this.state).map((key) => {
+//            num += ('+' + this.state[key])
+//        })
 	    console.log('reached this func');
 	    this.setState((prev) => ({
             madeSearch:true,

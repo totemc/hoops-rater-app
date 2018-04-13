@@ -25,17 +25,6 @@ class AdvSearch extends React.Component{
         }
     }
     
-    componentDidMount(){
-        this.callApi()
-          .then(res => {
-            this.setState({ response: res})
-        })
-          .catch(err => {
-            console.log('Did not setState to resposne');
-            console.log(err)
-        });
-    }
-    
     handleChangeZipcode(e){
         console.log('OK ADRIAN!')
         this.setState({zipcode: e.target.value})
