@@ -36,7 +36,8 @@ class App extends Component {
       notFoundPage : "/404",
       accountPage : "/account",
       court: "/search/court/:nameParam",
-      search: "/search"
+      search: "/search",
+      advSearch: "/advsearch"
     };
 
     this.state = {
@@ -64,6 +65,7 @@ class App extends Component {
                 <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
                 <Route exact path={this.routes.court} component={Court}/>
+                <Route exact path={this.routes.advSearch} />
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>

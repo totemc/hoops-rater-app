@@ -21,15 +21,17 @@ class Search extends React.Component{
 
 
 	handleSubmit(event) {
-	  event.preventDefault();
-	  console.log('reached this func');
-	  this.setState((prev) => ({
-	  	madeSearch:true,
-	  	value: '/search/court/' + prev.value
-	  }))
-
-
-	}
+	    event.preventDefault();
+        let num = 'hello'
+        Object.keys(this.state).map((key) => {
+            num += ('+' + this.state[key])
+        })
+	    console.log('reached this func');
+	    this.setState((prev) => ({
+            madeSearch:true,
+            value: '/search/court/' + prev.value
+        }))
+    }
 
 	render(){
 		if(!this.state.madeSearch){
@@ -42,7 +44,7 @@ class Search extends React.Component{
 				      <form onSubmit={this.handleSubmit} className="container 50%">
 				         <div className="row uniform 50%">
 				            <div className="8u 8u$(xsmall)">
-				            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value}/>
+				            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value} />
 				            </div>
 				            <div className="4u$ 12u$(xsmall)">
 				            	<input type="submit" value="Submit" className="fit special" />
