@@ -115,6 +115,7 @@ function queryCourtName(client, courtName, res){
 function queryAdvSearch(client, attributeList, res) {
   let dataObject;
 
+  // Zipcode attribute, should always exist for adv search
   let zipcode = attributeList['court_zip']
   if (zipcode == undefined) {
     zipcode = 'court_zip'
@@ -189,7 +190,16 @@ function queryAdvSearch(client, attributeList, res) {
   )
       .then(result => {
 
-        // INSERT RESULT INTO OBJECT
+        dataObject = result.rows
+        console.log(result.rows)
+
+        // If the database doesn't return a row, send an error.
+        if(dataObject[0] == undefined){
+          res.status(404).send({
+            message : "No results from adv search found."
+          })
+        }
+        res.send(dataObject);
 
       })
       .catch(e => {
@@ -223,16 +233,6 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
-
-    //TESTING ZONE only, DELETE AFTER
-    let attributeList = {
-    "zipcode": 33196,
-    "busiest_times":'4 PM - 7 PM',
-    "outdoor_status":true,
-    "membership_status":false,
-    }
-    queryAdvSearch(client, attributeList, res)
-    //END
 
     queryCourtName(client, courtName, res);
 });
@@ -295,13 +295,13 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId +'\'')
       .then(result => {
 
-        if (result.rows[0].avg_stars == null || result.rows[0].avg_stars == undefined) {
+        if (result.rows[0] == undefined || result.rows[0].avg_stars == null) {
           console.log("No star ratings."); 
           result.rows[0].avg_stars = 0.0
         }
 
-          // Appends query results for avg stars to dataObject
-          dataObject[0].avg_stars = result.rows[0].avg_stars 
+        // Appends query results for avg stars to dataObject
+        dataObject[0].avg_stars = result.rows[0].avg_stars
 
       })
       .catch(e => {
