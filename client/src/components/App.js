@@ -60,8 +60,8 @@ class App extends Component {
                 <Route exact path={this.routes.profilePage} component={Profile}/>
                 <Route exact path={this.routes.courtViewPage} component={CourtView}/>
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
-                <Route exact path={this.routes.court} component={Court}/>
-                <Route exact path={this.routes.advSearch} />
+                <Route exact path={this.routes.court} component={CourtList}/>
+                <Route exact path={this.routes.advSearch} component={AdvSearch}/>
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>
