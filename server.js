@@ -115,30 +115,26 @@ function queryCourtName(client, courtName, res){
 function queryAdvSearch(client, attributeList, res) {
   let dataObject;
 
-  let zipcode = attributeList['zipcode']
+  let zipcode = attributeList['court_zip']
+  if (zipcode == undefined) {
+    zipcode = 'court_zip'
+  }
   console.log(zipcode);
 
-  // Sets outdoorStats to outdoor_status attribute. If undefined, sets to name of attribute
-  // This is because in SQL, 'outdoor_status = outdoor_status' query includes all outdoor_status values
+  // Sets outdoorStatus to outdoor_status attribute. If undefined, sets to name of attribute 'outdoor_status'
+  // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
   let outdoorStatus = attributeList['outdoor_status']
   if (outdoorStatus == undefined) {
     outdoorStatus = 'outdoor_status'
   }
   console.log(outdoorStatus);
 
-  // For stars attribute
-  let rating = attributeList['stars']
-  if (rating == undefined) {
-    rating = 'stars'
+  // For minimum stars attribute
+  let min_rating = attributeList['stars']
+  if (min_rating == undefined) {
+    mib_rating = 'ROUND(AVG(stars), 1)'
   }
   console.log(rating);
-
-  // For address attribute
-  let location = attributeList['address']
-  if (location == undefined) {
-    location = 'address'
-  }
-  console.log(location);
 
   // For open_time attribute
   let openTime = attributeList['open_time']
@@ -168,17 +164,28 @@ function queryAdvSearch(client, attributeList, res) {
   }
   console.log(busiestTimes);
 
-  
-  // continue for all queried attributes
-  // add checks, so if attr is not included in attributeList (null), let attrName = 'attr_name'. 
-  // rather than let attrName = attributeList['attr_name']
 
-/*
-  client.query( SELECT * FROM court
-                INNER JOIN amenities 
-                  ON court_id = amen_court_id
-                  AND has_fountain = true
-                //continue
+  client.query( 
+    'SELECT * FROM \
+    ( \
+      SELECT * FROM court \
+      WHERE court_zip = \'' + zipcode + '\' \
+      AND outdoor_status = \'' + outdoorStatus + '\' \
+      AND open_time = \'' + openTime + '\' \
+      AND close_time = \'' + closeTime + '\' \
+      AND membership_status = \'' + membershipStatus + '\' \
+      AND busiest_times = \'' + busiestTimes + '\' \
+    ) as courtTb \
+    INNER JOIN \
+    ( \
+      SELECT court.court_id, ROUND(AVG(stars), 1) \
+      FROM court \
+        JOIN  \
+        rating ON court_id = r_court_id \
+      GROUP BY court_id \
+      HAVING ROUND(AVG(stars), 1) >= \'' + min_rating + '\' \
+    ) as avgStarsTb \
+    ON courtTb.court_id = avgStarsTb.court_id'
   )
       .then(result => {
 
@@ -191,7 +198,6 @@ function queryAdvSearch(client, attributeList, res) {
       .then(() => {
         client.end()
       })
-*/
 }
 
 // API call to pull advance search parameters from the database
@@ -289,7 +295,7 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId +'\'')
       .then(result => {
 
-        if (result.rows[0].avg_stars == null) {
+        if (result.rows[0].avg_stars == null || result.rows[0].avg_stars == undefined) {
           console.log("No star ratings."); 
           result.rows[0].avg_stars = 0.0
         }
