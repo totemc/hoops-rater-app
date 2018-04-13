@@ -55,8 +55,4 @@ class Search extends React.Component{
 	}
 }
 
-<<<<<<< HEAD
 export default Search;
-=======
-export default Search
->>>>>>> origin
