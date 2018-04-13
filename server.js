@@ -85,6 +85,60 @@ function queryUser(client, userName, res){
       })
 }
 
+// Query the courtName when called
+function queryCourtName(client, courtName, res){
+    let courtObject;
+    let mapExample = {"zipcode": 33029}
+    console.log(mapExample)
+    console.log(mapExample["zipcode"])
+    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
+        .then(result => {
+        // Send our results to the component
+        courtObject = result.rows;
+        
+        // If the database doesn't return a row, send and error.
+        if(courtObject[0] == undefined){
+            res.status(404).send({
+                message: "Court does not exist."
+            })
+        }
+        res.send(courtObject);
+    })
+    .catch(e => {
+        // Throws any errows
+        throw e;
+    })
+    .then(() => {
+        client.end()
+        console.log('the client has disconnected!');
+    })
+}
+// Oscar add function for queryAdvSearch(client, attributeList, res)
+
+// API call to pull advance search parameters from the database
+app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
+    let allAttributes = req.params.courtAttributes;
+    let attributeList = allAttributes.split("+");
+    
+    let client = createClient();
+    
+    client.connect()
+      .catch(e => console.log('Error occured when trying to connect client to server.'))
+    //The function queryAdvSearch needs to be created
+    queryAdvSearch(client, attributeList, res);
+
+});
+// API call to pull from the court from the database
+app.get('/api/search/court/:nameParam', (req, res) => {
+    let courtName = req.params.nameParam;
+    let client = createClient();
+    
+    client.connect()
+        .catch(e => console.log('Error occured when trying to connect client to server.'))
+    
+    queryCourtName(client, courtName, res);
+});
+
 // API call to pull from the users databasae
 app.get('/api/profile/:nameParam', (req, res) => {
   let userName = req.params.nameParam; // Save the username parameter from the url

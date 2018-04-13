@@ -6,7 +6,8 @@ auth-config.json
 # dependencies
 /node_modules
 /client/node_modules
-
+package-lock.json
+/client/package-lock.json
 # testing
 /coverage
 
@@ -23,7 +24,7 @@ auth-config.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+package-lock.json
 config.json
 
 package-lock.json
