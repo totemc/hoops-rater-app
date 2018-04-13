@@ -118,6 +118,7 @@ function queryCourtName(client, courtName, res){
 // API call to pull advance search parameters from the database
 app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
     let allAttributes = req.params.courtAttributes;
+    console.log(allAttributes);
     let attributeList = allAttributes.split("+");
     
     let client = createClient();
