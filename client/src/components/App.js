@@ -8,8 +8,9 @@ import { Security, ImplicitCallback, SecureRoute} from '@okta/okta-react';
 import Home from './pages/HomePage';
 import Account from './pages/AccountPage';
 import AUTH_CONFIG from './auth-config';
-import Court from './pages/CourtListPage';
+import CourtList from './pages/CourtListPage';
 import Search from './pages/SearchPage';
+import AdvSearch from './pages/AdvSearchPage';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,

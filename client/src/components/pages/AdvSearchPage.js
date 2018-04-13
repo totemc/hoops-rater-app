@@ -112,3 +112,4 @@ class AdvSearch extends React.Component{
         }
     }
 }
+export default AdvSearch;
