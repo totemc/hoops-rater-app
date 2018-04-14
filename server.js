@@ -112,7 +112,7 @@ function queryCourtName(client, courtName, res){
     })
 }
 
-function queryAdvSearch(client, attributeList, res) {
+function queryAdvSearch(client, attributeMap, res) {
   let dataObject;
 
   // Zipcode attribute, should always exist for adv search
