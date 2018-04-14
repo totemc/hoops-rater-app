@@ -116,7 +116,7 @@ function queryAdvSearch(client, attributeMap, res) {
   let dataObject;
 
   // Zipcode attribute, should always exist for adv search
-  let zipcode = attributeList['court_zip']
+  let zipcode = attributeMap['court_zip']
   if (zipcode == undefined) {
     zipcode = 'court_zip'
   }
@@ -124,57 +124,56 @@ function queryAdvSearch(client, attributeMap, res) {
 
   // Sets outdoorStatus to outdoor_status attribute. If undefined, sets to name of attribute 'outdoor_status'
   // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
-  let outdoorStatus = attributeList['outdoor_status']
+  let outdoorStatus = attributeMap['outdoor_status']
   if (outdoorStatus == undefined) {
     outdoorStatus = 'outdoor_status'
   }
   console.log(outdoorStatus);
 
-  // For minimum stars attribute
-  let min_rating = attributeList['stars']
-  if (min_rating == undefined) {
-    mib_rating = 'ROUND(AVG(stars), 1)'
+  // For minimum rating ('stars') attribute
+  let minRating = attributeMap['rating']
+  if (minRating == undefined) {
+    minRating = 'ROUND(AVG(stars), 1)'
   }
-  console.log(rating);
+  console.log(minRating);
 
   // For open_time attribute
-  let openTime = attributeList['open_time']
+  let openTime = attributeMap['open_time']
   if (openTime == undefined) {
     openTime = 'open_time'
   }
   console.log(openTime);
 
   // For close_time attribute
-  let closeTime = attributeList['close_time']
+  let closeTime = attributeMap['close_time']
   if (closeTime == undefined) {
     closeTime = 'close_time'
   }
   console.log(closeTime);
 
   // For membership_status attribute
-  let membershipStatus = attributeList['membership_status']
+  let membershipStatus = attributeMap['membership_status']
   if (membershipStatus == undefined) {
     membershipStatus = 'membership_status'
   }
   console.log(membershipStatus);
 
   // For busiest_time attribute
-  let busiestTimes = attributeList['busiest_times']
+  let busiestTimes = attributeMap['busiest_times']
   if (busiestTimes == undefined) {
     busiestTimes = 'busiest_times'
   }
   console.log(busiestTimes);
-
 
   client.query( 
     'SELECT * FROM \
     ( \
       SELECT * FROM court \
       WHERE court_zip = \'' + zipcode + '\' \
-      AND outdoor_status = \'' + outdoorStatus + '\' \
-      AND open_time = \'' + openTime + '\' \
-      AND close_time = \'' + closeTime + '\' \
-      AND membership_status = \'' + membershipStatus + '\' \
+      AND outdoor_status = ' + outdoorStatus + ' \
+      AND open_time = ' + openTime + ' \
+      AND close_time = ' + closeTime + ' \
+      AND membership_status = ' + membershipStatus + ' \
       AND busiest_times = \'' + busiestTimes + '\' \
     ) as courtTb \
     INNER JOIN \
@@ -184,21 +183,23 @@ function queryAdvSearch(client, attributeMap, res) {
         JOIN  \
         rating ON court_id = r_court_id \
       GROUP BY court_id \
-      HAVING ROUND(AVG(stars), 1) >= \'' + min_rating + '\' \
+      HAVING ROUND(AVG(stars), 1) >= ' + minRating + ' \
     ) as avgStarsTb \
     ON courtTb.court_id = avgStarsTb.court_id'
   )
       .then(result => {
 
+        console.log(result)
         dataObject = result.rows
-        console.log(result.rows)
+        console.log(dataObject)
 
         // If the database doesn't return a row, send an error.
         if(dataObject[0] == undefined){
           res.status(404).send({
-            message : "No results from adv search found."
+            message : "No results from advance search found."
           })
         }
+
         res.send(dataObject);
 
       })
@@ -230,7 +231,7 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
 
     console.log("In advsearch call");
     
-    queryAdvSearch(client, attributeList, res);
+    queryAdvSearch(client, attributeMap, res);
 
 });
 
