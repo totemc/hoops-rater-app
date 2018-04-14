@@ -88,9 +88,7 @@ function queryUser(client, userName, res){
 // Query the courtName when called
 function queryCourtName(client, courtName, res){
     let courtObject;
-    let mapExample = {"zipcode": 33029}
-    console.log(mapExample)
-    console.log(mapExample["zipcode"])
+
     client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
         .then(result => {
         // Send our results to the component
@@ -113,7 +111,104 @@ function queryCourtName(client, courtName, res){
         console.log('the client has disconnected!');
     })
 }
-// Oscar add function for queryAdvSearch(client, attributeList, res)
+
+function queryAdvSearch(client, attributeMap, res) {
+  let dataObject;
+
+  // Zipcode attribute, should always exist for adv search
+  let zipcode = attributeList['court_zip']
+  if (zipcode == undefined) {
+    zipcode = 'court_zip'
+  }
+  console.log(zipcode);
+
+  // Sets outdoorStatus to outdoor_status attribute. If undefined, sets to name of attribute 'outdoor_status'
+  // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
+  let outdoorStatus = attributeList['outdoor_status']
+  if (outdoorStatus == undefined) {
+    outdoorStatus = 'outdoor_status'
+  }
+  console.log(outdoorStatus);
+
+  // For minimum stars attribute
+  let min_rating = attributeList['stars']
+  if (min_rating == undefined) {
+    mib_rating = 'ROUND(AVG(stars), 1)'
+  }
+  console.log(rating);
+
+  // For open_time attribute
+  let openTime = attributeList['open_time']
+  if (openTime == undefined) {
+    openTime = 'open_time'
+  }
+  console.log(openTime);
+
+  // For close_time attribute
+  let closeTime = attributeList['close_time']
+  if (closeTime == undefined) {
+    closeTime = 'close_time'
+  }
+  console.log(closeTime);
+
+  // For membership_status attribute
+  let membershipStatus = attributeList['membership_status']
+  if (membershipStatus == undefined) {
+    membershipStatus = 'membership_status'
+  }
+  console.log(membershipStatus);
+
+  // For busiest_time attribute
+  let busiestTimes = attributeList['busiest_times']
+  if (busiestTimes == undefined) {
+    busiestTimes = 'busiest_times'
+  }
+  console.log(busiestTimes);
+
+
+  client.query( 
+    'SELECT * FROM \
+    ( \
+      SELECT * FROM court \
+      WHERE court_zip = \'' + zipcode + '\' \
+      AND outdoor_status = \'' + outdoorStatus + '\' \
+      AND open_time = \'' + openTime + '\' \
+      AND close_time = \'' + closeTime + '\' \
+      AND membership_status = \'' + membershipStatus + '\' \
+      AND busiest_times = \'' + busiestTimes + '\' \
+    ) as courtTb \
+    INNER JOIN \
+    ( \
+      SELECT court.court_id, ROUND(AVG(stars), 1) \
+      FROM court \
+        JOIN  \
+        rating ON court_id = r_court_id \
+      GROUP BY court_id \
+      HAVING ROUND(AVG(stars), 1) >= \'' + min_rating + '\' \
+    ) as avgStarsTb \
+    ON courtTb.court_id = avgStarsTb.court_id'
+  )
+      .then(result => {
+
+        dataObject = result.rows
+        console.log(result.rows)
+
+        // If the database doesn't return a row, send an error.
+        if(dataObject[0] == undefined){
+          res.status(404).send({
+            message : "No results from adv search found."
+          })
+        }
+        res.send(dataObject);
+
+      })
+      .catch(e => {
+        throw e
+      })
+      .then(() => {
+        client.end()
+      })
+}
 
 // API call to pull advance search parameters from the database
 app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
@@ -132,10 +227,13 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
     
     client.connect()
       .catch(e => console.log('Error occured when trying to connect client to server.'))
-    //The function queryAdvSearch needs to be created
+
+    console.log("In advsearch call");
+    
     queryAdvSearch(client, attributeList, res);
 
 });
+
 // API call to pull from the court from the database
 app.get('/api/search/court/:nameParam', (req, res) => {
     let courtName = req.params.nameParam;
@@ -143,7 +241,7 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
-    
+
     queryCourtName(client, courtName, res);
 });
 
@@ -166,11 +264,11 @@ app.get('/api/hello', (req, res) => {
     { express: 'The middleware worked! Hello from express.' });
 });
 
-
+// API call to pull court information from the database
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
   console.log(req.params.id);
-
+  
   let courtId = req.params.id;  // Save court_id parameter
   let client = createClient();  // Create a client
 
@@ -192,7 +290,6 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId + '\'')
       .then(result => {
         dataObject = result.rows
-        //console.log(dataObject[0]); 
       })
       .catch(e => {
         throw e
@@ -206,17 +303,13 @@ app.get('/api/court/:id', (req, res) => {
                 AND court_id = \'' + courtId +'\'')
       .then(result => {
 
-        console.log(result.rows[0].avg_stars); 
-
-        if (result.rows[0].avg_stars == null) {
+        if (result.rows[0] == undefined || result.rows[0].avg_stars == null) {
           console.log("No star ratings."); 
-          //result.rows[0]['avg_stars'] = {}
           result.rows[0].avg_stars = 0.0
-          console.log(result.rows[0].avg_stars); 
         }
 
-          // Appends query results for avg stars to dataObject
-          dataObject[0].avg_stars = result.rows[0].avg_stars 
+        // Appends query results for avg stars to dataObject
+        dataObject[0].avg_stars = result.rows[0].avg_stars
 
       })
       .catch(e => {
