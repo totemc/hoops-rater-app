@@ -11,6 +11,7 @@ import AUTH_CONFIG from './auth-config';
 import CourtList from './pages/CourtListPage';
 import Search from './pages/SearchPage';
 import AdvSearch from './pages/AdvSearchPage';
+import AdvCourtList from './pages/AdvCourtListPage';
 
 const config = {
   issuer: AUTH_CONFIG.oidc.issuer,
@@ -34,7 +35,8 @@ class App extends Component {
       accountPage : "/account",
       court: "/search/court/:nameParam",
       search: "/search",
-      advSearch: "/advsearch"
+      advSearch: "/advsearch",
+      advCourtList: "/advsearch/court/:courtAttributes"
     };
 
     this.state = {
@@ -62,6 +64,7 @@ class App extends Component {
                 <Route exact path={this.routes.notFoundPage} component={NotFound}/>
                 <Route exact path={this.routes.court} component={CourtList}/>
                 <Route exact path={this.routes.advSearch} component={AdvSearch}/>
+                <Route exact path={this.routes.advCourtList} component={AdvCourtList}/>
                 <SecureRoute path={this.routes.accountPage} component={Account} />
                 <Route component={NotFound}/>
               </Switch>

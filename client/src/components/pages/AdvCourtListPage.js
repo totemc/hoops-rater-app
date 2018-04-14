@@ -30,13 +30,13 @@ class AdvCourtList extends React.Component{
         
         // If we do not receive a 200 OK success code, throw an error. The state is not changed.
         // Error prints in the catch in the function call.
-        if(resonse.body !==){
+        if(response.status !== 200){
            throw Error(body.message)
            }
            return body;
     }
     render(){
-        return();
+        return(<h1>Hi</h1>);
     }
     
 }
