@@ -120,7 +120,14 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
     let allAttributes = req.params.courtAttributes;
     console.log(allAttributes);
     let attributeList = allAttributes.split("+");
-    
+    let attributeMap = {};
+    for (let i = 0; i < attributeList.length; i++){
+        let tempList = attributeList[i].split('=');
+        let key = tempList[0];
+        let value = tempList[1];
+        attributeMap[key] = value;
+    }
+    console.log(attributeMap)
     let client = createClient();
     
     client.connect()
