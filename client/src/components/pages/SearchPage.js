@@ -21,36 +21,32 @@ class Search extends React.Component{
 
 
 	handleSubmit(event) {
-	  event.preventDefault();
-	  console.log('reached this func');
-	  this.setState((prev) => ({
-	  	madeSearch:true,
-	  	value: '/search/court/' + prev.value
-	  }))
-
-
-	}
+	    event.preventDefault();
+//        Leave for Joseph, will be deleted later
+//        let num = 'hello'
+//        Object.keys(this.state).map((key) => {
+//            num += ('+' + this.state[key])
+//        })
+	    console.log('reached this func');
+	    this.setState((prev) => ({
+            madeSearch:true,
+            value: '/search/court/' + prev.value
+        }))
+    }
 
 	render(){
 		if(!this.state.madeSearch){
 			return (
-				<section id="five" className="wrapper style2 special fade">
-				   <div className="container">
-				      <header>
-				         <h2>Hoop Rater</h2>
-				      </header>
-				      <form onSubmit={this.handleSubmit} className="container 50%">
-				         <div className="row uniform 50%">
-				            <div className="8u 8u$(xsmall)">
-				            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value}/>
-				            </div>
-				            <div className="4u$ 12u$(xsmall)">
-				            	<input type="submit" value="Submit" className="fit special" />
-				            </div>
-				         </div>
-				      </form>
-				   </div>
-				</section>
+		      <form onSubmit={this.handleSubmit} className="container 50%">
+		         <div className="row uniform 50%">
+		            <div className="8u 8u$(xsmall)">
+		            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value} />
+		            </div>
+		            <div className="4u$ 12u$(xsmall)">
+		            	<input type="submit" value="Submit" className="fit special" />
+		            </div>
+		         </div>
+		      </form>
 			)
 		}
 		else{
@@ -59,4 +55,4 @@ class Search extends React.Component{
 	}
 }
 
-export default Search
+export default Search;

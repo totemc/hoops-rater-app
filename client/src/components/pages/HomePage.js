@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
-import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
 
 export default withAuth(class Home extends Component {
   constructor(props) {
