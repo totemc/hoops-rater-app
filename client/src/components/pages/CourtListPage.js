@@ -8,7 +8,6 @@ class CourtList extends React.Component{
         super(props);
         this.state = {
             response: [],
-            fakeData: [{"court_name":"court numba 1"}, {"court_name":"court numba 2"}]
         };
     }
 
@@ -38,10 +37,6 @@ class CourtList extends React.Component{
         }
         return body;
     };
-    // saving this
-    // {this.state.response.map((response, index) => (<h1 key={index}> {response.court_name} </h1>))}
-    // {this.state.fakeData.map((response, index) => (<h1 key={index}> {response.court_name} </h1>))}
-    //
 
     render(){
         console.log(this.state.response)
