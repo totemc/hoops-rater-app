@@ -38,5 +38,7 @@ export default withAuth(class Home extends Component {
     return this.state.authenticated ?
       <Button onClick={this.logout}>Logout</Button> :
       <Button onClick={this.login}>Login</Button>;
+    // start code here<Form horizontal>
+    
   }
 });
