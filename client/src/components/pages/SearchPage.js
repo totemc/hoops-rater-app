@@ -37,7 +37,7 @@ class Search extends React.Component{
 							<Col lg={11}>
 								<FormGroup controlId="formBasicText">
 									<ControlLabel>Search</ControlLabel>
-									<FormControl type="text" value={this.state.value} placeholder="Search..." onChange={this.handleChange} name="search"/>
+									<FormControl type="text" value={this.state.value} placeholder="Enter Name" onChange={this.handleChange} name="search"/>
 								</FormGroup>
 								<HelpBlock>
 									<Link to="/advsearch">advanced search</Link>
