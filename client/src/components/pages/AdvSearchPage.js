@@ -1,6 +1,6 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock, Checkbox } from 'react-bootstrap';
 
 class AdvSearch extends React.Component{
     constructor(props){
@@ -82,28 +82,86 @@ class AdvSearch extends React.Component{
         console.log('value' + this.state.value)
         if(!this.state.madeSearch){
             return(
-                <form onSubmit={this.handleSubmit}>
-                <input type='text' placeholder='Enter Zipcode' onChange={this.handleChangeZipcode}/>
-                <label>test
-                <br></br>
-                <select name='value' onChange={this.handleChangeBusiestTime}>
-                    <option value='default'>default</option>
-                    <option value='Excellent'>Excellent</option>
-                    <option value='Good'>Good</option>
-                    <option value='Poor'>Poor</option>
-                </select>
-                </label>
-                <label>anotherOne
-                <br />
-                <select onChange={this.handleChangeRating}>
-                    <option value='default'>default</option>
-                    <option value='Excellent'>Excellent</option>
-                    <option value='Good'>Good</option>
-                    <option value='Poor'>Poor</option>
-                </select>
-                </label>
-                <input type='submit' value='Submit' />
-                </form>
+                <Grid>
+                    <Row>
+                        <form onSubmit={this.handleSubmit}>
+                            <Col lg={11}>
+                                <FormGroup controlId="formBasicText">
+                                    <ControlLabel>Search</ControlLabel>
+                                    <FormControl type="text" placeholder="Enter Zipcode" onChange={this.handleChangeZipcode}/>
+                                </FormGroup>
+                            </Col>
+                            <Col lg={1} style={{"marginTop":"25px"}}>
+                                <Button type="submit">Search</Button>
+                            </Col>
+                            <Col lg={12}>
+                                <Row>
+                                    <Col lg={2}>
+                                        <ControlLabel>Busiest Times</ControlLabel>
+                                        <FormGroup controlId="formControlSelect" name="value" onChange={this.handleChangeBusiestTime}>
+                                            <FormControl componentClass="select">
+                                                <option value="default">Default</option>
+                                                <option value="poor">Poor</option>
+                                                <option value="good">Good</option>
+                                                <option value="excellent">Excellent</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg={2}>
+                                        <ControlLabel>Member Status</ControlLabel>
+                                        <Checkbox onChange={this.handleChangeMemberStatus}>Membership Needed</Checkbox>
+                                    </Col>
+                                    <Col lg={4}>
+                                        <ControlLabel>Hours</ControlLabel>
+                                        <Row>
+                                            <Col lg={5}>
+                                                <FormGroup controlId="formControlSelect" name="value" onChange={this.handleChangeOpenHours}>
+                                                    <FormControl componentClass="select">
+                                                        <option value="default">Default</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </FormControl>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col lg={2} style={{"textAlign":"center"}}>
+                                                to
+                                            </Col>
+                                            <Col lg={5}>
+                                                <FormGroup controlId="formControlSelect" name="value" onChange={this.handleChangeCloseHours}>
+                                                    <FormControl componentClass="select">
+                                                        <option value="default">Default</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </FormControl>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col lg={2}>
+                                        <ControlLabel>Outdoor Status</ControlLabel>
+                                        <Checkbox onChange={this.handleChangeOutdoorStatus}>Indoors</Checkbox>
+                                    </Col>
+                                    <Col lg={2}>
+                                        <ControlLabel>Rating</ControlLabel>
+                                        <FormGroup controlId="formControlSelect" name="value" onChange={this.handleChangeRating}>
+                                            <FormControl componentClass="select">
+                                                <option value="default">Default</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <HelpBlock>
+                                    <Link to="/search">regular search</Link>
+                                </HelpBlock>
+                            </Col>
+                        </form>
+                    </Row>
+                </Grid>
             );
         } else{
             return <Redirect to={this.state.value} />
