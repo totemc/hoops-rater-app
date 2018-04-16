@@ -30,11 +30,11 @@ class Header extends React.Component{
 					<nav id="nav">
 					  	<h3>
 					  	<strong>
-				        	<a href={this.navLinks.main}>Home	</a>
+							<a href={this.navLinks.main}>Home	</a>
 				        	<a href="SignUpPage.html" className="button special">Sign Up	</a>
 				        	<a href="LogInPage.html" className="button special">Log In		</a>
-					  </strong>
-					  </h3>
+						</strong>
+					  	</h3>
 				   	</nav>
 				   	</Navbar>
 				</header>
