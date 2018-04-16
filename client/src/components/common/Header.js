@@ -1,4 +1,6 @@
 import React from 'react';
+import { Navbar } from 'react-bootstrap';
+// import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 
 class Header extends React.Component{
 
@@ -14,19 +16,21 @@ class Header extends React.Component{
 			return (
 				<div>
 				<div className="container-fluid">
-				   <div className="navbar-header"> </div>
+				   <div className="navbar-header"> Hoops Rater </div>
 				   <br />
 				   <br />
 				   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> </div>
 				</div>
 				<header id="header">
-				   <nav id="nav">
+				   	<Navbar>
+					<nav id="nav">
 				      <ul>
 				         <li><a href={this.navLinks.main}>Home</a></li>
 				         <li><a href="SignUpPage.html" className="button special">Sign Up</a></li>
 				         <li><a href="LogInPage.html" className="button special">Log In </a></li>
 				      </ul>
-				   </nav>
+				   	</nav>
+				   	</Navbar>
 				</header>
 			</div>
 			)
