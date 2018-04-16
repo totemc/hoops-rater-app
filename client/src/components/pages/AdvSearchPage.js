@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 
 class AdvSearch extends React.Component{
     constructor(props){
@@ -16,41 +17,44 @@ class AdvSearch extends React.Component{
             busiest_times: 'default'
         };
         this.handleChangeZipcode = this.handleChangeZipcode.bind(this);
+        this.handleChangeBusiestTime = this.handleChangeBusiestTime.bind(this);
+        this.handleChangeMemberStatus = this.handleChangeMemberStatus.bind(this);
+        this.handleChangeOpenHours = this.handleChangeOpenHours.bind(this);
+        this.handleChangeCloseHours = this.handleChangeCloseHours.bind(this);
+        this.handleChangeOutdoorStatus = this.handleChangeOutdoorStatus.bind(this);
         this.handleChangeRating = this.handleChangeRating.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChangeBusiestTime = this.handleChangeBusiestTime.bind(this);
+
     }
-    
+
     handleChangeZipcode(e){
-        console.log('OK ADRIAN!')
         this.setState({court_zip: e.target.value})
-        //console.log(this.state.court_zip)
     }
-    
+
     handleChangeBusiestTime(e){
         this.setState({busiest_times: e.target.value})
     }
-    
+
     handleChangeMemberStatus(e){
         this.setState({membership_status: e.target.value})
     }
-    
+
     handleChangeOpenHours(e){
         this.setState({open_time: e.target.value})
     }
-    
+
     handleChangeCloseHours(e){
         this.setState({close_time: e.target.value})
     }
-       
+
     handleChangeOutdoorStatus(e){
         this.setState({outdoor_status: e.target.value})
     }
-      
+
     handleChangeRating(e){
         this.setState({rating: e.target.value})
     }
-    
+
     handleSubmit(e){
         e.preventDefault();
         let newValue = '/advsearch/court/';
@@ -67,7 +71,7 @@ class AdvSearch extends React.Component{
             madeSearch: true,
             value: newValue
         }))
-        
+
         //this.setState({value: e.target.newValue})
         console.log(this.state.value)
     }

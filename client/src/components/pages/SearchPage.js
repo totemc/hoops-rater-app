@@ -15,7 +15,6 @@ class Search extends React.Component{
 	}
 
 	handleChange(e){
-		console.log('changing the value in form!')
 		this.setState({value:e.target.value});
 	}
 
