@@ -16,7 +16,11 @@ class Header extends React.Component{
 			return (
 				<div>
 				<div className="container-fluid">
-				   <div className="navbar-header"> Hoops Rater </div>
+				   <h1>
+						<strong>
+				   			<div className="navbar-header"> Hoops Rater </div>
+					   	</strong>
+				   </h1>
 				   <br />
 				   <br />
 				   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> </div>
@@ -24,11 +28,13 @@ class Header extends React.Component{
 				<header id="header">
 				   	<Navbar>
 					<nav id="nav">
-				      <ul>
-				         <li><a href={this.navLinks.main}>Home</a></li>
-				         <li><a href="SignUpPage.html" className="button special">Sign Up</a></li>
-				         <li><a href="LogInPage.html" className="button special">Log In </a></li>
-				      </ul>
+					  	<h3>
+					  	<strong>
+				        	<a href={this.navLinks.main}>Home	</a>
+				        	<a href="SignUpPage.html" className="button special">Sign Up	</a>
+				        	<a href="LogInPage.html" className="button special">Log In		</a>
+					  </strong>
+					  </h3>
 				   	</nav>
 				   	</Navbar>
 				</header>
