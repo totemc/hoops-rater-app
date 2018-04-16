@@ -1,6 +1,6 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 
 class Search extends React.Component{
 
@@ -40,6 +40,9 @@ class Search extends React.Component{
 									<ControlLabel>Search</ControlLabel>
 									<FormControl type="text" value={this.state.value} placeholder="Search..." onChange={this.handleChange} name="search"/>
 								</FormGroup>
+								<HelpBlock>
+									<Link to="/advsearch">advanced search</Link>
+								</HelpBlock>
 							</Col>
 							<Col lg={1} style={{"marginTop":"25px"}}>
 								<Button type="submit">Search</Button>
