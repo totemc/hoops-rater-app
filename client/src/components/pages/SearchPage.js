@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 class Search extends React.Component{
 
@@ -34,14 +34,17 @@ class Search extends React.Component{
 			return (
 				<Grid>
 					<Row>
-						<Col lg={12}>
-							<form onSubmit={this.handleSubmit}>
+						<form onSubmit={this.handleSubmit}>
+							<Col lg={11}>
 								<FormGroup controlId="formBasicText">
 									<ControlLabel>Search</ControlLabel>
 									<FormControl type="text" value={this.state.value} placeholder="Search..." onChange={this.handleChange} name="search"/>
 								</FormGroup>
-							</form>
-				  		</Col>
+							</Col>
+							<Col lg={1} style={{"marginTop":"25px"}}>
+								<Button type="submit">Search</Button>
+							</Col>
+						</form>
 				  	</Row>
 			  	</Grid>
 			)
