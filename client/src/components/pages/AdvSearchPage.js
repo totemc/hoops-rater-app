@@ -77,8 +77,6 @@ class AdvSearch extends React.Component{
     }
 
     render(){
-//        console.log("court" + this.state.court_zip)
-//        console.log("rating" + this.state.rating)
         console.log('value' + this.state.value)
         if(!this.state.madeSearch){
             return(

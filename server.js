@@ -3,6 +3,7 @@ const AUTH_CONFIG = require('./auth-config.json')
 const {Pool, Client} = require('pg') // Module to connect to postgre instance
 const express = require('express'); // Module to allow API routing
 var cors = require('cors');
+var bodyParser = require('body-parser');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
@@ -206,6 +207,18 @@ function queryAdvSearch(client, attributeMap, res) {
             client.end()
         })
 }
+app.use(bodyParser.urlencoded({
+    extended:true
+}));
+app.use(bodyParser.json());
+// Receives the comment and id
+app.post("/api/form-submit-url", function(request, response){
+    console.log(request)
+    let comment = request.body.comment
+    let id = request.body.id
+    console.log(comment)
+    console.log(id)
+});
 
 // API call to pull advance search parameters from the database
 app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
@@ -233,7 +246,9 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
 app.get('/api/search/court/:nameParam', (req, res) => {
     let courtName = req.params.nameParam;
     let client = createClient();
-    
+    let username = req.body.username;
+    console.log('here')
+    console.log(username)
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
