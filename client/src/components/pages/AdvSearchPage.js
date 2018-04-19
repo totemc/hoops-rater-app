@@ -80,7 +80,7 @@ class AdvSearch extends React.Component{
             return(
                 <form onSubmit={this.handleSubmit}>
                 <input type='text' placeholder='Enter Zipcode' onChange={this.handleChangeZipcode}/>
-                <label>test
+                <label>Member Status
                 <br></br>
                 <select name='value' onChange={this.handleChangeBusiestTime}>
                     <option value='default'>default</option>
@@ -89,7 +89,7 @@ class AdvSearch extends React.Component{
                     <option value='Poor'>Poor</option>
                 </select>
                 </label>
-                <label>anotherOne
+                <label>Rating
                 <br />
                 <select onChange={this.handleChangeRating}>
                     <option value='default'>default</option>

@@ -36,6 +36,7 @@ class AdvCourtList extends React.Component{
            return body;
     }
     render(){
+        console.log(this.state.response)
         return(<h1>Hi</h1>);
     }
     
