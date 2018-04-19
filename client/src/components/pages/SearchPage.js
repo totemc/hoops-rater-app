@@ -1,6 +1,6 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-
+import { Redirect, Link } from 'react-router-dom';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 
 class Search extends React.Component{
 
@@ -15,18 +15,12 @@ class Search extends React.Component{
 	}
 
 	handleChange(e){
-		console.log('changing the value in form!')
 		this.setState({value:e.target.value});
 	}
 
 
 	handleSubmit(event) {
 	    event.preventDefault();
-//        Leave for Joseph, will be deleted later
-//        let num = 'hello'
-//        Object.keys(this.state).map((key) => {
-//            num += ('+' + this.state[key])
-//        })
 	    console.log('reached this func');
 	    this.setState((prev) => ({
             madeSearch:true,
@@ -37,16 +31,24 @@ class Search extends React.Component{
 	render(){
 		if(!this.state.madeSearch){
 			return (
-		      <form onSubmit={this.handleSubmit} className="container 50%">
-		         <div className="row uniform 50%">
-		            <div className="8u 8u$(xsmall)">
-		            	<input type="text" style={{"borderColor":"black"}} name="search" id="email" placeholder="Search..." onChange={this.handleChange} value={this.state.value} />
-		            </div>
-		            <div className="4u$ 12u$(xsmall)">
-		            	<input type="submit" value="Submit" className="fit special" />
-		            </div>
-		         </div>
-		      </form>
+				<Grid>
+					<Row>
+						<form onSubmit={this.handleSubmit}>
+							<Col lg={11}>
+								<FormGroup controlId="formBasicText">
+									<ControlLabel>Search</ControlLabel>
+									<FormControl type="text" value={this.state.value} placeholder="Enter Name" onChange={this.handleChange} name="search"/>
+								</FormGroup>
+								<HelpBlock>
+									<Link to="/advsearch">advanced search</Link>
+								</HelpBlock>
+							</Col>
+							<Col lg={1} style={{"marginTop":"25px"}}>
+								<Button type="submit">Search</Button>
+							</Col>
+						</form>
+				  	</Row>
+			  	</Grid>
 			)
 		}
 		else{

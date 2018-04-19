@@ -50,11 +50,11 @@ class App extends Component {
   render(){
     return (
       <div>
-        <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
         <Router>
           <Security issuer={config.issuer}
                     client_id={config.client_id}
                     redirect_uri={config.redirect_uri}>
+                    <Header loginValue={this.state.loggedIn} currentUser={this.state.currentUser}/>
               <Switch>
                 <Route exact path={this.routes.root} component={Home}/>
                 <Route exact path={this.routes.search} component={Search}/>
