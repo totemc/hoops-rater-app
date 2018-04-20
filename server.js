@@ -209,14 +209,14 @@ app.use(bodyParser.json());
 // Receives the comment and id
 app.post("/api/form-submit-url", function(request, response){
     let comment = request.body.comment
-    let id = request.body.id
+    let courtId = request.body.id
     
     let client = createClient();
     
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
     
-    addComment(client, id, comment);
+    addComment(client, courtId, comment);
 });
 
 // API call to pull advance search parameters from the database
