@@ -190,13 +190,37 @@ function queryAdvSearch(client, attributeMap, res) {
         console.log(dataObject.length + " items pulled from the database")
         res.send(dataObject);
 
-        })
-        .catch(e => {
+    })
+    .catch(e => {
         throw e
-        })
-        .then(() => {
-            client.end()
-        })
+    })
+    .then(() => {
+        client.end()
+    })
+}
+
+ // Insert new comments for courts into the database
+function addComment(client, courtId, commentText) {
+    let dataObject;
+    let username = 'user1'
+ 
+    // If new comment is blank, do not accept.
+    if (commentText.length == 0) {
+        console.log('blank comment not accepted.')
+        client.end()
+    }
+ 
+    // Inserts new comment for court
+     client.query(
+         'INSERT INTO comments VALUES \
+          (   ' + courtId + ', \
+            \'' + username + '\', \
+            \'' + commentText + '\' \
+          )'
+    )
+    .then(() => {
+        client.end()
+    })
 }
 
 app.use(bodyParser.urlencoded({
