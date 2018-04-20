@@ -70,9 +70,7 @@ function queryUser(client, userName, res){
             message : "User does not exist."
           })
         }
-
         // Otherwise, send our row
-        console.log(dataObject[0]);
         res.send(dataObject[0]);
       })
       .catch(e => {
@@ -101,6 +99,7 @@ function queryCourtName(client, courtName, res){
                 message: "Court does not exist."
             })
         }
+        console.log(courtObject.length + " items pulled from the database");
         res.send(courtObject);
     })
     .catch(e => {
@@ -121,7 +120,6 @@ function queryAdvSearch(client, attributeMap, res) {
     if (zipcode == undefined) {
         zipcode = 'court_zip'
     }
-    console.log(zipcode);
 
     // Sets outdoorStatus to outdoor_status attribute. If undefined, sets to name of attribute 'outdoor_status'
     // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
@@ -129,42 +127,36 @@ function queryAdvSearch(client, attributeMap, res) {
     if (outdoorStatus == undefined) {
         outdoorStatus = 'outdoor_status'
     }
-    console.log(outdoorStatus);
 
     // For minimum rating ('stars') attribute
     let minRating = attributeMap['rating']
     if (minRating == undefined) {
         minRating = 'ROUND(AVG(stars), 1)'
     }
-    console.log(minRating);
 
     // For open_time attribute
     let openTime = attributeMap['open_time']
     if (openTime == undefined) {
         openTime = 'open_time'
     }
-    console.log(openTime);
 
     // For close_time attribute
     let closeTime = attributeMap['close_time']
     if (closeTime == undefined) {
         closeTime = 'close_time'
     }
-    console.log(closeTime);
 
     // For membership_status attribute
     let membershipStatus = attributeMap['membership_status']
     if (membershipStatus == undefined) {
         membershipStatus = 'membership_status'
     }
-    console.log(membershipStatus);
 
     // For busiest_time attribute
     let busiestTimes = attributeMap['busiest_times']
     if (busiestTimes == undefined) {
         busiestTimes = 'busiest_times'
     }
-    console.log(busiestTimes);
 
     client.query( 
         'SELECT * FROM \
@@ -188,7 +180,6 @@ function queryAdvSearch(client, attributeMap, res) {
     .then(result => {
 
         dataObject = result.rows
-        console.log(dataObject)
 
         // If the database doesn't return a row, send an error.
         if(dataObject[0] == undefined){
@@ -196,7 +187,7 @@ function queryAdvSearch(client, attributeMap, res) {
                 message : "No results from advance search found."
             })
         }
-
+        console.log(dataObject.length + " items pulled from the database")
         res.send(dataObject);
 
         })
@@ -207,17 +198,25 @@ function queryAdvSearch(client, attributeMap, res) {
             client.end()
         })
 }
+
 app.use(bodyParser.urlencoded({
     extended:true
 }));
+
+
 app.use(bodyParser.json());
+
 // Receives the comment and id
 app.post("/api/form-submit-url", function(request, response){
-    console.log(request)
     let comment = request.body.comment
     let id = request.body.id
-    console.log(comment)
-    console.log(id)
+    
+    let client = createClient();
+    
+    client.connect()
+    .catch(e => console.log('Error occured when trying to connect client to server.'))
+    
+    addComment(client, id, comment);
 });
 
 // API call to pull advance search parameters from the database
@@ -232,7 +231,6 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
         let value = tempList[1];
         attributeMap[key] = value;
     }
-    console.log(attributeMap)
     let client = createClient();
     
     client.connect()
@@ -247,8 +245,7 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     let courtName = req.params.nameParam;
     let client = createClient();
     let username = req.body.username;
-    console.log('here')
-    console.log(username)
+    
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
@@ -277,7 +274,6 @@ app.get('/api/hello', (req, res) => {
 // API call to pull court information from the database
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
-  console.log(req.params.id);
   
   let courtId = req.params.id;  // Save court_id parameter
   let client = createClient();  // Create a client
@@ -353,7 +349,6 @@ app.get('/api/court/:id', (req, res) => {
           dataObject[i+objIndexStart] = result.rows[i]
         }
         
-        console.log(dataObject);
         res.send(dataObject)
 
       })
