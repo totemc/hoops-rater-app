@@ -200,7 +200,7 @@ function queryAdvSearch(client, attributeMap, res) {
 }
 
  // Insert new comments for courts into the database
- function addComment(client, courtId, commentText) {
+function addComment(client, courtId, commentText) {
     let dataObject;
     let username = 'user1'
  
@@ -217,11 +217,11 @@ function queryAdvSearch(client, attributeMap, res) {
             \'' + username + '\', \
             \'' + commentText + '\' \
           )'
-    })
+    )
     .then(() => {
         client.end()
     })
- }
+}
 
 app.use(bodyParser.urlencoded({
     extended:true
