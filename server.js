@@ -200,10 +200,9 @@ function queryAdvSearch(client, attributeMap, res) {
 }
 
 // Insert new comments for courts into the database
-function addComment(client, username, courtId, commentText) {
+function addComment(client, courtId, commentText) {
     let dataObject;
 
-    console.log(username)
     console.log(courtId)
     console.log(commentText)
 
@@ -246,17 +245,13 @@ app.use(bodyParser.json());
 app.post("/api/form-submit-url", function(request, response){
     let comment = request.body.comment;
     let courtId = request.body.id;
-    let username = request.body.username;
-
-    console.log(request.body)
     
     let client = createClient();
 
-    
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
     
-    addComment(client, username, courtId, comment);
+    addComment(client, courtId, comment);
 });
 
 // API call to pull advance search parameters from the database
