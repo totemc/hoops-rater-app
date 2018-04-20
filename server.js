@@ -38,6 +38,7 @@ function authenticationRequired(req, res, next) {
 }
 
 
+
 // Port for our server process
 const port = process.env.PORT || 5000;
 
@@ -111,7 +112,6 @@ function queryCourtName(client, courtName, res){
     })
 }
 
-// Query for courts filtering advanced attributes from database
 function queryAdvSearch(client, attributeMap, res) {
     let dataObject;
 
@@ -190,37 +190,13 @@ function queryAdvSearch(client, attributeMap, res) {
         console.log(dataObject.length + " items pulled from the database")
         res.send(dataObject);
 
-    })
-    .catch(e => {
+        })
+        .catch(e => {
         throw e
-    })
-    .then(() => {
-        client.end()
-    })
-}
-
-// Insert new comments for courts into the database
-function addComment(client, courtId, commentText) {
-    let dataObject;
-    let username = 'user1'
-
-    // If new comment is blank, do not accept.
-    if (commentText.length == 0) {
-        console.log('blank comment not accepted.')
-        client.end()
-    }
-
-    // Inserts new comment for court
-    client.query(
-        'INSERT INTO comments VALUES \
-         ( ' + courtId + ', \
-           \'' + username + '\', \
-           \'' + commentText + '\' \
-         )'
-    )
-    .then(() => {
-        client.end()
-    })
+        })
+        .then(() => {
+            client.end()
+        })
 }
 
 app.use(bodyParser.urlencoded({
@@ -232,11 +208,11 @@ app.use(bodyParser.json());
 
 // Receives the comment and id
 app.post("/api/form-submit-url", function(request, response){
-    let comment = request.body.comment;
-    let courtId = request.body.id;
+    let comment = request.body.comment
+    let courtId = request.body.id
     
     let client = createClient();
-
+    
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
     
