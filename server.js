@@ -38,7 +38,6 @@ function authenticationRequired(req, res, next) {
 }
 
 
-
 // Port for our server process
 const port = process.env.PORT || 5000;
 
@@ -112,6 +111,7 @@ function queryCourtName(client, courtName, res){
     })
 }
 
+// Query for courts filtering advanced attributes from database
 function queryAdvSearch(client, attributeMap, res) {
     let dataObject;
 
@@ -192,11 +192,47 @@ function queryAdvSearch(client, attributeMap, res) {
 
         })
         .catch(e => {
-        throw e
+            throw e
         })
         .then(() => {
             client.end()
         })
+}
+
+// Insert new comments for courts into the database
+function addComment(client, username, courtId, commentText) {
+    let dataObject;
+
+    console.log(username)
+    console.log(courtId)
+    console.log(commentText)
+
+    /*
+    client.query(
+        'INSERT INTO comments VALUES \
+         ( ' + courtId + ', \
+           ' + username + ', \
+           ' + commentText + ' \
+         )'
+    )*/
+/*
+    client.query(
+        'SELECT * FROM comments \
+         WHERE comment_court_id = ' + courtId + ' \
+         AND comment_username = ' + username
+    )
+    .then(result => {
+
+        dataObject = result.rows
+        console.log(dataObject)
+
+    })
+    .catch(e => {
+        throw e
+    })
+    .then(() => {
+        client.end()
+    })*/
 }
 
 app.use(bodyParser.urlencoded({
@@ -208,15 +244,19 @@ app.use(bodyParser.json());
 
 // Receives the comment and id
 app.post("/api/form-submit-url", function(request, response){
-    let comment = request.body.comment
-    let courtId = request.body.id
+    let comment = request.body.comment;
+    let courtId = request.body.id;
+    let username = request.body.username;
+
+    console.log(request.body)
     
     let client = createClient();
+
     
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
     
-    addComment(client, courtId, comment);
+    addComment(client, username, courtId, comment);
 });
 
 // API call to pull advance search parameters from the database
