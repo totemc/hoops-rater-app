@@ -49,7 +49,6 @@ class App extends Component {
 
   render(){
     return (
-      <div>
         <Router>
           <Security issuer={config.issuer}
                     client_id={config.client_id}
@@ -70,7 +69,6 @@ class App extends Component {
               </Switch>
           </Security>
         </Router>
-      </div>
     );
   }
 
