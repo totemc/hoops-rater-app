@@ -23,7 +23,7 @@ class App extends Component {
 
   constructor(props){
     super(props);
-
+    
     // Create routes object for cleaner code.
     this.routes = {
       root : "/",
