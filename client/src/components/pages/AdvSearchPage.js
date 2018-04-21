@@ -2,6 +2,30 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock, Checkbox } from 'react-bootstrap';
 
+const styles = {
+	verticalAlignPrototype : {
+		position:"absolute",
+		top:"50%",
+		left:"50%",
+		transform:"translate(-50%,-50%)"
+	},
+	sectionStylePrototype: {
+		position:"relative",
+		height:"100%"
+	},
+	linkStyle:{
+		color:"white"
+	},
+	rowStyle:{
+		marginTop:"25em"
+	},
+	buttonStyle:{
+		backgroundColor:"rgba(255,255,255,0)",
+		color:"white",
+		borderColor:"white"
+	}
+}
+
 class AdvSearch extends React.Component{
     constructor(props){
         super(props);
@@ -81,7 +105,7 @@ class AdvSearch extends React.Component{
         if(!this.state.madeSearch){
             return(
                 <Grid>
-                    <Row>
+                    <Row style={styles.rowStyle}>
                         <form onSubmit={this.handleSubmit}>
                             <Col lg={11}>
                                 <FormGroup controlId="formBasicText">
@@ -90,7 +114,7 @@ class AdvSearch extends React.Component{
                                 </FormGroup>
                             </Col>
                             <Col lg={1} style={{"marginTop":"25px"}}>
-                                <Button type="submit">Search</Button>
+                                <Button style={styles.buttonStyle} type="submit">Search</Button>
                             </Col>
                             <Col lg={12}>
                                 <Row>
@@ -154,7 +178,7 @@ class AdvSearch extends React.Component{
                                     </Col>
                                 </Row>
                                 <HelpBlock>
-                                    <Link to="/search">regular search</Link>
+                                    <Link style={styles.linkStyle} to="/search">regular search</Link>
                                 </HelpBlock>
                             </Col>
                         </form>
