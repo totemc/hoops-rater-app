@@ -18,6 +18,11 @@ const styles = {
 	},
 	rowStyle:{
 		marginTop:"25em"
+	},
+	buttonStyle:{
+		backgroundColor:"rgba(255,255,255,0)",
+		color:"white",
+		borderColor:"white"
 	}
 }
 
@@ -65,7 +70,7 @@ class Search extends React.Component{
 									</HelpBlock>
 								</Col>
 								<Col lg={1} style={{"marginTop":"25px"}}>
-									<Button type="submit">Search</Button>
+									<Button type="submit" style={styles.buttonStyle}>Search</Button>
 								</Col>
 							</form>
 					  	</Row>
