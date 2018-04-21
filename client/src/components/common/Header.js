@@ -1,6 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Navbar,NavItem,Nav} from 'react-bootstrap';
+import {Navbar, NavItem, Nav, Grid, Row, Col } from 'react-bootstrap';
+import logo from './backboard.png';
+
+const styles = {
+	logoStyle:{
+		maxHeight:"2em",
+		maxWidth:"2em",
+		display:"inline-block"
+	},
+	hackyStyle:{
+		marginTop:"-.3em"
+	}
+}
 
 class Header extends React.Component{
 
@@ -14,9 +26,9 @@ class Header extends React.Component{
 	render(){
 			return (
 				<Navbar inverse collapseOnSelect>
-				  <Navbar.Header>
+				  <Navbar.Header style={styles.hackyStyle}>
 				    <Navbar.Brand>
-					  <Link to="/">Hoop Rater-App</Link>
+					  <Link to="/"><img style={styles.logoStyle} src={logo}/> Hoop Rater-App</Link>
 				    </Navbar.Brand>
 				    <Navbar.Toggle />
 				  </Navbar.Header>
