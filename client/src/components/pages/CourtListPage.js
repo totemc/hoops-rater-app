@@ -3,6 +3,14 @@ import {Redirect, Link} from 'react-router-dom';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Panel } from 'react-bootstrap';
 
+const styles = {
+    panelStyle : {
+        background : "rgba(222,127,24,.4)",
+        color: "white",
+        borderColor: "rgba(222,127,24,.2)"
+    }
+}
+
 class CourtList extends React.Component{
     constructor(props){
         super(props);
@@ -48,7 +56,7 @@ class CourtList extends React.Component{
                     </Col>
                     {this.state.response.map((response, index) => (
                         <Col lg={12} key={index}>
-                            <Panel>
+                            <Panel style={styles.panelStyle}>
                                 <Panel.Body>
                                     <Row>
                                         <Col sm={4} md={4} lg={4}>
