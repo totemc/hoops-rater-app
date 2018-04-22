@@ -18,7 +18,7 @@ const styles = {
 		color:"white"
 	},
 	rowStyle:{
-		marginTop:"25em"
+		marginTop:"15em"
 	},
 	buttonStyle:{
 		backgroundColor:"rgba(255,255,255,0)",

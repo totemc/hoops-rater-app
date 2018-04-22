@@ -1,7 +1,22 @@
-html, body, #mainApp, #mainApp > div{
+html, body{
     min-height:100%;
     width:100%;
-    background-image: linear-gradient(to top, #de7f18, #e79239, #efa456, #f7b772, #ffc98e);
+    background-image: linear-gradient(to right top, #de7f18, #e79239, #efa456, #f7b772, #ffc98e);
     background-repeat: no-repeat;
     padding-bottom:20px;
+}
+
+body {
+    height:100%;
+    margin:0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#mainApp, #mainApp > div{
+
+}
+
+.main-wrapper{
+
 }

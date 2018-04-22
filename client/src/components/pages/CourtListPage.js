@@ -41,44 +41,42 @@ class CourtList extends React.Component{
     render(){
         console.log(this.state.response)
         return(
-            <div>
-                <Grid>
-                    <Row>
-                        <Col lg={12}>
-                            <h1>Search Results</h1>
+            <Grid>
+                <Row>
+                    <Col lg={12}>
+                        <h1>Search Results</h1>
+                    </Col>
+                    {this.state.response.map((response, index) => (
+                        <Col lg={12} key={index}>
+                            <Panel>
+                                <Panel.Body>
+                                    <Row>
+                                        <Col sm={4} md={4} lg={4}>
+                                            <Link to={"/court/" + response.court_id}><h3>{response.court_name}</h3></Link>
+                                        </Col>
+                                        <Col sm={6} md={6} lg={6}>
+                                            <Row>
+                                                <Col lg={6}>
+                                                    <h3>{response.address}</h3>
+                                                </Col>
+                                                <Col lg={6}>
+                                                    <h3>{response.court_zip}</h3>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col sm={2} md={2} lg={2}>
+                                            <h3>{response.court_id}</h3>
+                                        </Col>
+                                        <Col lg={12}>
+                                            some other information TBD
+                                        </Col>
+                                    </Row>
+                                </Panel.Body>
+                            </Panel>
                         </Col>
-                        {this.state.response.map((response, index) => (
-                            <Col lg={12} key={index}>
-                                <Panel>
-                                    <Panel.Body>
-                                        <Row>
-                                            <Col sm={4} md={4} lg={4}>
-                                                <Link to={"/court/" + response.court_id}><h3>{response.court_name}</h3></Link>
-                                            </Col>
-                                            <Col sm={6} md={6} lg={6}>
-                                                <Row>
-                                                    <Col lg={6}>
-                                                        <h3>{response.address}</h3>
-                                                    </Col>
-                                                    <Col lg={6}>
-                                                        <h3>{response.court_zip}</h3>
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-                                            <Col sm={2} md={2} lg={2}>
-                                                <h3>{response.court_id}</h3>
-                                            </Col>
-                                            <Col lg={12}>
-                                                some other information TBD
-                                            </Col>
-                                        </Row>
-                                    </Panel.Body>
-                                </Panel>
-                            </Col>
-                        ))}
-                    </Row>
-                </Grid>
-            </div>
+                    ))}
+                </Row>
+            </Grid>
         );
     }
 }
