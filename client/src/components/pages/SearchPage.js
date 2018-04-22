@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
+import biglogo from '../common/hoops-rater-logo-wh.png';
 
 const styles = {
 	verticalAlignPrototype : {
@@ -23,9 +24,17 @@ const styles = {
 		backgroundColor:"rgba(255,255,255,0)",
 		color:"white",
 		borderColor:"white"
+	},
+	logoStyle:{
+		position:"relative",
+		top:"50%",
+		left:"50%",
+		transform:"translate(-50%,-50%)",
+		maxHeight:"30em",
+		maxWidth:"30em",
+		display:"inline-block"
 	}
 }
-
 
 class Search extends React.Component{
 
@@ -59,17 +68,20 @@ class Search extends React.Component{
 				<section>
 					<Grid>
 						<Row style={styles.rowStyle}>
+
+							<img style={styles.logoStyle} src={biglogo}/>
+
 							<form onSubmit={this.handleSubmit}>
 								<Col lg={11}>
 									<FormGroup controlId="formBasicText">
-										<ControlLabel>Search</ControlLabel>
-										<FormControl type="text" value={this.state.value} placeholder="Enter Name" onChange={this.handleChange} name="search"/>
+										<ControlLabel></ControlLabel>
+										<FormControl type="text" value={this.state.value} placeholder="Enter Name or Zipcode" onChange={this.handleChange} name="search"/>
 									</FormGroup>
 									<HelpBlock>
 										<Link to="/advsearch" style={styles.linkStyle}>advanced search</Link>
 									</HelpBlock>
 								</Col>
-								<Col lg={1} style={{"marginTop":"25px"}}>
+								<Col lg={1} style={{"marginTop":"20px"}}>
 									<Button type="submit" style={styles.buttonStyle}>Search</Button>
 								</Col>
 							</form>
