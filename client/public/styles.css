@@ -2,6 +2,7 @@ html, body{
     min-height:100%;
     width:100%;
     background-image: linear-gradient(to right top, #de7f18, #e79239, #efa456, #f7b772, #ffc98e);
+    background-image: linear-gradient(to right top, #de7f18, #fb673d, #ff4d67, #ff3b98, #ff47cd);
     background-repeat: no-repeat;
     padding-bottom:20px;
 }
