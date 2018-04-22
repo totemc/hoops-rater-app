@@ -25,7 +25,7 @@ class Header extends React.Component{
 	}
 	render(){
 			return (
-				<Navbar inverse collapseOnSelect>
+				<Navbar collapseOnSelect>
 				  <Navbar.Header style={styles.hackyStyle}>
 				    <Navbar.Brand>
 					  <Link to="/"><img style={styles.logoStyle} src={logo}/> Hoops Rater</Link>
