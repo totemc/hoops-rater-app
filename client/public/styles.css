@@ -1,5 +1,5 @@
 html, body, #mainApp, #mainApp > div{
-    height:100%;
+    min-height:100%;
     width:100%;
     background-image: linear-gradient(to top, #de7f18, #e79239, #efa456, #f7b772, #ffc98e);
     background-repeat: no-repeat;
