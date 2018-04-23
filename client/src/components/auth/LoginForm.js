@@ -1,6 +1,7 @@
 import React from 'react';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 
 export default withAuth(class LoginForm extends React.Component {
   constructor(props) {
@@ -53,25 +54,23 @@ export default withAuth(class LoginForm extends React.Component {
 	null;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        {errorMessage}
-        <div className="form-element">
-          <label>Username:</label>
-          <input
-            id="username" type="text"
-            value={this.state.username}
-            onChange={this.handleUsernameChange} />
-        </div>
-
-        <div className="form-element">
-          <label>Password:</label>
-          <input
-            id="password" type="password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange} />
-        </div>
-        <input id="submit" type="submit" value="Submit" />
-      </form>
+        <Grid>
+            <Row>
+                <h1> Log in </h1>
+                <Col lg={4} lgOffset={4}>
+                    <form onSubmit={this.handleSubmit}>
+                        <FormGroup controlId="formBasicText">
+                            <ControlLabel>Email Address</ControlLabel>
+                            <FormControl type="email" value={this.state.username} onChange={this.handleUsernameChange}/>
+                            <br/>
+                            <ControlLabel>Password</ControlLabel>
+                            <FormControl type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                        </FormGroup>
+                        <Button type="submit">Login</Button>
+                    </form>
+                </Col>
+            </Row>
+        </Grid>
     );
   }
 });
