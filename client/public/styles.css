@@ -30,7 +30,7 @@ body {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #ffbbbc;
+  color: #black;
 }
 .navbar-default .navbar-text {
   color: #ffffff;
@@ -40,7 +40,7 @@ body {
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #ffbbbc;
+  color: #black;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -89,4 +89,16 @@ body {
     color: #ffbbbc;
     background-color: #c26f16;
   }
+}
+
+.buttonLanding {
+    background-color:rgba(255,255,255,0);
+    color:#333;
+    border-color:#333;
+}
+.buttonLanding:hover {
+    background-color:rgba(255,255,255,1);
+    color:#333;
+    border-color:#333;
+
 }
