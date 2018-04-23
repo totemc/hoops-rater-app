@@ -85,10 +85,10 @@ function queryUser(client, userName, res){
 }
 
 // Query the courtName when called
-function queryCourtNameOrZip(client, courtNameOrZip, res){
+function queryCourtName(client, courtName, res){
     let courtObject;
 
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtNameOrZip + '\' OR court_zip=\'' + courtNameOrZip + '\'')
+    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
@@ -109,6 +109,30 @@ function queryCourtNameOrZip(client, courtNameOrZip, res){
     .then(() => {
         client.end()
         console.log('the client has disconnected!');
+    })
+}
+
+function queryZipcode(client, zipcode, res){
+    let courtObject;
+    
+    client.query('SELECT * FROM court WHERE court_zip=' + zipcode)
+    .then(result => {
+        courtObject = result.rows;
+        
+        if(courtObject[0] == undefined){
+            res.status(404).send({
+                message: "Court does not exist."
+            })
+        }
+        console.log(courtObject.length + ' items pulled from the database');
+        res.send(courtObject);
+    })
+    .catch(e => {
+        throw e;
+    })
+    .then(() => {
+        client.end()
+        console.log('The client has disconnected!');
     })
 }
 
@@ -271,7 +295,12 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
-    queryCourtNameOrZip(client, courtNameOrZip, res);
+    if (isNaN(courtNameOrZip)){
+        queryCourtName(client, courtNameOrZip, res);
+    } else {
+        queryZipcode(client, courtNameOrZip, res);
+    }
+    
 });
 
 // API call to pull from the users databasae
