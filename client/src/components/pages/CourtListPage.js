@@ -2,6 +2,7 @@ import React from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Panel } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 
 const styles = {
     panelStyle : {
@@ -79,7 +80,7 @@ class CourtList extends React.Component{
                                             </Row>
                                         </Col>
                                         <Col sm={2} md={2} lg={2}>
-                                            <h3>{response.court_id}</h3>
+                                            <h3><FontAwesome name="star" size="1x"/> {response.court_id}</h3>
                                         </Col>
                                         <Col lg={12}>
                                             some other information TBD
