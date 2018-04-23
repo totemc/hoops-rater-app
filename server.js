@@ -199,9 +199,8 @@ function queryAdvSearch(client, attributeMap, res) {
     })
 }
 
- // Insert new comments for courts into the database
+ // Insert new comments for court into the database
 function addComment(client, courtId, commentText) {
-    let dataObject;
     let username = 'user1'
  
     // If new comment is blank, do not accept.
@@ -211,8 +210,8 @@ function addComment(client, courtId, commentText) {
     }
  
     // Inserts new comment for court
-     client.query(
-         'INSERT INTO comments VALUES \
+    client.query(
+        'INSERT INTO comments VALUES \
           (   ' + courtId + ', \
             \'' + username + '\', \
             \'' + commentText + '\' \
@@ -222,11 +221,62 @@ function addComment(client, courtId, commentText) {
         client.end()
     })
 }
+/*
+// Insert new rating for court into the database
+function addRating(client, courtId, rating) {
+    let username = 'user1'
+    let isFirstRating = true
+
+    // Checks if user already has rated this court before
+    client.query(
+        'SELECT * FROM rating \
+         WHERE r_court_id = ' + courtId + ' \
+         AND r_username = ' + username
+    )
+    .then(result => {
+
+        dataObject = result.rows
+
+        // If the query returns a row, the user has rated the court before
+        // and so the user's old rating should be updated in the db
+        if(dataObject[0] != undefined){
+            isFirstRating = false
+        }
+        console.log(isFirstRating)
+
+    })
+
+    // Inserts new rating into database if its user's first rating on court
+    if (isFirstRating == true) {
+        client.query(
+            'INSERT INTO rating VALUES \
+              (   ' + courtId + ', \
+                \'' + username + '\', \
+                  ' + rating + ' \
+              )'
+        )
+        .then(() => {
+            client.end()
+        })
+    }
+    // Updates user's rating if user is re-rating a court 
+    else {
+        client.query(
+            'UPDATE rating \
+             SET stars = ' + rating + ' \
+             WHERE r_court_id = ' + courtId + ' \
+             AND r_username = ' + username
+        )
+        .then(() => {
+            client.end()
+        })
+    }
+
+}*/
 
 app.use(bodyParser.urlencoded({
     extended:true
 }));
-
 
 app.use(bodyParser.json());
 

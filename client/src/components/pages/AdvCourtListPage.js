@@ -5,15 +5,15 @@ import { Panel } from 'react-bootstrap';
 
 const styles = {
     panelStyle : {
-        background : "rgba(222,127,24,.4)",
-        color: "white",
+        background : "rgba(248, 201, 149, 1)",
+        color: "darkslategrey",
         borderColor: "rgba(222,127,24,.2)"
     },
     h1Style : {
         color:"white"
     },
     linkStyle : {
-        color:"white"
+        color:"darkslategrey"
     },
     titleStyle : {
         color:"white"
