@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {Navbar, NavItem, Nav, Grid, Row, Col } from 'react-bootstrap';
 import logo from './backboard.png';
 import { withAuth } from '@okta/okta-react';
+import FontAwesome from 'react-fontawesome';
 
 const styles = {
 	logoStyle:{
@@ -55,7 +56,7 @@ class Header extends React.Component{
 
 	render(){
 
-		const account = this.state.authenticated ? <span></span> : <NavItem href="/signup"> Sign up </NavItem>;
+		const account = this.state.authenticated ? <NavItem>Welcome, <Link to="/profile/user4">Teddy!</Link></NavItem> : <NavItem href="/signup"> Sign up </NavItem>;
 		const logInOrlogOut = this.state.authenticated ? <NavItem onClick={this.logout}> Log out </NavItem> : <NavItem onClick={this.login}> Log in </NavItem>;
 		return (
 			<Navbar collapseOnSelect>
@@ -70,6 +71,7 @@ class Header extends React.Component{
 			    </Nav>
 			    <Nav pullRight>
 					{account}
+					<NavItem><Link to="/search" style={{color:"white"}}><FontAwesome name="search" size="lg"/></Link></NavItem>
 				  	{logInOrlogOut}
 			    </Nav>
 			  </Navbar.Collapse>

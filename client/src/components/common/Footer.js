@@ -9,7 +9,7 @@ class Footer extends React.Component {
         return (
             <Navbar fixedBottom>
                 <Nav style={{paddingLeft:"38em"}}>
-                    <NavItem>Made with <FontAwesome name="coffee" size="1x"/></NavItem>
+                    <NavItem>Made with <FontAwesome name="coffee" size="lg"/></NavItem>
                 </Nav>
             </Navbar>
         )
