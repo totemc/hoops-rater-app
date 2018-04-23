@@ -6,10 +6,30 @@ import { Grid, Row, Col } from 'react-bootstrap';
 class CourtView extends React.Component{
 	constructor(props){
 		super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 	}
 	state = { response: [],
-			  courtNotFound: false
+             courtNotFound: false,
+             comment: ''
 			};
+    handleChange(event){
+        console.log(this.state.comment)
+        this.setState({comment: event.target.value})
+    }
+    handleSubmit(event){
+        event.preventDefault();
+        fetch('/api/form-submit-url', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({comment: this.state.comment,
+                                 id: this.props.match.params.id})
+        })
+        .then(this.setState({comment: ''}));
+    }
 
 	componentDidMount() {
 	  this.callApi()
@@ -145,6 +165,7 @@ class CourtView extends React.Component{
 
 
 				<br></br>
+<<<<<<< HEAD
 
 
         <Row className="show-grid">
@@ -159,6 +180,16 @@ class CourtView extends React.Component{
 
     </Grid>;
 
+=======
+				<span style={{textAlign:"left"}}>{this.state.response.map((visited, index) => (
+					<p key={index}>{visited.visited_username} {visited.has_visited}</p>
+				))}</span>
+                <form onSubmit={this.handleSubmit}>
+                    Email Address:<br/>
+                    <input type="text" name="comment" onChange={this.handleChange}/><br/>
+                    <input type="submit" value="Add Comment"/>
+                </form>
+>>>>>>> master
 			</div>
 		)
 	}

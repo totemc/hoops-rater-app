@@ -1,6 +1,40 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock, Checkbox } from 'react-bootstrap';
+import biglogo from '../common/hoops-rater-logo-wh.png';
+
+const styles = {
+	verticalAlignPrototype : {
+		position:"absolute",
+		top:"50%",
+		left:"50%",
+		transform:"translate(-50%,-50%)"
+	},
+	sectionStylePrototype: {
+		position:"relative",
+		height:"100%"
+	},
+	linkStyle:{
+		color:"white"
+	},
+	rowStyle:{
+		marginTop:"15em"
+	},
+	buttonStyle:{
+		backgroundColor:"rgba(255,255,255,0)",
+		color:"white",
+		borderColor:"white"
+	},
+    logoStyle:{
+        position:"relative",
+        top:"50%",
+        left:"50%",
+        transform:"translate(-50%,-50%)",
+        maxHeight:"30em",
+        maxWidth:"30em",
+        display:"inline-block"
+    }
+}
 
 class AdvSearch extends React.Component{
     constructor(props){
@@ -59,11 +93,15 @@ class AdvSearch extends React.Component{
         e.preventDefault();
         let newValue = '/advsearch/court/';
         Object.keys(this.state).map((key) => {
-            if (this.state[key] != 'default'){
-                if(newValue == '/advsearch/court/'){
+            if (this.state[key] !== 'default'){
+                if(newValue === '/advsearch/court/'){
                     newValue += (key+'='+this.state[key])
                 } else{
-                    newValue += ('+' + key + '=' + this.state[key])
+                    if(key === 'membership_status' || key == 'outdoor_status'){
+                        newValue += ('+' + key + '=' + 'true')
+                    } else {
+                        newValue += ('+' + key + '=' + this.state[key])
+                    }
                 }
             }
         })
@@ -77,22 +115,22 @@ class AdvSearch extends React.Component{
     }
 
     render(){
-//        console.log("court" + this.state.court_zip)
-//        console.log("rating" + this.state.rating)
-        console.log('value' + this.state.value)
         if(!this.state.madeSearch){
             return(
                 <Grid>
-                    <Row>
+                    <Row style={styles.rowStyle}>
+
+                        <img style={styles.logoStyle} src={biglogo}/>
+
                         <form onSubmit={this.handleSubmit}>
                             <Col lg={11}>
                                 <FormGroup controlId="formBasicText">
-                                    <ControlLabel>Search</ControlLabel>
+                                    <ControlLabel>Advanced Search</ControlLabel>
                                     <FormControl type="text" placeholder="Enter Zipcode" onChange={this.handleChangeZipcode}/>
                                 </FormGroup>
                             </Col>
                             <Col lg={1} style={{"marginTop":"25px"}}>
-                                <Button type="submit">Search</Button>
+                                <Button style={styles.buttonStyle} type="submit">Search</Button>
                             </Col>
                             <Col lg={12}>
                                 <Row>
@@ -156,7 +194,7 @@ class AdvSearch extends React.Component{
                                     </Col>
                                 </Row>
                                 <HelpBlock>
-                                    <Link to="/search">regular search</Link>
+                                    <Link style={styles.linkStyle} to="/search">back to normal search</Link>
                                 </HelpBlock>
                             </Col>
                         </form>

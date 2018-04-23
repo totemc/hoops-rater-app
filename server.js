@@ -3,7 +3,9 @@ const AUTH_CONFIG = require('./auth-config.json')
 const {Pool, Client} = require('pg') // Module to connect to postgre instance
 const express = require('express'); // Module to allow API routing
 var cors = require('cors');
-const OktaJwtVerifier = require('@okta/jwt-verifier');
+var bodyParser = require('body-parser');
+const OktaJwtVerifier = require('@okta/jwt-verifier'); // Required to create users
+const oktaClient = require('./oktaClient'); // Required to create users
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   issuer: AUTH_CONFIG.issuer,
@@ -69,9 +71,7 @@ function queryUser(client, userName, res){
             message : "User does not exist."
           })
         }
-
         // Otherwise, send our row
-        console.log(dataObject[0]);
         res.send(dataObject[0]);
       })
       .catch(e => {
@@ -85,21 +85,33 @@ function queryUser(client, userName, res){
       })
 }
 
-// Query the courtName when called
+// Query the courts with matching name
 function queryCourtName(client, courtName, res){
     let courtObject;
 
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
+    client.query('SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_name = \'' + courtName + '\' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+          )
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
-        
+
         // If the database doesn't return a row, send and error.
         if(courtObject[0] == undefined){
             res.status(404).send({
                 message: "Court does not exist."
             })
         }
+        console.log(courtObject.length + " items pulled from the database");
         res.send(courtObject);
     })
     .catch(e => {
@@ -112,6 +124,43 @@ function queryCourtName(client, courtName, res){
     })
 }
 
+// Query courts with matching zipcode
+function queryCourtZip(client, zipcode, res){
+    let courtObject;
+    
+    client.query(
+          'SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_zip = ' + zipcode + ' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+    )
+    .then(result => {
+        courtObject = result.rows;
+        
+        if(courtObject[0] == undefined){
+            res.status(404).send({
+                message: "Court does not exist."
+            })
+        }
+        console.log(courtObject.length + ' items pulled from the database');
+        res.send(courtObject);
+    })
+    .catch(e => {
+        throw e;
+    })
+    .then(() => {
+        client.end()
+        console.log('The client has disconnected!');
+    })
+}
+
 function queryAdvSearch(client, attributeMap, res) {
     let dataObject;
 
@@ -120,7 +169,6 @@ function queryAdvSearch(client, attributeMap, res) {
     if (zipcode == undefined) {
         zipcode = 'court_zip'
     }
-    console.log(zipcode);
 
     // Sets outdoorStatus to outdoor_status attribute. If undefined, sets to name of attribute 'outdoor_status'
     // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
@@ -128,44 +176,38 @@ function queryAdvSearch(client, attributeMap, res) {
     if (outdoorStatus == undefined) {
         outdoorStatus = 'outdoor_status'
     }
-    console.log(outdoorStatus);
 
     // For minimum rating ('stars') attribute
     let minRating = attributeMap['rating']
     if (minRating == undefined) {
         minRating = 'ROUND(AVG(stars), 1)'
     }
-    console.log(minRating);
 
     // For open_time attribute
     let openTime = attributeMap['open_time']
     if (openTime == undefined) {
         openTime = 'open_time'
     }
-    console.log(openTime);
 
     // For close_time attribute
     let closeTime = attributeMap['close_time']
     if (closeTime == undefined) {
         closeTime = 'close_time'
     }
-    console.log(closeTime);
 
     // For membership_status attribute
     let membershipStatus = attributeMap['membership_status']
     if (membershipStatus == undefined) {
         membershipStatus = 'membership_status'
     }
-    console.log(membershipStatus);
 
     // For busiest_time attribute
     let busiestTimes = attributeMap['busiest_times']
     if (busiestTimes == undefined) {
         busiestTimes = 'busiest_times'
     }
-    console.log(busiestTimes);
 
-    client.query( 
+    client.query(
         'SELECT * FROM \
         (   SELECT * FROM court \
             WHERE court_zip = ' + zipcode + ' \
@@ -187,7 +229,6 @@ function queryAdvSearch(client, attributeMap, res) {
     .then(result => {
 
         dataObject = result.rows
-        console.log(dataObject)
 
         // If the database doesn't return a row, send an error.
         if(dataObject[0] == undefined){
@@ -195,17 +236,59 @@ function queryAdvSearch(client, attributeMap, res) {
                 message : "No results from advance search found."
             })
         }
-
+        console.log(dataObject.length + " items pulled from the database")
         res.send(dataObject);
 
-        })
-        .catch(e => {
+    })
+    .catch(e => {
         throw e
-        })
-        .then(() => {
-            client.end()
-        })
+    })
+    .then(() => {
+        client.end()
+    })
 }
+
+// Insert new comments for court into the database
+function addComment(client, courtId, commentText) {
+    let username = 'user1'
+
+    // If new comment is blank, do not accept.
+    if (commentText.length == 0) {
+        //console.log('blank comment not accepted.');
+        client.end()
+    }
+
+    // Inserts new comment for court
+    client.query(
+        'INSERT INTO comments VALUES \
+          (   ' + courtId + ', \
+            \'' + username + '\', \
+            \'' + commentText + '\' \
+          )'
+    )
+    .then(() => {
+        client.end()
+    })
+}
+
+app.use(bodyParser.urlencoded({
+    extended:true
+}));
+
+app.use(bodyParser.json());
+
+// Receives the comment and id
+app.post("/api/form-submit-url", function(request, response){
+    let comment = request.body.comment
+    let courtId = request.body.id
+
+    let client = createClient();
+
+    client.connect()
+    .catch(e => console.log('Error occured when trying to connect client to server.'))
+
+    addComment(client, courtId, comment);
+});
 
 // API call to pull advance search parameters from the database
 app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
@@ -219,25 +302,30 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
         let value = tempList[1];
         attributeMap[key] = value;
     }
-    console.log(attributeMap)
     let client = createClient();
-    
+
     client.connect()
       .catch(e => console.log('Error occured when trying to connect client to server.'))
-    
+
     queryAdvSearch(client, attributeMap, res);
 
 });
 
 // API call to pull from the court from the database
 app.get('/api/search/court/:nameParam', (req, res) => {
-    let courtName = req.params.nameParam;
+    let courtNameOrZip = req.params.nameParam;
     let client = createClient();
-    
+    let username = req.body.username;
+
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
-    queryCourtName(client, courtName, res);
+    if (isNaN(courtNameOrZip)){
+        queryCourtName(client, courtNameOrZip, res);
+    } else {
+        queryCourtZip(client, courtNameOrZip, res);
+    }
+    
 });
 
 // API call to pull from the users databasae
@@ -262,8 +350,7 @@ app.get('/api/hello', (req, res) => {
 // API call to pull court information from the database
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
-  console.log(req.params.id);
-  
+
   let courtId = req.params.id;  // Save court_id parameter
   let client = createClient();  // Create a client
 
@@ -275,7 +362,7 @@ app.get('/api/court/:id', (req, res) => {
     .catch(e => console.log('error happened!'))
 
   // Prepare our query object
-  let dataObject; 
+  let dataObject;
 
   // Query court's details
   client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
@@ -299,7 +386,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(result => {
 
         if (result.rows[0] == undefined || result.rows[0].avg_stars == null) {
-          console.log("No star ratings."); 
+          console.log("No star ratings.");
           result.rows[0].avg_stars = 0.0
         }
 
@@ -327,7 +414,7 @@ app.get('/api/court/:id', (req, res) => {
         throw e
       })
 
-  // Query visited status of users for a court. 
+  // Query visited status of users for a court.
   client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
       .then(result => {
 
@@ -337,8 +424,7 @@ app.get('/api/court/:id', (req, res) => {
         for (i = 0; i < result.rows.length; i++) {
           dataObject[i+objIndexStart] = result.rows[i]
         }
-        
-        console.log(dataObject);
+
         res.send(dataObject)
 
       })
@@ -348,7 +434,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-  
+
 })
 
 // A call to fetch data if a user is logged in, starter code
@@ -366,6 +452,39 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
     ]
   });
 });
+
+// Post a user request
+app.post('/api/users', function(request, response){
+    let eMail = request.body.email;
+    let name = request.body.firstName;
+    let lname = request.body.lastName;
+    let password = request.body.password;
+    const newUser = {
+        profile: {
+            firstName:name,
+            lastName:lname,
+            email: eMail,
+            login: eMail
+        },
+        credentials:{
+            password:{
+                value: password
+            }
+        }
+    };
+
+    // Create the user
+    oktaClient.createUser(newUser)
+        .then(user => {
+            response.status(201);
+            response.send(user);
+        })
+        .catch(err => {
+            console.log(err)
+            response.status(400);
+            response.send(err);
+        })
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

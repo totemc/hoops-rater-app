@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "@okta/jwt-verifier": "0.0.11",
-    "@okta/okta-react": "^1.0.0",
+    "@okta/okta-auth-js": "^1.16.0",
+    "@okta/okta-react": "^1.0.1",
+    "@okta/okta-sdk-nodejs": "^1.1.0",
+    "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "pg": "^7.4.1"
