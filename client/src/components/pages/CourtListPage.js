@@ -94,7 +94,7 @@ class CourtList extends React.Component{
                                             </Row>
                                         </Col>
                                         <Col sm={2} md={2} lg={2}>
-                                            <h3><FontAwesome name="star" size="1x"/> {response.court_id}</h3>
+                                            <h3><FontAwesome name="star" size="1x"/> {response.avg_stars}</h3>
                                         </Col>
                                         <Col lg={12}>
                                             some other information TBD

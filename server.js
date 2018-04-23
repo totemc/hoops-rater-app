@@ -84,11 +84,22 @@ function queryUser(client, userName, res){
       })
 }
 
-// Query the courtName when called
+// Query the courts with matching name
 function queryCourtName(client, courtName, res){
     let courtObject;
 
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
+    client.query('SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_name = \'' + courtName + '\' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+          )
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
@@ -112,10 +123,23 @@ function queryCourtName(client, courtName, res){
     })
 }
 
-function queryZipcode(client, zipcode, res){
+// Query courts with matching zipcode
+function queryCourtZip(client, zipcode, res){
     let courtObject;
     
-    client.query('SELECT * FROM court WHERE court_zip=' + zipcode)
+    client.query(
+          'SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_zip = ' + zipcode + ' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+    )
     .then(result => {
         courtObject = result.rows;
         
@@ -229,7 +253,7 @@ function addComment(client, courtId, commentText) {
  
     // If new comment is blank, do not accept.
     if (commentText.length == 0) {
-        console.log('blank comment not accepted.')
+        //console.log('blank comment not accepted.');
         client.end()
     }
  
@@ -298,7 +322,7 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     if (isNaN(courtNameOrZip)){
         queryCourtName(client, courtNameOrZip, res);
     } else {
-        queryZipcode(client, courtNameOrZip, res);
+        queryCourtZip(client, courtNameOrZip, res);
     }
     
 });
