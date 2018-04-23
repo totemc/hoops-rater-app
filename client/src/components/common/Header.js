@@ -1,5 +1,7 @@
 import React from 'react';
 import {Navbar,NavItem,Nav} from 'react-bootstrap';
+import {BodyBackgroundColor} from 'react-bootstrap';
+
 
 class Header extends React.Component{
 
@@ -11,9 +13,11 @@ class Header extends React.Component{
 		}
 	}
 	render(){
+          
 		if (this.props.loginValue){
 			return (
                 
+              
 <Navbar inverse collapseOnSelect>
   <Navbar.Header>
     <Navbar.Brand>
@@ -35,6 +39,7 @@ class Header extends React.Component{
     </Nav>
   </Navbar.Collapse>
 </Navbar>
+              
 			)
             
 		}else{
@@ -46,7 +51,8 @@ class Header extends React.Component{
 				</div>
 			)
 		}
-
+        
+document.body.style = 'background: red;';
 	}
 }
 

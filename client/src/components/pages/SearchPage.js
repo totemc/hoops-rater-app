@@ -31,8 +31,25 @@ class Search extends React.Component{
 	render(){
 		if(!this.state.madeSearch){
 			return (
+                
 				<Grid>
 					<Row>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
 						<form onSubmit={this.handleSubmit}>
 							<Col lg={11}>
 								<FormGroup controlId="formBasicText">

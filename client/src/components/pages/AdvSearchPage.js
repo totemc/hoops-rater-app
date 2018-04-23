@@ -109,7 +109,7 @@ class AdvSearch extends React.Component{
                                     </Col>
                                     <Col lg={2}>
                                         <ControlLabel>Member Status</ControlLabel>
-                                        <Checkbox onChange={this.handleChangeMemberStatus}>Membership Needed</Checkbox>
+                                        <Checkbox onChange={this.handleChangeMemberStatus}>Membership Required</Checkbox>
                                     </Col>
                                     <Col lg={4}>
                                         <ControlLabel>Hours</ControlLabel>
