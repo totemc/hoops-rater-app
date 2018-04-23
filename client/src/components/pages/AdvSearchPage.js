@@ -97,7 +97,11 @@ class AdvSearch extends React.Component{
                 if(newValue == '/advsearch/court/'){
                     newValue += (key+'='+this.state[key])
                 } else{
-                    newValue += ('+' + key + '=' + this.state[key])
+                    if(key == 'membership_status' || key == 'outdoor_status'){
+                        newValue += ('+' + key + '=' + 'true')
+                    } else {
+                        newValue += ('+' + key + '=' + this.state[key])
+                    }
                 }
             }
         })
@@ -111,7 +115,6 @@ class AdvSearch extends React.Component{
     }
 
     render(){
-        console.log('value' + this.state.value)
         if(!this.state.madeSearch){
             return(
                 <Grid>
