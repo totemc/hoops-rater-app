@@ -15,6 +15,7 @@ import AdvSearch from './pages/AdvSearchPage';
 import AdvCourtList from './pages/AdvCourtListPage';
 import SignUp from './auth/SignUpPage';
 import SignIn from './auth/LoginPage';
+import Footer from './common/Footer';
 
 function onAuthRequired({history}){
     history.push('/login');
@@ -74,6 +75,7 @@ class App extends Component {
                     <SecureRoute path={this.routes.accountPage} component={Account} />
                     <Route component={NotFound}/>
                 </Switch>
+                <Footer></Footer>
             </Security>
         </Router>
     );
