@@ -199,9 +199,8 @@ function queryAdvSearch(client, attributeMap, res) {
     })
 }
 
- // Insert new comments for courts into the database
+// Insert new comments for court into the database
 function addComment(client, courtId, commentText) {
-    let dataObject;
     let username = 'user1'
  
     // If new comment is blank, do not accept.
@@ -211,8 +210,8 @@ function addComment(client, courtId, commentText) {
     }
  
     // Inserts new comment for court
-     client.query(
-         'INSERT INTO comments VALUES \
+    client.query(
+        'INSERT INTO comments VALUES \
           (   ' + courtId + ', \
             \'' + username + '\', \
             \'' + commentText + '\' \
@@ -226,7 +225,6 @@ function addComment(client, courtId, commentText) {
 app.use(bodyParser.urlencoded({
     extended:true
 }));
-
 
 app.use(bodyParser.json());
 
