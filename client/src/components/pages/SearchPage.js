@@ -40,6 +40,7 @@ class Search extends React.Component{
 
 	constructor(props){
 		super(props)
+		console.log(this.props.baseUrl);
 		this.state = {
 			value:'',
 			madeSearch:false

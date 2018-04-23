@@ -4,7 +4,8 @@ const {Pool, Client} = require('pg') // Module to connect to postgre instance
 const express = require('express'); // Module to allow API routing
 var cors = require('cors');
 var bodyParser = require('body-parser');
-const OktaJwtVerifier = require('@okta/jwt-verifier');
+const OktaJwtVerifier = require('@okta/jwt-verifier'); // Required to create users
+const oktaClient = require('./oktaClient'); // Required to create users
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   issuer: AUTH_CONFIG.issuer,
@@ -92,7 +93,7 @@ function queryCourtNameOrZip(client, courtNameOrZip, res){
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
-        
+
         // If the database doesn't return a row, send and error.
         if(courtObject[0] == undefined){
             res.status(404).send({
@@ -158,7 +159,7 @@ function queryAdvSearch(client, attributeMap, res) {
         busiestTimes = 'busiest_times'
     }
 
-    client.query( 
+    client.query(
         'SELECT * FROM \
         (   SELECT * FROM court \
             WHERE court_zip = ' + zipcode + ' \
@@ -202,13 +203,13 @@ function queryAdvSearch(client, attributeMap, res) {
 // Insert new comments for court into the database
 function addComment(client, courtId, commentText) {
     let username = 'user1'
- 
+
     // If new comment is blank, do not accept.
     if (commentText.length == 0) {
         console.log('blank comment not accepted.')
         client.end()
     }
- 
+
     // Inserts new comment for court
     client.query(
         'INSERT INTO comments VALUES \
@@ -232,12 +233,12 @@ app.use(bodyParser.json());
 app.post("/api/form-submit-url", function(request, response){
     let comment = request.body.comment
     let courtId = request.body.id
-    
+
     let client = createClient();
-    
+
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
-    
+
     addComment(client, courtId, comment);
 });
 
@@ -254,10 +255,10 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
         attributeMap[key] = value;
     }
     let client = createClient();
-    
+
     client.connect()
       .catch(e => console.log('Error occured when trying to connect client to server.'))
-    
+
     queryAdvSearch(client, attributeMap, res);
 
 });
@@ -267,7 +268,7 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     let courtNameOrZip = req.params.nameParam;
     let client = createClient();
     let username = req.body.username;
-    
+
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
@@ -296,7 +297,7 @@ app.get('/api/hello', (req, res) => {
 // API call to pull court information from the database
 app.get('/api/court/:id', (req, res) => {
   console.log("sending the queries to the component.")
-  
+
   let courtId = req.params.id;  // Save court_id parameter
   let client = createClient();  // Create a client
 
@@ -308,7 +309,7 @@ app.get('/api/court/:id', (req, res) => {
     .catch(e => console.log('error happened!'))
 
   // Prepare our query object
-  let dataObject; 
+  let dataObject;
 
   // Query court's details
   client.query('SELECT * FROM court, amenities, floor_quality, hoop_quality \
@@ -332,7 +333,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(result => {
 
         if (result.rows[0] == undefined || result.rows[0].avg_stars == null) {
-          console.log("No star ratings."); 
+          console.log("No star ratings.");
           result.rows[0].avg_stars = 0.0
         }
 
@@ -360,7 +361,7 @@ app.get('/api/court/:id', (req, res) => {
         throw e
       })
 
-  // Query visited status of users for a court. 
+  // Query visited status of users for a court.
   client.query('SELECT * FROM visited WHERE visited_court_id=\'' + courtId +'\'')
       .then(result => {
 
@@ -370,7 +371,7 @@ app.get('/api/court/:id', (req, res) => {
         for (i = 0; i < result.rows.length; i++) {
           dataObject[i+objIndexStart] = result.rows[i]
         }
-        
+
         res.send(dataObject)
 
       })
@@ -380,7 +381,7 @@ app.get('/api/court/:id', (req, res) => {
       .then(() => {
         client.end()
       })
-  
+
 })
 
 // A call to fetch data if a user is logged in, starter code
@@ -398,6 +399,39 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
     ]
   });
 });
+
+// Post a user request
+app.post('/api/users', function(request, response){
+    let eMail = request.body.email;
+    let name = request.body.firstName;
+    let lname = request.body.lastName;
+    let password = request.body.password;
+    const newUser = {
+        profile: {
+            firstName:name,
+            lastName:lname,
+            email: eMail,
+            login: eMail
+        },
+        credentials:{
+            password:{
+                value: password
+            }
+        }
+    };
+
+    // Create the user
+    oktaClient.createUser(newUser)
+        .then(user => {
+            response.status(201);
+            response.send(user);
+        })
+        .catch(err => {
+            console.log(err)
+            response.status(400);
+            response.send(err);
+        })
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
