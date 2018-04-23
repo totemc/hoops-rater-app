@@ -125,6 +125,7 @@ function queryAdvSearch(client, attributeMap, res) {
     // This is because in SQL, 'WHERE outdoor_status = outdoor_status' query includes all outdoor_status values, therefore making it nullified
     let outdoorStatus = attributeMap['outdoor_status']
     if (outdoorStatus == undefined) {
+        console.log('here')
         outdoorStatus = 'outdoor_status'
     }
 
