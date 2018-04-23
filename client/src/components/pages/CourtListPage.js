@@ -15,6 +15,9 @@ const styles = {
     },
     linkStyle : {
         color:"white"
+    },
+    titleStyle : {
+        color:"white"
     }
 }
 
@@ -61,6 +64,17 @@ class CourtList extends React.Component{
                     <Col lg={12}>
                         <h1 style={styles.h1Style}>Search Results</h1>
                     </Col>
+                        <div style={styles.titleStyle}>
+                        <Col lg={4}>
+                            <h2>Name</h2>
+                        </Col>
+                        <Col lg={6}>
+                            <h2>Address</h2>
+                        </Col>
+                        <Col lg={2}>
+                            <h2>Rating</h2>
+                        </Col>
+                    </div>
                     {this.state.response.map((response, index) => (
                         <Col lg={12} key={index}>
                             <Panel style={styles.panelStyle}>
