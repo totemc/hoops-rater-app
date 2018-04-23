@@ -85,10 +85,10 @@ function queryUser(client, userName, res){
 }
 
 // Query the courtName when called
-function queryCourtName(client, courtName, res){
+function queryCourtNameOrZip(client, courtNameOrZip, res){
     let courtObject;
 
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtName + '\'')
+    client.query('SELECT * FROM court WHERE court_name=\'' + courtNameOrZip + '\' OR court_zip=\'' + courtNameOrZip + '\'')
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
@@ -264,14 +264,14 @@ app.get('/api/advsearch/court/:courtAttributes',(req, res) => {
 
 // API call to pull from the court from the database
 app.get('/api/search/court/:nameParam', (req, res) => {
-    let courtName = req.params.nameParam;
+    let courtNameOrZip = req.params.nameParam;
     let client = createClient();
     let username = req.body.username;
     
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
-    queryCourtName(client, courtName, res);
+    queryCourtNameOrZip(client, courtNameOrZip, res);
 });
 
 // API call to pull from the users databasae
