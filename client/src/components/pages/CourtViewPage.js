@@ -88,7 +88,36 @@ class CourtView extends React.Component{
                         </Row>
                         <Panel style={styles.panelStyle}>
                             <Panel.Body>
-                                {item.address}
+                                <Row>
+                                    <Col lg={2}>
+                                        <h4>busiest times</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>court size</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>hoop height</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>membership status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>indoor status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>net status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>filler</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                </Row>
                             </Panel.Body>
                         </Panel>
                     </div>
@@ -118,7 +147,7 @@ class CourtView extends React.Component{
             </Col>
         
             <Col xs={6} md={4}>
-				<code>Outdoor status: <span style={{fontSize:"3em"}}>{this.state.response.map((item, outdoor_status) => (<p>{item.outdoor_status}</p>))}</span></code>
+				<code>Outdoor status: <span style={{fontSize:"3em"}}>{this.state.response.slice(0,1).map((item) => (<p>{item.outdoor_status.toString()}</p>))}</span></code>
             </Col>
                                                                                                    
             <Col xs={6} md={4}>
