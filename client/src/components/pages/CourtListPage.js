@@ -64,7 +64,10 @@ class CourtList extends React.Component{
                     <Col lg={12}>
                         <h1 style={styles.h1Style}>Search Results</h1>
                     </Col>
-                        <div style={styles.titleStyle}>
+                    <Col lg={12}>
+                        <Link to="/search" style={{color:"white"}}>Make another search</Link>
+                    </Col>
+                    <div style={styles.titleStyle}>
                         <Col lg={4}>
                             <h2>Name</h2>
                         </Col>
