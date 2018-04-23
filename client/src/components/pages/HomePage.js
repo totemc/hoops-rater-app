@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import { Grid, Row, Col, Button, Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-//00PfUy6vPZWRIlqiq5zh12WduMm7JG9gsHYDnsWFwx
+
 const styles = {
     jumboStyle:{
         textAlign: "center",
@@ -43,18 +43,7 @@ class Home extends Component {
     this.props.auth.logout('/');
   }
 
-<<<<<<< HEAD
-  render() {
-    if (this.state.authenticated === null) return null;
-    return this.state.authenticated ?
-      <Button onClick={this.logout}>Logout</Button> :
-      <Button onClick={this.login}>Login</Button>;
-    
-    // start code here<Form horizontal>
-    
-  }
-});
-=======
+
         render () {
             // render the correct button
 
@@ -98,4 +87,4 @@ class Home extends Component {
 };
 
 export default withAuth(Home);
->>>>>>> master
+

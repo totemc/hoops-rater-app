@@ -66,43 +66,6 @@ class Search extends React.Component{
 	render(){
 		if(!this.state.madeSearch){
 			return (
-<<<<<<< HEAD
-                
-				<Grid>
-					<Row>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-						<form onSubmit={this.handleSubmit}>
-							<Col lg={11}>
-								<FormGroup controlId="formBasicText">
-									<ControlLabel>Search</ControlLabel>
-									<FormControl type="text" value={this.state.value} placeholder="Search..." onChange={this.handleChange} name="search"/>
-								</FormGroup>
-								<HelpBlock>
-									<Link to="/advsearch">advanced search</Link>
-								</HelpBlock>
-							</Col>
-							<Col lg={1} style={{"marginTop":"25px"}}>
-								<Button type="submit">Search</Button>
-							</Col>
-						</form>
-				  	</Row>
-			  	</Grid>
-=======
 				<section>
 					<Grid>
 						<Row style={styles.rowStyle}>
@@ -126,7 +89,6 @@ class Search extends React.Component{
 					  	</Row>
 				  	</Grid>
 				</section>
->>>>>>> master
 			)
 		}
 		else{

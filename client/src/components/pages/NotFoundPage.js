@@ -28,9 +28,7 @@ class NotFound extends React.Component {
 
 	render() {
 		return (
-<<<<<<< HEAD
-			<h1>404 not found... try again</h1>
-=======
+
 			<Grid>
 				<Row>
 					<Col lg={12}>
@@ -52,7 +50,7 @@ class NotFound extends React.Component {
 					</Col>
 				</Row>
 			</Grid>
->>>>>>> master
+
 		)
         
 	}
