@@ -1,7 +1,15 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import NotFound from './NotFoundPage';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
+
+const styles = {
+    panelStyle : {
+        background : "rgba(248, 201, 149, 1)",
+        color: "darkslategrey",
+        borderColor: "rgba(222,127,24,.2)"
+    }
+}
 
 class CourtView extends React.Component{
 	constructor(props){
@@ -46,7 +54,7 @@ class CourtView extends React.Component{
 	callApi = async () => {
 	  const response = await fetch('/api/court/'+this.props.match.params.id);
 	  const body = await response.json();
-
+      //console.log(body.slice(0,1));
 	  if (response.status !== 200) {
 	  	throw Error(body.message)
 	  };
@@ -61,19 +69,37 @@ class CourtView extends React.Component{
 		}
 		return (
 			<div>
-				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
-				<br></br>
                 
      <Grid>
-        <Row className="show-grid">
+        <Row>
+            <Col lg={12}>
+                {this.state.response.slice(0,1).map((item) => (
+                    <div>
+                        <Row>
+                            <Col lg={10}>
+                                <h1>{item.court_name}</h1>
+                            </Col>
+                            <Col lg={1}>
+                                <h1>{item.avg_stars}</h1>
+                            </Col>
+                            <Col lg={12}>
+                                <h2>{item.address}  {item.court_zip}</h2>
+                            </Col>
+                        </Row>
+                        <Panel style={styles.panelStyle}>
+                            <Panel.Body>
+                                {item.address}
+                            </Panel.Body>
+                        </Panel>
+                    </div>
+                ))}
+            </Col>
             <Col xs={6} md={4}>
-                <code>Park Name:<span style={{fontSize:"3em"}}>{this.state.response.map((item, court_name) => (<p>{item.court_name}</p>))}</span></code>
             </Col>
             
             
             
             <Col xs={6} md={4}>
-                <code>Rating:<span style={{fontSize:"3em"}}>{this.state.response.map((item, avg_stars) => (<p>{item.avg_stars}</p>))}</span></code>
             </Col>
 				
     
