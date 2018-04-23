@@ -90,3 +90,15 @@ body {
     background-color: #c26f16;
   }
 }
+
+.buttonLanding {
+    background-color:rgba(255,255,255,0);
+    color:#333;
+    border-color:#333;
+}
+.buttonLanding:hover {
+    background-color:rgba(255,255,255,1);
+    color:#333;
+    border-color:#333;
+
+}

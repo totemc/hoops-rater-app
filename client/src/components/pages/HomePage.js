@@ -52,17 +52,17 @@ class Home extends Component {
             if(this.state.authenticated){
                 buttons = (
                     <Col lg={12} style={{textAlign:"center"}}>
-                         <Link to="/search"> <Button style={{ marginLeft:"2em" }}>Search</Button></Link>
+                         <Link to="/search"> <Button style={{ marginLeft:"2em", backgroundColor:"rgba(255,255,255,0)",color:"#333", borderColor:"#333" }}>Search</Button></Link>
                     </Col>
                 )
             }else{
                 buttons = (
                     <div>
                         <Col lg={6} style={{textAlign:"right"}}>
-                            <Link to="/signup" ><Button> Sign up </Button></Link>
+                            <Link to="/signup" ><Button className="buttonLanding"> Sign up </Button></Link>
                         </Col>
                         <Col lg={6} style={{textAlign:"left"}}>
-                             <Link to="/search"> <Button style={{ marginLeft:"2em" }}>Search</Button></Link>
+                             <Link to="/search"> <Button className="buttonLanding" style={{ marginLeft:"2em"}}>Search</Button></Link>
                         </Col>
                     </div>
                 )
