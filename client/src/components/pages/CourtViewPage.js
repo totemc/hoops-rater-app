@@ -165,7 +165,6 @@ class CourtView extends React.Component{
 
 
 				<br></br>
-<<<<<<< HEAD
 
 
         <Row className="show-grid">
@@ -180,7 +179,6 @@ class CourtView extends React.Component{
 
     </Grid>;
 
-=======
 				<span style={{textAlign:"left"}}>{this.state.response.map((visited, index) => (
 					<p key={index}>{visited.visited_username} {visited.has_visited}</p>
 				))}</span>
@@ -189,7 +187,6 @@ class CourtView extends React.Component{
                     <input type="text" name="comment" onChange={this.handleChange}/><br/>
                     <input type="submit" value="Add Comment"/>
                 </form>
->>>>>>> master
 			</div>
 		)
 	}
