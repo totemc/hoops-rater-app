@@ -16,6 +16,7 @@ const styles = {
 	}
 }
 
+
 class Header extends React.Component{
 
 	constructor(props){
@@ -31,6 +32,7 @@ class Header extends React.Component{
 			currentUserProfile : '/profile/' + this.props.currentUser
 		}
 	}
+
 
 	async checkAuthentication(){
 		const authenticated = await this.props.auth.isAuthenticated();
@@ -77,6 +79,7 @@ class Header extends React.Component{
 			  </Navbar.Collapse>
 			</Navbar>
 		);
+
 	}
 }
 

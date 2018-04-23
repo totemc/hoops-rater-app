@@ -28,6 +28,7 @@ class NotFound extends React.Component {
 
 	render() {
 		return (
+
 			<Grid>
 				<Row>
 					<Col lg={12}>
@@ -49,7 +50,9 @@ class NotFound extends React.Component {
 					</Col>
 				</Row>
 			</Grid>
+
 		)
+        
 	}
 }
 
