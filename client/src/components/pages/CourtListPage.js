@@ -8,6 +8,12 @@ const styles = {
         background : "rgba(222,127,24,.4)",
         color: "white",
         borderColor: "rgba(222,127,24,.2)"
+    },
+    h1Style : {
+        color:"white"
+    },
+    linkStyle : {
+        color:"white"
     }
 }
 
@@ -52,7 +58,7 @@ class CourtList extends React.Component{
             <Grid>
                 <Row>
                     <Col lg={12}>
-                        <h1>Search Results</h1>
+                        <h1 style={styles.h1Style}>Search Results</h1>
                     </Col>
                     {this.state.response.map((response, index) => (
                         <Col lg={12} key={index}>
@@ -60,7 +66,7 @@ class CourtList extends React.Component{
                                 <Panel.Body>
                                     <Row>
                                         <Col sm={4} md={4} lg={4}>
-                                            <Link to={"/court/" + response.court_id}><h3>{response.court_name}</h3></Link>
+                                            <Link to={"/court/" + response.court_id} style={styles.linkStyle}><h3>{response.court_name.toUpperCase()}</h3></Link>
                                         </Col>
                                         <Col sm={6} md={6} lg={6}>
                                             <Row>
