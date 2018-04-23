@@ -85,11 +85,22 @@ function queryUser(client, userName, res){
       })
 }
 
-// Query the courtName when called
-function queryCourtNameOrZip(client, courtNameOrZip, res){
+// Query the courts with matching name
+function queryCourtName(client, courtName, res){
     let courtObject;
 
-    client.query('SELECT * FROM court WHERE court_name=\'' + courtNameOrZip + '\' OR court_zip=\'' + courtNameOrZip + '\'')
+    client.query('SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_name = \'' + courtName + '\' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+          )
         .then(result => {
         // Send our results to the component
         courtObject = result.rows;
@@ -110,6 +121,43 @@ function queryCourtNameOrZip(client, courtNameOrZip, res){
     .then(() => {
         client.end()
         console.log('the client has disconnected!');
+    })
+}
+
+// Query courts with matching zipcode
+function queryCourtZip(client, zipcode, res){
+    let courtObject;
+    
+    client.query(
+          'SELECT * FROM \
+          (   SELECT * FROM court \
+              WHERE court_zip = ' + zipcode + ' \
+          ) AS courtTb \
+          INNER JOIN \
+          (   SELECT court.court_id, ROUND(AVG(stars), 1) AS avg_stars \
+              FROM court \
+              JOIN rating ON court_id = r_court_id \
+              GROUP BY court_id \
+          ) AS avgStarsTb \
+          ON courtTb.court_id = avgStarsTb.court_id'
+    )
+    .then(result => {
+        courtObject = result.rows;
+        
+        if(courtObject[0] == undefined){
+            res.status(404).send({
+                message: "Court does not exist."
+            })
+        }
+        console.log(courtObject.length + ' items pulled from the database');
+        res.send(courtObject);
+    })
+    .catch(e => {
+        throw e;
+    })
+    .then(() => {
+        client.end()
+        console.log('The client has disconnected!');
     })
 }
 
@@ -206,7 +254,7 @@ function addComment(client, courtId, commentText) {
 
     // If new comment is blank, do not accept.
     if (commentText.length == 0) {
-        console.log('blank comment not accepted.')
+        //console.log('blank comment not accepted.');
         client.end()
     }
 
@@ -272,7 +320,12 @@ app.get('/api/search/court/:nameParam', (req, res) => {
     client.connect()
         .catch(e => console.log('Error occured when trying to connect client to server.'))
 
-    queryCourtNameOrZip(client, courtNameOrZip, res);
+    if (isNaN(courtNameOrZip)){
+        queryCourtName(client, courtNameOrZip, res);
+    } else {
+        queryCourtZip(client, courtNameOrZip, res);
+    }
+    
 });
 
 // API call to pull from the users databasae
