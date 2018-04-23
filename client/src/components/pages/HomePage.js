@@ -52,7 +52,7 @@ class Home extends Component {
             if(this.state.authenticated){
                 buttons = (
                     <Col lg={12} style={{textAlign:"center"}}>
-                         <Link to="/search"> <Button style={{ marginLeft:"2em", backgroundColor:"rgba(255,255,255,0)",color:"#333", borderColor:"#333" }}>Search</Button></Link>
+                         <Link to="/search"> <Button className="buttonLanding">Search</Button></Link>
                     </Col>
                 )
             }else{
