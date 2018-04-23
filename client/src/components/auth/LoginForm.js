@@ -66,7 +66,7 @@ export default withAuth(class LoginForm extends React.Component {
                             <ControlLabel>Password</ControlLabel>
                             <FormControl type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
                         </FormGroup>
-                        <Button type="submit">Login</Button>
+                        <Button className="buttonLanding" type="submit">Login</Button>
                     </form>
                 </Col>
             </Row>

@@ -102,7 +102,7 @@ export default withAuth(class RegisterPage extends React.Component{
                                 <ControlLabel>Password</ControlLabel>
                                 <FormControl type="password" id="password" value={this.state.password} onChange={this.handlePasswordChange}/>
                             </FormGroup>
-                            <Button type="submit">Register</Button>
+                            <Button className="buttonLanding" type="submit">Register</Button>
                         </form>
                     </Col>
                 </Row>
