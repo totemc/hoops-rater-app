@@ -1,8 +1,15 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import { Grid, Row, Col, Panel, Image } from 'react-bootstrap';
 //import NotFound from './notFound';
 
-
+const styles = {
+	panelStyle : {
+        background : "rgba(248, 201, 149, 1)",
+        color: "darkslategrey",
+        borderColor: "rgba(222,127,24,.2)"
+    }
+}
 class Profile extends React.Component{
 	// Initialize state to empty param for rendering
 	state = {
@@ -31,7 +38,7 @@ class Profile extends React.Component{
 	callApi = async () => {
 	  // Talk to our middleware with the username in question.
 	  const response = await fetch('/api/profile/'+this.props.match.params.nameParam);
-	  
+
 	  // Get our response body.
 	  const body = await response.json();
 
@@ -50,26 +57,33 @@ class Profile extends React.Component{
 		}else if(this.state.userNotFound == false){
 			// neccessary for the else statement to execute when appropriate
 			return (
-				<div style={{margin: '1em'}}>
-					<img src="http://placehold.it/300x400" alt="placeholder"/>
-					<div style={{display:'inline-block', marginLeft:10}}>
-						<div style={{fontSize:'3em', fontWeight:'bold'}}>
-							{this.props.match.params.nameParam}
-						</div>
-						<div style={{fontSize:'2.5em', fontWeight:'bold'}}>
-							{this.state.response.fname} 
-						</div>
-						<div style={{fontSize:'2em', fontWeight:'bold'}}>
-							{this.state.response.lname}
-						</div>
-						<div style={{fontSize:'1.5em', fontWeight:'bold'}}>
-							{this.state.response.age}
-						</div>
-						<div style={{fontSize:'1em', fontWeight:'bold'}}>
-							{this.state.response.username}
-						</div>
-					</div>
-				</div>
+				<Grid>
+					<Row>
+						<Col lg={12}>
+							<h1 style={{color:"darkslategrey"}}>{this.props.match.params.nameParam.toUpperCase()}'s Profile</h1>
+						</Col>
+						<Panel style={styles.panelStyle}>
+							<Panel.Body>
+							<Col lg={4}>
+								<Image style={{maxWidth:"300px", maxHeight:"400px"}} src="http://peteryang.com/v02/wp-content/uploads/2014/06/sports_011-300x400.jpg" alt="placeholder" rounded />
+								<br/>
+								<a href="http://peteryang.com/images/sports/">peteryang</a>
+							</Col>
+							<Col lgOffset={3} lg={5}>
+								<Row>
+									<Col lg={12}>
+										<h1>{this.state.response.fname} {this.state.response.lname}</h1>
+									</Col>
+									<Col lg={12}>
+										<h3><span style={{color:"white"}}>username:</span> {this.state.response.username}</h3>
+										<h3><span style={{color:"white"}}>age:</span> {this.state.response.age}</h3>
+									</Col>
+								</Row>
+							</Col>
+							</Panel.Body>
+						</Panel>
+					</Row>
+				</Grid>
 			)
 		}else{
 			return <div></div>
