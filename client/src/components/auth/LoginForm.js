@@ -26,9 +26,9 @@ export default withAuth(class LoginForm extends React.Component {
       username: this.state.username,
       password: this.state.password
     })
-      .then(res => this.setState({
-        sessionToken: res.sessionToken
-      }))
+      .then(res => {
+          this.setState({sessionToken: res.sessionToken});
+      })
       .catch(err => {
         this.setState({error: err.message});
         console.log(err.statusCode + ' error', err)

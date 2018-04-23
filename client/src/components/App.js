@@ -32,6 +32,9 @@ class App extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+        token:null
+    }
     // Create routes object for cleaner code.
     this.routes = {
       root : "/",
@@ -48,8 +51,9 @@ class App extends Component {
       signUp: "/signup",
       signIn: "/login"
     };
-
   }
+
+
 
   render(){
     return (
