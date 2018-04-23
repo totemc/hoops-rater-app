@@ -1,12 +1,7 @@
 html, body{
     min-height:100%;
     width:100%;
-    /* Original Color */
-    background-image: linear-gradient(to right top, #de7f18, #e79239, #efa456, #f7b772, #ffc98e);
-    /* Adrian's Color */
-    background-image: linear-gradient(to right top, #ff9b00, #ff9228, #ff8b3d, #ff854d, #ff805c);
-    /* Oscar's Color */
-    background-image: linear-gradient(to right top, #f4a957, #f7a64f, #faa446, #fca13d, #ff9e34);
+    background-image: linear-gradient(to right top, #f8c995, #f9c286, #fabb76, #fbb467, #fbad57);
     background-repeat: no-repeat;
     padding-bottom:20px;
 }
@@ -26,9 +21,9 @@ body {
 
 }.navbar-default {
   background: linear-gradient(to left, #de7f18, #fb673d, #ff4d67, #ff3b98, #ff47cd);
-  /* Using dark orange as alpha */
-  background:rgba(222,127,24,.4);
-  border-color: rgba(222,127,24,0.2);
+
+  background:rgba(248, 201, 149, 1);
+  border-color: rgba(248, 201, 149, 0.2);
 }
 .navbar-default .navbar-brand {
   color: #ffffff;
