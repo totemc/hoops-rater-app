@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, HelpBlock } from 'react-bootstrap';
 import { withAuth } from '@okta/okta-react';
 import OktaAuth from '@okta/okta-auth-js';
 import config from '../auth-config.js';
@@ -70,20 +71,42 @@ export default withAuth(class RegisterPage extends React.Component{
     handlePasswordChange(e){
         this.setState({password:e.target.value});
     }
-
+    /*            <form onSubmit={this.handleSubmit}>
+                    <input type="email" id="email" value={this.state.email} onChange={this.handleEmailChange}/>
+                    <input type="text" id="firstName" value={this.state.firstName} onChange={this.handleFirstNameChange}/>
+                    <input type="text" id="lastName" value={this.state.lastName} onChange={this.handleLastNameChange}/>
+                    <input type="password" id="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                    <input type="submit" id="submit" value="Register"/>
+                </form>*/
     render(){
         if(this.state.sessionToken){
             this.props.auth.redirect({sessionToken:this.state.sessionToken});
             return null;
         }
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="email" id="email" value={this.state.email} onChange={this.handleEmailChange}/>
-                <input type="text" id="firstName" value={this.state.firstName} onChange={this.handleFirstNameChange}/>
-                <input type="text" id="lastName" value={this.state.lastName} onChange={this.handleLastNameChange}/>
-                <input type="password" id="password" value={this.state.password} onChange={this.handlePasswordChange}/>
-                <input type="submit" id="submit" value="Register"/>
-            </form>
+            <Grid>
+                <Row>
+                <h1> Sign Up </h1>
+                    <Col lg={4} lgOffset={4}>
+                        <form onSubmit={this.handleSubmit}>
+                            <FormGroup controlId="formBasicText">
+                                <ControlLabel>Email Address</ControlLabel>
+                                <FormControl type="email" id="email" value={this.state.email} onChange={this.handleEmailChange}/>
+                                <br/>
+                                <ControlLabel>First Name</ControlLabel>
+                                <FormControl type="text" id="firstName" value={this.state.firstName} onChange={this.handleFirstNameChange}/>
+                                <br/>
+                                <ControlLabel>Last Name</ControlLabel>
+                                <FormControl type="text" id="lastName" value={this.state.lastName} onChange={this.handleLastNameChange}/>
+                                <br/>
+                                <ControlLabel>Password</ControlLabel>
+                                <FormControl type="password" id="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                            </FormGroup>
+                            <Button type="submit">Register</Button>
+                        </form>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 });
