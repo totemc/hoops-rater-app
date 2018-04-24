@@ -1,13 +1,22 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import NotFound from './NotFoundPage';
-import { Grid, Row, Col } from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
+
+const styles = {
+    panelStyle : {
+        background : "rgba(248, 201, 149, 1)",
+        color: "darkslategrey",
+        borderColor: "rgba(222,127,24,.2)"
+    }
+}
 
 class CourtView extends React.Component{
 	constructor(props){
 		super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+        this.handleRatingSubmit = this.handleRatingSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onStarClick = this.onStarClick.bind(this);
 	}
@@ -21,19 +30,30 @@ class CourtView extends React.Component{
         console.log(this.state.comment)
         this.setState({comment: event.target.value})
     }
-    handleSubmit(event){
+    handleCommentSubmit(event){
         event.preventDefault();
-        fetch('/api/form-submit-url', {
+        fetch('/api/form-submit-comment', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({comment: this.state.comment,
-                                 id: this.props.match.params.id,
-                                 rating: this.state.rating})
+                                 id: this.props.match.params.id})
         })
         .then(this.setState({comment: ''}));
+    }
+    handleRatingSubmit(event){
+        event.preventDefault();
+        fetch('/api/form-submit-rating', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({rating: this.state.rating,
+                                 id: this.props.match.params.id})
+        })
     }
     onStarClick(value){
         this.setState({rating: value})
@@ -54,7 +74,7 @@ class CourtView extends React.Component{
 	callApi = async () => {
 	  const response = await fetch('/api/court/'+this.props.match.params.id);
 	  const body = await response.json();
-
+      //console.log(body.slice(0,1));
 	  if (response.status !== 200) {
 	  	throw Error(body.message)
 	  };
@@ -70,19 +90,66 @@ class CourtView extends React.Component{
 		}
 		return (
 			<div>
-				<span style={{fontSize:"3em"}}>{this.props.match.params.id}</span>
-				<br></br>
                 
      <Grid>
-        <Row className="show-grid">
+        <Row>
+            <Col lg={12}>
+                {this.state.response.slice(0,1).map((item) => (
+                    <div>
+                        <Row>
+                            <Col lg={10}>
+                                <h1>{item.court_name}</h1>
+                            </Col>
+                            <Col lg={1}>
+                                <h1>{item.avg_stars}</h1>
+                            </Col>
+                            <Col lg={12}>
+                                <h2>{item.address}  {item.court_zip}</h2>
+                            </Col>
+                        </Row>
+                        <Panel style={styles.panelStyle}>
+                            <Panel.Body>
+                                <Row>
+                                    <Col lg={2}>
+                                        <h4>busiest times</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>court size</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>hoop height</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>membership status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>indoor status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>net status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>filler</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                </Row>
+                            </Panel.Body>
+                        </Panel>
+                    </div>
+                ))}
+            </Col>
             <Col xs={6} md={4}>
-                <code>Park Name:<span style={{fontSize:"3em"}}>{this.state.response.map((item, court_name) => (<p>{item.court_name}</p>))}</span></code>
             </Col>
             
             
             
             <Col xs={6} md={4}>
-                <code>Rating:<span style={{fontSize:"3em"}}>{this.state.response.map((item, avg_stars) => (<p>{item.avg_stars}</p>))}</span></code>
             </Col>
 				
     
@@ -101,7 +168,7 @@ class CourtView extends React.Component{
             </Col>
         
             <Col xs={6} md={4}>
-				<code>Outdoor status: <span style={{fontSize:"3em"}}>{this.state.response.map((item, outdoor_status) => (<p>{item.outdoor_status}</p>))}</span></code>
+				<code>Outdoor status: <span style={{fontSize:"3em"}}>{this.state.response.slice(0,1).map((item) => (<p>{item.outdoor_status.toString()}</p>))}</span></code>
             </Col>
                                                                                                    
             <Col xs={6} md={4}>
@@ -191,13 +258,16 @@ class CourtView extends React.Component{
 				<span style={{textAlign:"left"}}>{this.state.response.map((visited, index) => (
 					<p key={index}>{visited.visited_username} {visited.has_visited}</p>
 				))}</span>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleCommentSubmit}>
                     Email Address:<br/>
                     <input type="text" name="comment" onChange={this.handleChange}/><br/>
-                    <StarRatingComponent name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
                     <input type="submit" value="Add Comment"/>
                 </form>
-                
+                <form onSubmit={this.handleRatingSubmit}>
+                        <StarRatingComponent name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
+                        <br/>
+                        <input type="submit" value="Add Rating"/>
+                </form>
 			</div>
 
 
