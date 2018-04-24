@@ -2,16 +2,20 @@ import React from 'react';
 import {Redirect} from 'react-router-dom';
 import NotFound from './NotFoundPage';
 import { Grid, Row, Col } from 'react-bootstrap';
+import StarRatingComponent from 'react-star-rating-component';
 
 class CourtView extends React.Component{
 	constructor(props){
 		super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.onStarClick = this.onStarClick.bind(this);
 	}
+    
 	state = { response: [],
              courtNotFound: false,
-             comment: ''
+             comment: '',
+             rating: 0
 			};
     handleChange(event){
         console.log(this.state.comment)
@@ -26,9 +30,13 @@ class CourtView extends React.Component{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({comment: this.state.comment,
-                                 id: this.props.match.params.id})
+                                 id: this.props.match.params.id,
+                                 rating: this.state.rating})
         })
         .then(this.setState({comment: ''}));
+    }
+    onStarClick(value){
+        this.setState({rating: value})
     }
 
 	componentDidMount() {
@@ -56,6 +64,7 @@ class CourtView extends React.Component{
 
 	// Bools not yet rendered (Amenities, outdoor_status, membership_status)
 	render(){
+        console.log(this.state.rating)
 		if(this.state.courtNotFound == true) {
 			return <Redirect to="/404"/>
 		}
@@ -185,11 +194,14 @@ class CourtView extends React.Component{
                 <form onSubmit={this.handleSubmit}>
                     Email Address:<br/>
                     <input type="text" name="comment" onChange={this.handleChange}/><br/>
+                    <StarRatingComponent name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
                     <input type="submit" value="Add Comment"/>
                 </form>
+                
 			</div>
+
+
 		)
 	}
 }
-
 export default CourtView;

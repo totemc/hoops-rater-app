@@ -81,6 +81,7 @@ class Home extends Component {
                             </Col>
                         </Row>
                     </Grid>
+
                 </Jumbotron>
             );
         }
