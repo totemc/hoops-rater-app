@@ -3,7 +3,7 @@ html, body{
     width:100%;
     background-image: linear-gradient(to right top, #f8c995, #f9c286, #fabb76, #fbb467, #fbad57);
     background-repeat: no-repeat;
-    padding-bottom:20px;
+    padding-bottom:50px;
 }
 
 body {
@@ -11,6 +11,7 @@ body {
     margin:0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    padding-bottom: 50px;
 }
 
 #mainApp, #mainApp > div{
@@ -30,7 +31,7 @@ body {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #ffbbbc;
+  color: #black;
 }
 .navbar-default .navbar-text {
   color: #ffffff;
@@ -40,7 +41,7 @@ body {
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #ffbbbc;
+  color: #black;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -89,4 +90,16 @@ body {
     color: #ffbbbc;
     background-color: #c26f16;
   }
+}
+
+.buttonLanding {
+    background-color:rgba(255,255,255,0);
+    color:#333;
+    border-color:#333;
+}
+.buttonLanding:hover {
+    background-color:rgba(255,255,255,1);
+    color:#333;
+    border-color:#333;
+
 }

@@ -93,11 +93,11 @@ class AdvSearch extends React.Component{
         e.preventDefault();
         let newValue = '/advsearch/court/';
         Object.keys(this.state).map((key) => {
-            if (this.state[key] != 'default'){
-                if(newValue == '/advsearch/court/'){
+            if (this.state[key] !== 'default'){
+                if(newValue === '/advsearch/court/'){
                     newValue += (key+'='+this.state[key])
                 } else{
-                    if(key == 'membership_status' || key == 'outdoor_status'){
+                    if(key === 'membership_status' || key == 'outdoor_status'){
                         newValue += ('+' + key + '=' + 'true')
                     } else {
                         newValue += ('+' + key + '=' + this.state[key])
@@ -147,7 +147,7 @@ class AdvSearch extends React.Component{
                                     </Col>
                                     <Col lg={2}>
                                         <ControlLabel>Member Status</ControlLabel>
-                                        <Checkbox onChange={this.handleChangeMemberStatus}>Membership Needed</Checkbox>
+                                        <Checkbox onChange={this.handleChangeMemberStatus}>Membership Required</Checkbox>
                                     </Col>
                                     <Col lg={4}>
                                         <ControlLabel>Hours</ControlLabel>
