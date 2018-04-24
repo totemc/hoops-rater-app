@@ -250,7 +250,7 @@ function queryAdvSearch(client, attributeMap, res) {
 
 // Insert new comments for court into the database
 function addComment(client, courtId, commentText) {
-    let username = 'user1'
+    let username = 'user4'
 
     // If new comment is blank, do not accept.
     if (commentText.length == 0) {
@@ -273,7 +273,7 @@ function addComment(client, courtId, commentText) {
 
 // Insert new rating for court into the database
 function addRating(client, courtId, rating) {
-    let username = 'user1'
+    let username = 'user4'
     let isFirstRating = true
 
     // Checks if user already has rated this court before
