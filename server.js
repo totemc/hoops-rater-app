@@ -274,57 +274,27 @@ function addComment(client, courtId, commentText) {
 // Insert new rating for court into the database
 function addRating(client, courtId, rating) {
     let username = 'user4'
-    let isFirstRating = false
 
-    // Checks if user already has rated this court before
     client.query(
-        'SELECT * FROM rating \
-         WHERE r_court_id = ' + courtId + ' \
-         AND r_username = \'' + username + '\''
-    )
-    .then(result => {
-
-        dataObject = result.rows
-
-        // If the query returns a row, the user has rated the court before
-        // and so the user's old rating should be updated in the db
-        if(dataObject[0] == undefined){
-            isFirstRating = true
-        }
-
-    })
-
-    // Inserts new rating into database if its user's first rating on court
-    if (isFirstRating == true) {
-        client.query(
-            'INSERT INTO rating VALUES \
-              (   ' + courtId + ', \
-                \'' + username + '\', \
-                  ' + rating + ' \
-              )'
+        'INSERT INTO rating (r_court_id, r_username, stars) VALUES \
+          (   ' + courtId + ', \
+            \'' + username + '\', \
+              ' + rating + ' \
+          ) \
+          ON CONFLICT ON CONSTRAINT rating_pk \
+          DO UPDATE \
+          SET stars = ' + rating + ' \
+          WHERE rating.r_court_id = ' + courtId + ' \
+          AND rating.r_username = \'' + username + '\''
         )
         .catch(e => {
-        throw e
+            throw e
         })
         .then(() => {
+            console.log("rating inserted to db")
             client.end()
         })
-    }
-    // Updates user's rating if user is re-rating a court 
-    else {
-        client.query(
-            'UPDATE rating \
-             SET stars = ' + rating + ' \
-             WHERE r_court_id = ' + courtId + ' \
-             AND r_username = \'' + username + '\''
-        )
-        .catch(e => {
-        throw e
-        })
-        .then(() => {
-            client.end()
-        })
-    }
+
 }
 
 
