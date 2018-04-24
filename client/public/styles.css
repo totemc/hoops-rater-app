@@ -103,3 +103,7 @@ body {
     border-color:#333;
 
 }
+
+.boldFont h4 {
+    font-weight: bold;
+}
