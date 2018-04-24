@@ -281,13 +281,13 @@ app.use(bodyParser.json());
 app.post("/api/form-submit-comment", function(request, response){
     let comment = request.body.comment
     let courtId = request.body.id
-    let rating = request.body.rating
+    console.log(comment)
     let client = createClient();
     console.log(comment)
     client.connect()
     .catch(e => console.log('Error occured when trying to connect client to server.'))
 
-    addComment(client, courtId, comment);
+    //addComment(client, courtId, comment);
 });
 
 app.post("/api/form-submit-rating", function(request, response){
