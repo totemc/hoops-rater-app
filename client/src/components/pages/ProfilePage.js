@@ -65,20 +65,20 @@ class Profile extends React.Component{
 						</Col>
 						<Panel style={styles.panelStyle}>
 							<Panel.Body>
-							<Col lg={4}>
-								<Image style={{maxWidth:"300px", maxHeight:"400px"}} src={teddy} alt="placeholder" rounded />
-							</Col>
-							<Col lgOffset={3} lg={5}>
-								<Row>
-									<Col lg={12}>
-										<h1>{this.state.response.fname} {this.state.response.lname}</h1>
-									</Col>
-									<Col lg={12}>
-										<h3><span style={{color:"white"}}>username:</span> {this.state.response.username}</h3>
-										<h3><span style={{color:"white"}}>age:</span> {this.state.response.age}</h3>
-									</Col>
-								</Row>
-							</Col>
+								<Col lg={4}>
+									<Image style={{maxWidth:"300px", maxHeight:"400px"}} src={teddy} alt="placeholder" rounded />
+								</Col>
+								<Col lgOffset={3} lg={5}>
+									<Row>
+										<Col lg={12}>
+											<h1>{this.state.response.fname} {this.state.response.lname}</h1>
+										</Col>
+										<Col lg={12}>
+											<h3><span style={{color:"white"}}>username:</span> {this.state.response.username}</h3>
+											<h3><span style={{color:"white"}}>age:</span> {this.state.response.age}</h3>
+										</Col>
+									</Row>
+								</Col>
 							</Panel.Body>
 						</Panel>
 					</Row>
