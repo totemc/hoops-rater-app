@@ -215,7 +215,7 @@ class CourtView extends React.Component{
                         <Panel.Body>
                             <Row>
                                 <Col lg={12}>
-                                    <form onSubmit={this.handleSubmit}>
+                                    <form onSubmit={this.handleCommentSubmit}>
                                         <FormGroup controlId="formBasicText">
                                             <FormControl type="text"  placeholder="comment" onChange={this.handleChange} name="comment"/>
                                         </FormGroup>
@@ -231,7 +231,7 @@ class CourtView extends React.Component{
                         </Panel.Body>
                     </Panel>
                 </Grid>;
-			</div>
+            </div>
 		);
 	}
 }
