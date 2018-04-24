@@ -1,6 +1,7 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import NotFound from './NotFoundPage';
+import StarRatingComponent from 'react-star-rating-component';
 import { Grid, Row, Col, Panel, Button, FormGroup, FormControl } from 'react-bootstrap';
 
 const styles = {
@@ -14,20 +15,24 @@ const styles = {
 class CourtView extends React.Component{
 	constructor(props){
 		super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+        this.handleRatingSubmit = this.handleRatingSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.onStarClick = this.onStarClick.bind(this);
 	}
+    
 	state = { response: [],
              courtNotFound: false,
-             comment: ''
+             comment: '',
+             rating: 0
 			};
     handleChange(event){
         console.log(this.state.comment)
         this.setState({comment: event.target.value})
     }
-    handleSubmit(event){
+    handleCommentSubmit(event){
         event.preventDefault();
-        fetch('/api/form-submit-url', {
+        fetch('/api/form-submit-comment', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -37,6 +42,21 @@ class CourtView extends React.Component{
                                  id: this.props.match.params.id})
         })
         .then(this.setState({comment: ''}));
+    }
+    handleRatingSubmit(event){
+        event.preventDefault();
+        fetch('/api/form-submit-rating', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({rating: this.state.rating,
+                                 id: this.props.match.params.id})
+        })
+    }
+    onStarClick(value){
+        this.setState({rating: value})
     }
 
 	componentDidMount() {
@@ -64,6 +84,7 @@ class CourtView extends React.Component{
 
 	// Bools not yet rendered (Amenities, outdoor_status, membership_status)
 	render(){
+        console.log(this.state.rating)
 		if(this.state.courtNotFound == true) {
 			return <Redirect to="/404"/>
 		}
@@ -209,17 +230,18 @@ class CourtView extends React.Component{
                      </FormGroup>
                         <Button type = "submit"> Add Comment</Button>
                 </form>
+                <form onSubmit={this.handleRatingSubmit}>
+                        <StarRatingComponent starColor='#ffff00' name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
+                        <br/>
+                        <Button type="submit" value="Add Rating">Add Rating</Button>
+                </form>
                </Col>
         </Row>
      </Panel.Body>
              </Panel>
-
-    </Grid>
+    </Grid>;
 			</div>
-
-    
 		)
 	}
 }
-
 export default CourtView;
