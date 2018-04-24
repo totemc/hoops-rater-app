@@ -1,6 +1,7 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import { Grid, Row, Col, Panel, Image } from 'react-bootstrap';
+import teddy from './images/teddy.png';
 //import NotFound from './notFound';
 
 const styles = {
@@ -64,22 +65,20 @@ class Profile extends React.Component{
 						</Col>
 						<Panel style={styles.panelStyle}>
 							<Panel.Body>
-							<Col lg={4}>
-								<Image style={{maxWidth:"300px", maxHeight:"400px"}} src="http://peteryang.com/v02/wp-content/uploads/2014/06/sports_011-300x400.jpg" alt="placeholder" rounded />
-								<br/>
-								<a href="http://peteryang.com/images/sports/">peteryang</a>
-							</Col>
-							<Col lgOffset={3} lg={5}>
-								<Row>
-									<Col lg={12}>
-										<h1>{this.state.response.fname} {this.state.response.lname}</h1>
-									</Col>
-									<Col lg={12}>
-										<h3><span style={{color:"white"}}>username:</span> {this.state.response.username}</h3>
-										<h3><span style={{color:"white"}}>age:</span> {this.state.response.age}</h3>
-									</Col>
-								</Row>
-							</Col>
+								<Col lg={4}>
+									<Image style={{maxWidth:"300px", maxHeight:"400px"}} src={teddy} alt="placeholder" rounded />
+								</Col>
+								<Col lgOffset={3} lg={5}>
+									<Row>
+										<Col lg={12}>
+											<h1>{this.state.response.fname} {this.state.response.lname}</h1>
+										</Col>
+										<Col lg={12}>
+											<h3><span style={{color:"white"}}>username:</span> {this.state.response.username}</h3>
+											<h3><span style={{color:"white"}}>age:</span> {this.state.response.age}</h3>
+										</Col>
+									</Row>
+								</Col>
 							</Panel.Body>
 						</Panel>
 					</Row>
