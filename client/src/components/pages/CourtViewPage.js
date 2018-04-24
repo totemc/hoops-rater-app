@@ -89,7 +89,6 @@ class CourtView extends React.Component{
                                 <h2>{item.address}  {item.court_zip}</h2>
                             </Col>
                         </Row>
-                        
                         <Panel style={styles.panelStyle}>
                             <Panel.Body>
                                 <Row>
@@ -114,10 +113,24 @@ class CourtView extends React.Component{
                                         {item.outdoor_status}
                                     </Col>
                                     <Col lg={2}>
+                                        <h4>hoop height</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>membership status</h4>
+                                        {item.busiest_times}
+                                    </Col>
+                                    <Col lg={2}>
+                                        <h4>indoor status</h4>
+                                        {item.busiest_times}
+
+                                    </Col>
+                                    <Col lg={2}>
                                         <h4>net status</h4>
                                         {item.busiest_times}
                                     </Col>
                                     <Col lg={2}>
+
                                         <h4>open time</h4>
                                         {item.open_time}
                                     </Col>
@@ -152,6 +165,7 @@ class CourtView extends React.Component{
                                     <Col lg={2}>
                                         <h4>Net type</h4>
                                         {item.net_type}
+
                                     </Col>
                                 </Row>
                             </Panel.Body>
@@ -159,7 +173,6 @@ class CourtView extends React.Component{
                     </div>
                 ))}
             </Col>
-           
         </Row>
 
 	
@@ -174,7 +187,6 @@ class CourtView extends React.Component{
                        <Col lg={12}>
                             <h1>{comment.comment_username}</h1>
                        </Col>
-        
                        <Col lg={12}>
                             <p>{comment.comment_text}</p>
                        </Col>
