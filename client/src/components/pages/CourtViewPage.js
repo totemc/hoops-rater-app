@@ -20,7 +20,7 @@ class CourtView extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.onStarClick = this.onStarClick.bind(this);
 	}
-    
+
 	state = { response: [],
              courtNotFound: false,
              comment: '',
@@ -90,158 +90,149 @@ class CourtView extends React.Component{
 		}
 		return (
 			<div>
-                
-     <Grid>
-        <Row>
-            <Col lg={12}>
-                {this.state.response.slice(0,1).map((item) => (
-                    <div>
-                        <Row>
-                            <Col lg={10}>
-                                <h4>Court Name: </h4>
-                                <h2>{item.court_name}</h2>
-                            </Col>
-                            <Col lg={1}>
-                                <h4>Rating: </h4>
-                                <h2>{item.avg_stars}</h2>
-                            </Col>
-                            <Col lg={12}>
-                                <h4>Address: </h4>
-                                <h2>{item.address}  {item.court_zip}</h2>
-                            </Col>
-                        </Row>
-                        <Panel style={styles.panelStyle}>
-                            <Panel.Body>
-                                <Row>
-                                    <Col lg={2}>
-                                        <h4>busiest times</h4>
-                                        {item.busiest_times}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>court size</h4>
-                                        {item.court_size}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>hoop height</h4>
-                                        {item.hoop_height}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>membership status</h4>
-                                        {item.membership_status}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Outdoor status</h4>
-                                        {item.outdoor_status}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>hoop height</h4>
-                                        {item.busiest_times}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>membership status</h4>
-                                        {item.busiest_times}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>indoor status</h4>
-                                        {item.busiest_times}
-
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>net status</h4>
-                                        {item.busiest_times}
-                                    </Col>
-                                    <Col lg={2}>
-
-                                        <h4>open time</h4>
-                                        {item.open_time}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>close time</h4>
-                                        {item.close_time}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Has fountain</h4>
-                                        {item.has_fountain}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Has vending machine</h4>
-                                        {item.has_vending_machine}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Pavement quality</h4>
-                                        {item.pavement_quality}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Cleanliness</h4>
-                                        {item.cleanliness}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Rim quality</h4>
-                                        {item.rim_quality}
-                                    </Col>
-                                     <Col lg={2}>
-                                        <h4>Net quality</h4>
-                                        {item.net_quality}
-                                    </Col>
-                                    <Col lg={2}>
-                                        <h4>Net type</h4>
-                                        {item.net_type}
-
-                                    </Col>
-                                </Row>
-                            </Panel.Body>
-                        </Panel>
-                    </div>
-                ))}
-            </Col>
-        </Row>
-
-	
-        <Panel style={styles.panelStyle}>
-         <Panel.Body>
-
-        <Row>
-            <Col lg={12}>
-				Comment: 
-                <span>{this.state.response.map((comment, index) => (
-                       <Row>
-                       <Col lg={12}>
-                            <h1>{comment.comment_username}</h1>
-                       </Col>
-                       <Col lg={12}>
-                            <p>{comment.comment_text}</p>
-                       </Col>
-                        </Row>
-                ))}
-                </span>
-            </Col>
-        </Row>
-            </Panel.Body>
-             </Panel>
-
-    
-            <Panel style={styles.panelStyle}>
-         <Panel.Body>
-                 <Row>
-            <Col lg={12}>
-                <form  onSubmit={this.handleSubmit}>
-                     <FormGroup controlId="formBasicText">
-                        <FormControl type="text"  placeholder="comment" onChange={this.handleChange}/>
-                     </FormGroup>
-                        <Button type = "submit"> Add Comment</Button>
-                </form>
-                <form onSubmit={this.handleRatingSubmit}>
-                        <StarRatingComponent starColor='#ffff00' name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
-                        <br/>
-                        <Button type="submit" value="Add Rating">Add Rating</Button>
-                </form>
-               </Col>
-        </Row>
-     </Panel.Body>
-             </Panel>
-    </Grid>;
+                <Grid>
+                    <Row>
+                        <Col lg={12}>
+                            {this.state.response.slice(0,1).map((item) => (
+                                <div>
+                                    <Row>
+                                        <Col lg={10}>
+                                            <h4>Court Name: </h4>
+                                            <h2>{item.court_name}</h2>
+                                        </Col>
+                                        <Col lg={1}>
+                                            <h4>Rating: </h4>
+                                            <h2>{item.avg_stars}</h2>
+                                        </Col>
+                                        <Col lg={12}>
+                                            <h4>Address: </h4>
+                                            <h2>{item.address}  {item.court_zip}</h2>
+                                        </Col>
+                                    </Row>
+                                    <Panel style={styles.panelStyle}>
+                                        <Panel.Body>
+                                            <Row>
+                                                <Col lg={2}>
+                                                    <h4>busiest times</h4>
+                                                    {item.busiest_times}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>court size</h4>
+                                                    {item.court_size}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>hoop height</h4>
+                                                    {item.hoop_height}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>membership status</h4>
+                                                    {item.membership_status}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Outdoor status</h4>
+                                                    {item.outdoor_status}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>hoop height</h4>
+                                                    {item.busiest_times}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>membership status</h4>
+                                                    {item.busiest_times}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>indoor status</h4>
+                                                    {item.busiest_times}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>net status</h4>
+                                                    {item.busiest_times}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>open time</h4>
+                                                    {item.open_time}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>close time</h4>
+                                                    {item.close_time}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Has fountain</h4>
+                                                    {item.has_fountain}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Has vending machine</h4>
+                                                    {item.has_vending_machine}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Pavement quality</h4>
+                                                    {item.pavement_quality}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Cleanliness</h4>
+                                                    {item.cleanliness}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Rim quality</h4>
+                                                    {item.rim_quality}
+                                                </Col>
+                                                 <Col lg={2}>
+                                                    <h4>Net quality</h4>
+                                                    {item.net_quality}
+                                                </Col>
+                                                <Col lg={2}>
+                                                    <h4>Net type</h4>
+                                                    {item.net_type}
+                                                </Col>
+                                            </Row>
+                                        </Panel.Body>
+                                    </Panel>
+                                </div>
+                            ))}
+                        </Col>
+                    </Row>
+                    <Panel style={styles.panelStyle}>
+                        <Panel.Body>
+                            <Row>
+                                <Col lg={12}>
+                                    <span>
+                                        {this.state.response.map((comment, index) => (
+                                            <Row>
+                                                <Col lg={12}>
+                                                    <h1>{comment.comment_username}</h1>
+                                                </Col>
+                                                <Col lg={12}>
+                                                    <p>{comment.comment_text}</p>
+                                                </Col>
+                                            </Row>
+                                        ))}
+                                    </span>
+                                </Col>
+                            </Row>
+                        </Panel.Body>
+                    </Panel>
+                    <Panel style={styles.panelStyle}>
+                        <Panel.Body>
+                            <Row>
+                                <Col lg={12}>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <FormGroup controlId="formBasicText">
+                                            <FormControl type="text"  placeholder="comment" onChange={this.handleChange} name="comment"/>
+                                        </FormGroup>
+                                        <Button type="submit">Add Comment</Button>
+                                    </form>
+                                    <form onSubmit={this.handleRatingSubmit}>
+                                        <StarRatingComponent starColor='#ffff00' name="rate1" starCount={5} onStarClick={this.onStarClick.bind(this)}/>
+                                        <br/>
+                                        <Button type="submit" value="Add Rating">Add Rating</Button>
+                                    </form>
+                                </Col>
+                            </Row>
+                        </Panel.Body>
+                    </Panel>
+                </Grid>;
 			</div>
-		)
+		);
 	}
 }
 export default CourtView;
