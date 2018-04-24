@@ -274,13 +274,13 @@ function addComment(client, courtId, commentText) {
 // Insert new rating for court into the database
 function addRating(client, courtId, rating) {
     let username = 'user4'
-    let isFirstRating = true
+    let isFirstRating = false
 
     // Checks if user already has rated this court before
     client.query(
         'SELECT * FROM rating \
          WHERE r_court_id = ' + courtId + ' \
-         AND r_username = ' + username
+         AND r_username = \'' + username + '\''
     )
     .then(result => {
 
@@ -288,10 +288,9 @@ function addRating(client, courtId, rating) {
 
         // If the query returns a row, the user has rated the court before
         // and so the user's old rating should be updated in the db
-        if(dataObject[0] != undefined){
-            isFirstRating = false
+        if(dataObject[0] == undefined){
+            isFirstRating = true
         }
-        console.log(isFirstRating)
 
     })
 
@@ -304,6 +303,9 @@ function addRating(client, courtId, rating) {
                   ' + rating + ' \
               )'
         )
+        .catch(e => {
+        throw e
+        })
         .then(() => {
             client.end()
         })
@@ -314,8 +316,11 @@ function addRating(client, courtId, rating) {
             'UPDATE rating \
              SET stars = ' + rating + ' \
              WHERE r_court_id = ' + courtId + ' \
-             AND r_username = ' + username
+             AND r_username = \'' + username + '\''
         )
+        .catch(e => {
+        throw e
+        })
         .then(() => {
             client.end()
         })
@@ -333,7 +338,6 @@ app.use(bodyParser.json());
 app.post("/api/form-submit-comment", function(request, response){
     let comment = request.body.comment
     let courtId = request.body.id
-    let rating = request.body.rating
     let client = createClient();
     console.log(comment)
     client.connect()
