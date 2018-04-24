@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import { Grid, Row, Col, Button, Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import biglogo from '../common/hoops-rater-logo-wh.png';
 
 const styles = {
     jumboStyle:{
         textAlign: "center",
         minHeight: "35em",
         background : "rgba(248, 201, 149, 1)"
-
+    },
+    logoStyle:{
+        position:"center",
+        maxHeight:"30em",
+        maxWidth:"30em",
     }
 }
 
@@ -70,7 +75,11 @@ class Home extends Component {
             }
             return (
                 <Jumbotron style={styles.jumboStyle}>
-                    <h1>Hoops Rater</h1>
+
+                    <Grid>
+                        <img style={styles.logoStyle} src={biglogo}/>
+                    </Grid>
+
                     <h3>Never be uncertain about a basketball court ever again.</h3>
                     <Grid>
                         <Row>

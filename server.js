@@ -250,7 +250,7 @@ function queryAdvSearch(client, attributeMap, res) {
 
 // Insert new comments for court into the database
 function addComment(client, courtId, commentText) {
-    let username = 'user1'
+    let username = 'user4'
 
     // If new comment is blank, do not accept.
     if (commentText.length == 0) {
@@ -270,6 +270,33 @@ function addComment(client, courtId, commentText) {
         client.end()
     })
 }
+
+// Insert new rating for court into the database
+function addRating(client, courtId, rating) {
+    let username = 'user4'
+
+    client.query(
+        'INSERT INTO rating (r_court_id, r_username, stars) VALUES \
+          (   ' + courtId + ', \
+            \'' + username + '\', \
+              ' + rating + ' \
+          ) \
+          ON CONFLICT ON CONSTRAINT rating_pk \
+          DO UPDATE \
+          SET stars = ' + rating + ' \
+          WHERE rating.r_court_id = ' + courtId + ' \
+          AND rating.r_username = \'' + username + '\''
+        )
+        .catch(e => {
+            throw e
+        })
+        .then(() => {
+            console.log("rating inserted to db")
+            client.end()
+        })
+
+}
+
 
 app.use(bodyParser.urlencoded({
     extended:true
